@@ -933,18 +933,12 @@ async function searchRealActivities(){
   }
 
   const resultsCard =
-    document.getElementById(
-      "resultsCard"
-    );
+    document.getElementById("resultsCard");
 
   const results =
-    document.getElementById(
-      "results"
-    );
+    document.getElementById("results");
 
-  resultsCard.classList.remove(
-    "hidden"
-  );
+  resultsCard.classList.remove("hidden");
 
   results.innerHTML = `
 
@@ -965,62 +959,47 @@ async function searchRealActivities(){
   try{
 
     /*
-       Wir suchen mehrere Kategorien.
-       Google entscheidet anhand der
-       echten Places-Daten, welche Orte
-       zur Suchanfrage passen.
+      Zunächst nur EINE Google-Suche.
+      Dadurch vermeiden wir 7 parallele
+      API-Anfragen.
     */
 
-    const queries = [
-      "Spielplätze in Bad Kissingen",
-      "Schwimmbäder in Bad Kissingen",
-      "Museen in Bad Kissingen",
-      "Tierparks in Bad Kissingen",
-      "Freizeitparks in Bad Kissingen",
-      "Parks in Bad Kissingen",
-      "Freizeitaktivitäten in Bad Kissingen"
-    ];
+    const query =
+      "Familienaktivitäten in Bad Kissingen";
 
-    const responses =
-      await Promise.all(
-        queries.map(
-          query =>
-            fetch(
-              "/api/test?query=" +
-              encodeURIComponent(query)
-            )
-              .then(response=>{
-                if(!response.ok){
-                  throw new Error(
-                    "Google API HTTP " +
-                    response.status
-                  );
-                }
-                return response.json();
-              })
-        )
+    const apiUrl =
+      "https://los-familien-app.vercel.app/api/test?query=" +
+      encodeURIComponent(query);
+
+    const response =
+      await fetch(apiUrl);
+
+    if(!response.ok){
+
+      throw new Error(
+        "Google API HTTP " +
+        response.status
       );
 
-    const allPlaces = [];
+    }
 
-    responses.forEach(data=>{
+    const data =
+      await response.json();
 
-      if(
-        data &&
-        Array.isArray(data.places)
-      ){
+    if(
+      !data ||
+      !Array.isArray(data.places)
+    ){
 
-        data.places.forEach(place=>{
-          allPlaces.push(place);
-        });
+      throw new Error(
+        "Google hat keine Orte zurückgegeben."
+      );
 
-      }
-
-    });
+    }
 
     const places =
       processGoogleResults(
-        allPlaces
+        data.places
       );
 
     renderRealActivities(
@@ -1029,7 +1008,10 @@ async function searchRealActivities(){
 
   }catch(error){
 
-    console.error(error);
+    console.error(
+      "Google Places Fehler:",
+      error
+    );
 
     results.innerHTML = `
 
@@ -1048,165 +1030,47 @@ async function searchRealActivities(){
     `;
   }
 }
-
-
-/* =========================================
+=========================
    GOOGLE ERGEBNISSE VERARBEITEN
 ========================================= */
 
-function processGoogleResults(
-  places
-){
+function processGoogleResults(places) {
+  return places
+    .map(place => {
+      const lat = place.location?.latitude;
+      const lon = place.location?.longitude;
 
-  const result = [];
-  const seen = new Set();
+      if (!lat || !lon) return null;
 
-  places.forEach(place=>{
-
-    if(!place){
-      return;
-    }
-
-    const name =
-      place.displayName &&
-      place.displayName.text
-        ? place.displayName.text
-        : null;
-
-    if(!name){
-      return;
-    }
-
-    const id =
-      place.id ||
-      name;
-
-    if(seen.has(id)){
-      return;
-    }
-
-    seen.add(id);
-
-    const location =
-      place.location || {};
-
-    const lat =
-      Number(location.latitude);
-
-    const lon =
-      Number(location.longitude);
-
-    if(
-      !Number.isFinite(lat) ||
-      !Number.isFinite(lon)
-    ){
-      return;
-    }
-
-    const distance =
-      calculateDistance(
-        50.2020,
-        10.0770,
+      const distance = calculateDistance(
+        BAD_KISSINGEN.lat,
+        BAD_KISSINGEN.lon,
         lat,
         lon
       );
 
-    const category =
-      guessGoogleCategory(
-        name
-      );
-
-    const indoor =
-      guessIndoorCategory(
-        category
-      );
-
-    const ageMatch =
-      getAgeMatch(category);
-
-    const weatherMatch =
-      weatherSuitable(indoor);
-
-    let score = 0;
-
-    if(weatherMatch){
-      score += 4;
-    }
-
-    if(ageMatch){
-      score += 3;
-    }
-
-    if(
-      distance <=
-      getDistanceLimit()
-    ){
-      score += 2;
-    }
-
-    if(
-      place.rating
-    ){
-      score +=
-        Math.min(
-          Number(place.rating),
-          5
-        );
-    }
-
-    result.push({
-
-      id:id,
-
-      name:name,
-
-      lat:lat,
-
-      lon:lon,
-
-      distance:distance,
-
-      category:category,
-
-      indoor:indoor,
-
-      weatherMatch:weatherMatch,
-
-      ageMatch:ageMatch,
-
-      score:score,
-
-      address:
-        place.formattedAddress ||
-        null,
-
-      rating:
-        place.rating ||
-        null,
-
-      mapsUri:
-        place.googleMapsUri ||
-        null,
-
-      website:
-        place.websiteUri ||
-        null,
-
-      image:null,
-
-      imageCredit:null
-
-    });
-
-  });
-
-  result.sort(
-    (a,b)=>
-      b.score-a.score ||
-      a.distance-b.distance
-  );
-
-  return result;
+      return {
+        id: place.id,
+        name: place.displayName?.text || "Unbekannte Aktivität",
+        address: place.formattedAddress || "Adresse nicht verfügbar",
+        lat,
+        lon,
+        distance,
+        googleMapsUri: place.googleMapsUri || null,
+        category: guessGoogleCategory(
+          place.displayName?.text || ""
+        ),
+        rating: place.rating || null,
+        website: place.websiteUri || null,
+        photos: place.photos || []
+      };
+    })
+    .filter(Boolean)
+    .filter(place => {
+      return place.distance <= selectedDriveTime * 2;
+    })
+    .sort((a, b) => a.distance - b.distance)
+    .slice(0, 5);
 }
 
 
