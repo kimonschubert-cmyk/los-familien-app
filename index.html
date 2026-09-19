@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
 
 <meta charset="UTF-8">
@@ -16,523 +15,398 @@ user-scalable=no">
 <style>
 
 * {
-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-
-margin:0;
-
-font-family:
--apple-system,
-BlinkMacSystemFont,
-"Segoe UI",
-sans-serif;
-
-background:#f4f5f9;
-
-color:#202124;
-
+  margin: 0;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  background: #f4f5f9;
+  color: #202124;
 }
 
 .app {
-
-max-width:600px;
-
-margin:auto;
-
-min-height:100vh;
-
-background:white;
-
+  max-width: 600px;
+  margin: auto;
+  min-height: 100vh;
+  background: white;
 }
 
 header {
-
-padding:28px 20px;
-
-background:
-linear-gradient(
-135deg,
-#667eea,
-#764ba2
-);
-
-color:white;
-
-border-radius:
-0 0 28px 28px;
-
+  padding: 25px 20px;
+  background: linear-gradient(135deg,#667eea,#764ba2);
+  color: white;
+  border-radius: 0 0 28px 28px;
 }
 
 .header-top {
-
-display:flex;
-
-align-items:center;
-
-gap:12px;
-
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .logo {
-
-font-size:42px;
-
+  font-size: 42px;
 }
 
 h1 {
-
-margin:0;
-
-font-size:30px;
-
+  margin: 0;
+  font-size: 30px;
 }
 
 header p {
-
-margin:3px 0 0;
-
-opacity:.85;
-
+  margin: 3px 0 0;
+  opacity: .85;
 }
 
 main {
-
-padding:22px 18px 50px;
-
+  padding: 22px 18px 50px;
 }
 
 h2 {
+  margin: 0 0 6px;
+  font-size: 25px;
+}
 
-margin:
-0 0 6px;
-
-font-size:25px;
-
+h3 {
+  margin-bottom: 8px;
 }
 
 .subtitle {
-
-margin:
-0 0 20px;
-
-color:#777;
-
+  margin: 0 0 20px;
+  color: #777;
 }
 
 button {
-
-font-family:inherit;
-
+  font-family: inherit;
+  cursor: pointer;
 }
 
 .family-box {
-
-background:#f4f5f9;
-
-border-radius:18px;
-
-padding:16px;
-
-margin-bottom:25px;
-
+  background: #f4f5f9;
+  border-radius: 18px;
+  padding: 16px;
+  margin-bottom: 25px;
 }
 
 .family-title {
-
-display:flex;
-
-justify-content:space-between;
-
-align-items:center;
-
-margin-bottom:12px;
-
-font-weight:bold;
-
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
 }
 
 .person {
-
-display:flex;
-
-align-items:center;
-
-justify-content:space-between;
-
-background:white;
-
-padding:12px;
-
-border-radius:13px;
-
-margin-top:8px;
-
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: white;
+  padding: 12px;
+  border-radius: 13px;
+  margin-top: 8px;
 }
 
 .person-info {
-
-display:flex;
-
-align-items:center;
-
-gap:10px;
-
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .avatar {
-
-font-size:28px;
-
+  font-size: 28px;
 }
 
 .person-name {
-
-font-weight:600;
-
+  font-weight: 600;
 }
 
 .person-age {
-
-font-size:13px;
-
-color:#777;
-
+  font-size: 13px;
+  color: #777;
 }
 
 .delete {
-
-border:0;
-
-background:#ffecec;
-
-color:#d33;
-
-border-radius:10px;
-
-padding:7px 10px;
-
+  border: 0;
+  background: #ffecec;
+  color: #d33;
+  border-radius: 10px;
+  padding: 7px 10px;
 }
 
 .primary {
-
-width:100%;
-
-border:0;
-
-background:#667eea;
-
-color:white;
-
-padding:14px;
-
-border-radius:14px;
-
-font-size:16px;
-
-font-weight:600;
-
-margin-top:12px;
-
+  width: 100%;
+  border: 0;
+  background: #667eea;
+  color: white;
+  padding: 14px;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 12px;
 }
 
 .activities {
-
-display:grid;
-
-grid-template-columns:
-1fr 1fr;
-
-gap:12px;
-
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
 }
 
 .activity {
-
-border:0;
-
-background:#f4f5f9;
-
-border-radius:18px;
-
-padding:17px 12px;
-
-text-align:left;
-
-min-height:125px;
-
+  border: 0;
+  background: #f4f5f9;
+  border-radius: 18px;
+  padding: 17px 12px;
+  text-align: left;
+  min-height: 125px;
 }
 
 .activity:active {
-
-transform:scale(.97);
-
+  transform: scale(.97);
 }
 
 .activity span {
-
-display:block;
-
-font-size:34px;
-
-margin-bottom:8px;
-
+  display: block;
+  font-size: 34px;
+  margin-bottom: 8px;
 }
 
 .activity strong {
-
-display:block;
-
-font-size:16px;
-
+  display: block;
+  font-size: 16px;
 }
 
 .activity small {
-
-display:block;
-
-margin-top:4px;
-
-color:#777;
-
+  display: block;
+  margin-top: 4px;
+  color: #777;
 }
 
 .custom {
-
-width:100%;
-
-margin-top:15px;
-
-padding:16px;
-
-border:
-2px dashed #bbb;
-
-border-radius:16px;
-
-background:white;
-
-font-size:16px;
-
+  width: 100%;
+  margin-top: 15px;
+  padding: 16px;
+  border: 2px dashed #bbb;
+  border-radius: 16px;
+  background: white;
+  font-size: 16px;
 }
 
 .back {
+  border: 0;
+  background: transparent;
+  font-size: 16px;
+  padding: 0;
+  margin-bottom: 20px;
+}
 
-border:0;
+.section {
+  margin-top: 22px;
+}
 
-background:transparent;
+.person-select {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
 
-font-size:16px;
+.person-chip {
+  border: 1px solid #ddd;
+  background: white;
+  border-radius: 20px;
+  padding: 9px 13px;
+  font-size: 14px;
+}
 
-padding:0;
-
-margin-bottom:20px;
-
+.person-chip.selected {
+  background: #667eea;
+  color: white;
+  border-color: #667eea;
 }
 
 .checklist {
-
-display:flex;
-
-flex-direction:column;
-
-gap:10px;
-
-margin-top:20px;
-
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 15px;
 }
 
 .item {
-
-display:flex;
-
-align-items:center;
-
-gap:12px;
-
-padding:15px;
-
-background:#f4f5f9;
-
-border-radius:15px;
-
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  background: #f4f5f9;
+  border-radius: 15px;
 }
 
 .item input {
-
-width:22px;
-
-height:22px;
-
+  width: 22px;
+  height: 22px;
 }
 
 .done {
-
-text-decoration:line-through;
-
-opacity:.45;
-
+  text-decoration: line-through;
+  opacity: .45;
 }
 
 .progress {
-
-margin-top:20px;
-
-padding:15px;
-
-background:#eef0ff;
-
-border-radius:15px;
-
-text-align:center;
-
-font-weight:600;
-
+  margin-top: 20px;
+  padding: 15px;
+  background: #eef0ff;
+  border-radius: 15px;
+  text-align: center;
+  font-weight: 600;
 }
 
 .ready {
+  display: none;
+  margin-top: 15px;
+  padding: 18px;
+  background: #e7f8ed;
+  border-radius: 17px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+}
 
-display:none;
+.add-item {
+  width: 100%;
+  border: 0;
+  background: #667eea;
+  color: white;
+  padding: 14px;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 12px;
+}
 
-margin-top:15px;
+.reset {
+  width: 100%;
+  border: 1px solid #ddd;
+  background: white;
+  padding: 13px;
+  border-radius: 14px;
+  font-size: 15px;
+  margin-top: 10px;
+}
 
-padding:18px;
+.item-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
 
-background:#e7f8ed;
+.item-row .item {
+  flex: 1;
+}
 
-border-radius:17px;
-
-text-align:center;
-
-font-size:18px;
-
-font-weight:bold;
-
+.delete-item {
+  border: 0;
+  background: #ffecec;
+  color: #d33;
+  border-radius: 10px;
+  padding: 10px;
 }
 
 .modal {
-
-position:fixed;
-
-inset:0;
-
-background:
-rgba(0,0,0,.45);
-
-display:none;
-
-align-items:flex-end;
-
-justify-content:center;
-
-z-index:100;
-
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.45);
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 100;
 }
 
 .modal-content {
-
-width:100%;
-
-max-width:600px;
-
-background:white;
-
-padding:25px 20px 35px;
-
-border-radius:
-25px 25px 0 0;
-
+  width: 100%;
+  max-width: 600px;
+  background: white;
+  padding: 25px 20px 35px;
+  border-radius: 25px 25px 0 0;
 }
 
 .modal-content h2 {
-
-margin-bottom:18px;
-
+  margin-bottom: 18px;
 }
 
 input[type="text"],
 input[type="number"] {
-
-width:100%;
-
-padding:14px;
-
-border:
-1px solid #ddd;
-
-border-radius:12px;
-
-font-size:16px;
-
-margin-bottom:12px;
-
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  font-size: 16px;
+  margin-bottom: 12px;
 }
 
 .modal-buttons {
+  display: flex;
+  gap: 10px;
+}
 
-display:flex;
-
-gap:10px;
-
+.cancel,
+.save {
+  flex: 1;
+  border: 0;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 16px;
 }
 
 .cancel {
-
-flex:1;
-
-border:0;
-
-padding:14px;
-
-border-radius:12px;
-
-background:#eee;
-
-font-size:16px;
-
+  background: #eee;
 }
 
 .save {
+  background: #667eea;
+  color: white;
+  font-weight: bold;
+}
 
-flex:1;
+.suggestion {
+  background: #fff7df;
+  border-radius: 15px;
+  padding: 14px;
+  margin-top: 12px;
+}
 
-border:0;
+.suggestion-title {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
 
-padding:14px;
-
-border-radius:12px;
-
-background:#667eea;
-
-color:white;
-
-font-size:16px;
-
-font-weight:bold;
-
+.suggestion button {
+  border: 0;
+  background: white;
+  border-radius: 10px;
+  padding: 8px 10px;
+  margin: 4px 3px 0 0;
 }
 
 .empty {
+  text-align: center;
+  padding: 15px;
+  color: #777;
+}
 
-text-align:center;
-
-padding:15px;
-
-color:#777;
-
+.small-note {
+  color: #777;
+  font-size: 13px;
+  margin-top: 8px;
 }
 
 </style>
-
 </head>
-
 
 <body>
 
-
 <div class="app">
-
 
 <header>
 
@@ -552,18 +426,14 @@ color:#777;
 
 </header>
 
-
 <main id="app"></main>
-
 
 </div>
 
 
-<!-- PERSON MODAL -->
+<!-- FAMILIENMITGLIED -->
 
-<div
-class="modal"
-id="personModal">
+<div class="modal" id="personModal">
 
 <div class="modal-content">
 
@@ -606,11 +476,9 @@ Speichern
 </div>
 
 
-<!-- LIST MODAL -->
+<!-- NEUE LISTE -->
 
-<div
-class="modal"
-id="listModal">
+<div class="modal" id="listModal">
 
 <div class="modal-content">
 
@@ -646,734 +514,188 @@ Erstellen
 </div>
 
 
+<!-- NEUER PUNKT -->
+
+<div class="modal" id="itemModal">
+
+<div class="modal-content">
+
+<h2>➕ Neuer Punkt</h2>
+
+<input
+id="itemName"
+type="text"
+placeholder="z.B. Trinkflasche">
+
+<div class="modal-buttons">
+
+<button
+class="cancel"
+onclick="closeModal('itemModal')">
+
+Abbrechen
+
+</button>
+
+<button
+class="save"
+onclick="saveItem()">
+
+Hinzufügen
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
 <script>
 
-
 /* =========================
-   DATEN
+   STANDARDLISTEN
 ========================= */
-
 
 const defaultLists = {
 
 "Schwimmbad": {
-
 emoji:"🏊",
-
 items:[
-
 "Badehose / Badeanzug",
-
 "Handtuch",
-
 "Schwimmflügel",
-
 "Trinkflasche",
-
 "Sonnencreme",
-
 "Wechselkleidung",
-
 "Schwimmwindeln",
-
 "Snacks"
-
 ]
-
 },
 
 "Kindergarten": {
-
 emoji:"🏫",
-
 items:[
-
 "Kindergarten-Rucksack",
-
 "Trinkflasche",
-
 "Brotdose",
-
 "Hausschuhe",
-
 "Wechselkleidung",
-
 "Jacke"
-
 ]
-
 },
 
 "Spielplatz": {
-
 emoji:"🌳",
-
 items:[
-
 "Jacke",
-
 "Trinkflasche",
-
 "Snacks",
-
 "Sonnencreme",
-
 "Mütze"
-
 ]
-
 },
 
 "Oma & Opa": {
-
 emoji:"👵",
-
 items:[
-
 "Kinderkleidung",
-
 "Trinkflasche",
-
 "Snacks",
-
 "Lieblingsspielzeug",
-
 "Wechselkleidung"
-
 ]
-
 },
 
 "Einkaufen": {
-
 emoji:"🛒",
-
 items:[
-
 "Einkaufstaschen",
-
 "Einkaufszettel",
-
 "Portemonnaie",
-
 "Trinkflaschen"
+]
+},
 
+"Urlaub": {
+emoji:"✈️",
+items:[
+"Kleidung",
+"Unterwäsche",
+"Zahnbürsten",
+"Medikamente",
+"Spielzeug",
+"Ladegeräte",
+"Reisedokumente",
+"Snacks"
+]
+}
+
+};
+
+
+/* =========================
+   ALTERSABHÄNGIGE VORSCHLÄGE
+========================= */
+
+const ageSuggestions = {
+
+"Schwimmbad": {
+
+baby:[
+"Schwimmwindeln",
+"Babyhandtuch",
+"Wechselkleidung"
+],
+
+young:[
+"Schwimmwindeln",
+"Schwimmflügel",
+"Spielzeug"
+],
+
+older:[
+"Schwimmbrille",
+"Schwimmflügel"
 ]
 
 },
 
 "Urlaub": {
 
-emoji:"✈️",
+baby:[
+"Windeln",
+"Feuchttücher",
+"Babyflasche"
+],
 
-items:[
+young:[
+"Windeln",
+"Feuchttücher",
+"Lieblingsspielzeug"
+],
 
-"Kleidung",
-
-"Unterwäsche",
-
-"Zahnbürsten",
-
-"Medikamente",
-
-"Spielzeug",
-
-"Ladegeräte",
-
-"Reisedokumente",
-
-"Snacks"
-
+older:[
+"Reisebeschäftigung",
+"Kopfhörer"
 ]
 
-}
-
-};
-
-
-let family =
-JSON.parse(
-localStorage.getItem("losFamily")
-) || [];
-
-
-let customLists =
-JSON.parse(
-localStorage.getItem("losLists")
-) || {};
-
-
-let currentList = null;
-
-
-/* =========================
-   SPEICHERN
-========================= */
-
-
-function saveData() {
-
-localStorage.setItem(
-"losFamily",
-JSON.stringify(family)
-);
-
-localStorage.setItem(
-"losLists",
-JSON.stringify(customLists)
-);
-
-}
-
-
-/* =========================
-   STARTSEITE
-========================= */
-
-
-function renderHome() {
-
-currentList=null;
-
-let html = `
-
-<h2>
-Hallo Familie 👋
-</h2>
-
-<p class="subtitle">
-Was machen wir heute?
-</p>
-
-
-<div class="family-box">
-
-<div class="family-title">
-
-<span>👨‍👩‍👧 Meine Familie</span>
-
-<button
-class="delete"
-onclick="openPersonModal()">
-
-＋
-
-</button>
-
-</div>
-
-`;
-
-
-if(family.length===0) {
-
-html+=`
-
-<div class="empty">
-
-Noch keine Familienmitglieder.
-
-</div>
-
-`;
-
-}
-
-
-family.forEach(
-(person,index)=>{
-
-html+=`
-
-<div class="person">
-
-<div class="person-info">
-
-<div class="avatar">
-${index===0?"👦":"👧"}
-</div>
-
-<div>
-
-<div class="person-name">
-${person.name}
-</div>
-
-<div class="person-age">
-${person.age} Jahre
-</div>
-
-</div>
-
-</div>
-
-<button
-class="delete"
-onclick="deletePerson(${index})">
-
-🗑️
-
-</button>
-
-</div>
-
-`;
-
-});
-
-
-html+=`
-
-<button
-class="primary"
-onclick="openPersonModal()">
-
-＋ Familienmitglied hinzufügen
-
-</button>
-
-</div>
-
-
-<h2>
-Was machen wir?
-</h2>
-
-<p class="subtitle">
-Wähle eine Checkliste.
-</p>
-
-
-<div class="activities">
-`;
-
-
-Object.keys(defaultLists).forEach(
-name=>{
-
-const list =
-defaultLists[name];
-
-html+=`
-
-<button
-class="activity"
-onclick="openList('${name}')">
-
-<span>
-${list.emoji}
-</span>
-
-<strong>
-${name}
-</strong>
-
-<small>
-Checkliste öffnen
-</small>
-
-</button>
-
-`;
-
-});
-
-
-Object.keys(customLists).forEach(
-name=>{
-
-html+=`
-
-<button
-class="activity"
-onclick="openList('${name}')">
-
-<span>
-${customLists[name].emoji}
-</span>
-
-<strong>
-${name}
-</strong>
-
-<small>
-Eigene Liste
-</small>
-
-</button>
-
-`;
-
-});
-
-
-html+=`
-
-</div>
-
-
-<button
-class="custom"
-onclick="openListModal()">
-
-＋ Eigene Liste erstellen
-
-</button>
-
-`;
-
-
-document.getElementById(
-"app"
-).innerHTML=html;
-
-}
-
-
-/* =========================
-   LISTE ÖFFNEN
-========================= */
-
-
-function openList(name) {
-
-currentList=name;
-
-
-const list =
-defaultLists[name] ||
-customLists[name];
-
-
-let html=`
-
-<button
-class="back"
-onclick="renderHome()">
-
-← Zurück
-
-</button>
-
-
-<h2>
-
-${list.emoji}
-
-${name}
-
-</h2>
-
-<p class="subtitle">
-
-Was müssen wir mitnehmen?
-
-</p>
-
-
-<div class="checklist">
-
-`;
-
-
-list.items.forEach(
-(item,index)=>{
-
-html+=`
-
-<label class="item">
-
-<input
-type="checkbox"
-onchange="checkItem(this)">
-
-<span>
-${item}
-</span>
-
-</label>
-
-`;
-
-});
-
-
-html+=`
-
-</div>
-
-
-<div class="progress">
-
-<span id="counter">
-0
-</span>
-
-/
-
-${list.items.length}
-
-erledigt
-
-</div>
-
-
-<div
-class="ready"
-id="ready">
-
-🎉 ALLES DABEI!
-
-<br>
-
-Dann kann es losgehen! 🚗
-
-</div>
-
-`;
-
-
-document.getElementById(
-"app"
-).innerHTML=html;
-
-}
-
-
-/* =========================
-   CHECKBOX
-========================= */
-
-
-function checkItem(checkbox) {
-
-const text =
-checkbox.parentElement
-.querySelector("span");
-
-
-if(checkbox.checked) {
-
-text.classList.add("done");
-
-} else {
-
-text.classList.remove("done");
-
-}
-
-
-const all =
-document.querySelectorAll(
-'.item input'
-);
-
-const checked =
-document.querySelectorAll(
-'.item input:checked'
-);
-
-
-document.getElementById(
-"counter"
-).textContent=
-checked.length;
-
-
-if(
-checked.length===all.length
-) {
-
-document.getElementById(
-"ready"
-).style.display="block";
-
-} else {
-
-document.getElementById(
-"ready"
-).style.display="none";
-
-}
-
-}
-
-
-/* =========================
-   PERSON
-========================= */
-
-
-function openPersonModal() {
-
-document.getElementById(
-"personModal"
-).style.display="flex";
-
-document.getElementById(
-"personName"
-).value="";
-
-document.getElementById(
-"personAge"
-).value="";
-
-}
-
-
-function savePerson() {
-
-const name =
-document.getElementById(
-"personName"
-).value.trim();
-
-
-const age =
-document.getElementById(
-"personAge"
-).value;
-
-
-if(!name || age==="") {
-
-alert(
-"Bitte Name und Alter eingeben."
-);
-
-return;
-
-}
-
-
-family.push({
-
-name:name,
-
-age:age
-
-});
-
-
-saveData();
-
-closeModal(
-"personModal"
-);
-
-renderHome();
-
-}
-
-
-function deletePerson(index) {
-
-if(
-confirm(
-"Familienmitglied wirklich löschen?"
-)
-) {
-
-family.splice(index,1);
-
-saveData();
-
-renderHome();
-
-}
-
-}
-
-
-/* =========================
-   EIGENE LISTE
-========================= */
-
-
-function openListModal() {
-
-document.getElementById(
-"listModal"
-).style.display="flex";
-
-document.getElementById(
-"listName"
-).value="";
-
-}
-
-
-function saveList() {
-
-const name =
-document.getElementById(
-"listName"
-).value.trim();
-
-
-if(!name) {
-
-alert(
-"Bitte einen Namen eingeben."
-);
-
-return;
-
-}
-
-
-customLists[name]={
-
-emoji:"📋",
-
-items:[
-
-"Punkt 1",
-
-"Punkt 2",
-
-"Punkt 3"
-
-]
-
-};
-
-
-saveData();
-
-closeModal(
-"listModal"
-);
-
-renderHome();
-
-}
-
-
-/* =========================
-   MODAL
-========================= */
-
-
-function closeModal(id) {
-
-document.getElementById(
-id
-).style.display="none";
-
-}
-
-
-/* =========================
-   START
-========================= */
-
-
-renderHome();
-
-</script>
-
-
-</body>
-
-</html>
+},
+
+"Spielplatz": {
+
+baby:[
+"Windeln",
+"Feuchttücher",
+"Babytrage"
+],
+
+young:[
+"Sandspielzeug",
+"Wechselkleidung"
+],
+
+older:[
+"Ball",
+"F
