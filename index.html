@@ -698,4 +698,1011 @@ young:[
 
 older:[
 "Ball",
-"F
+"Fahrradhelm"
+]
+
+}
+
+};
+
+
+/* =========================
+   DATEN LADEN
+========================= */
+
+let family =
+JSON.parse(
+localStorage.getItem("losFamily")
+) || [];
+
+let customLists =
+JSON.parse(
+localStorage.getItem("losLists")
+) || {};
+
+let currentList = null;
+
+let selectedPeople = [];
+
+let checkedItems = {};
+
+
+/* =========================
+   SPEICHERN
+========================= */
+
+function saveData() {
+
+localStorage.setItem(
+"losFamily",
+JSON.stringify(family)
+);
+
+localStorage.setItem(
+"losLists",
+JSON.stringify(customLists)
+);
+
+}
+
+
+/* =========================
+   STARTSEITE
+========================= */
+
+function renderHome() {
+
+currentList = null;
+
+let html = `
+
+<h2>Hallo Familie 👋</h2>
+
+<p class="subtitle">
+Was machen wir heute?
+</p>
+
+<div class="family-box">
+
+<div class="family-title">
+
+<span>👨‍👩‍👧 Meine Familie</span>
+
+</div>
+`;
+
+
+if(family.length === 0) {
+
+html += `
+
+<div class="empty">
+Noch keine Familienmitglieder.
+</div>
+
+`;
+
+}
+
+
+family.forEach((person,index) => {
+
+html += `
+
+<div class="person">
+
+<div class="person-info">
+
+<div class="avatar">
+${index === 0 ? "👦" : "👧"}
+</div>
+
+<div>
+
+<div class="person-name">
+${escapeHTML(person.name)}
+</div>
+
+<div class="person-age">
+${person.age} Jahre
+</div>
+
+</div>
+
+</div>
+
+<button
+class="delete"
+onclick="deletePerson(${index})">
+
+🗑️
+
+</button>
+
+</div>
+
+`;
+
+});
+
+
+html += `
+
+<button
+class="primary"
+onclick="openPersonModal()">
+
+＋ Familienmitglied hinzufügen
+
+</button>
+
+</div>
+
+<h2>Was machen wir?</h2>
+
+<p class="subtitle">
+Wähle eine Checkliste.
+</p>
+
+<div class="activities">
+`;
+
+
+Object.keys(defaultLists).forEach(name => {
+
+const list = defaultLists[name];
+
+html += `
+
+<button
+class="activity"
+onclick="openList('${escapeAttribute(name)}')">
+
+<span>${list.emoji}</span>
+
+<strong>${name}</strong>
+
+<small>Checkliste öffnen</small>
+
+</button>
+
+`;
+
+});
+
+
+Object.keys(customLists).forEach(name => {
+
+const list = customLists[name];
+
+html += `
+
+<button
+class="activity"
+onclick="openList('${escapeAttribute(name)}')">
+
+<span>${list.emoji}</span>
+
+<strong>${escapeHTML(name)}</strong>
+
+<small>Eigene Liste</small>
+
+</button>
+
+`;
+
+});
+
+
+html += `
+
+</div>
+
+<button
+class="custom"
+onclick="openListModal()">
+
+＋ Eigene Liste erstellen
+
+</button>
+
+`;
+
+
+document.getElementById("app").innerHTML = html;
+
+}
+
+
+/* =========================
+   LISTE ÖFFNEN
+========================= */
+
+function openList(name) {
+
+currentList = name;
+
+selectedPeople = [];
+
+const list =
+defaultLists[name] ||
+customLists[name];
+
+let html = `
+
+<button
+class="back"
+onclick="renderHome()">
+
+← Zurück
+
+</button>
+
+<h2>
+${list.emoji} ${escapeHTML(name)}
+</h2>
+
+<p class="subtitle">
+Was müssen wir mitnehmen?
+</p>
+`;
+
+
+/* FAMILIENMITGLIEDER */
+
+if(family.length > 0) {
+
+html += `
+
+<div class="section">
+
+<h3>👨‍👩‍👧 Für wen?</h3>
+
+<div class="person-select">
+`;
+
+family.forEach((person,index) => {
+
+html += `
+
+<button
+class="person-chip"
+id="personChip${index}"
+onclick="togglePerson(${index})">
+
+${escapeHTML(person.name)}
+ · ${person.age}
+
+</button>
+
+`;
+
+});
+
+html += `
+
+</div>
+
+<p class="small-note">
+Wähle die Familienmitglieder aus,
+für die die Liste gilt.
+</p>
+
+</div>
+
+`;
+
+}
+
+
+/* VORSCHLÄGE */
+
+const suggestions =
+getSuggestions(name);
+
+if(suggestions.length > 0) {
+
+html += `
+
+<div class="suggestion">
+
+<div class="suggestion-title">
+💡 Vorschläge für eure Familie
+</div>
+
+`;
+
+suggestions.forEach(item => {
+
+html += `
+
+<button
+onclick="addSuggestedItem('${escapeAttribute(item)}')">
+
+＋ ${escapeHTML(item)}
+
+</button>
+
+`;
+
+});
+
+html += `
+
+</div>
+
+`;
+
+}
+
+
+/* CHECKLISTE */
+
+html += `
+
+<div class="section">
+
+<h3>🎒 Mitnehmen</h3>
+
+<div
+class="checklist"
+id="checklist">
+
+`;
+
+
+list.items.forEach((item,index) => {
+
+const key =
+getItemKey(name,index);
+
+const checked =
+checkedItems[key] === true;
+
+html += `
+
+<div class="item-row">
+
+<label class="item">
+
+<input
+type="checkbox"
+${checked ? "checked" : ""}
+onchange="checkItem(this,${index})">
+
+<span
+class="${checked ? "done" : ""}">
+
+${escapeHTML(item)}
+
+</span>
+
+</label>
+`;
+
+
+if(customLists[name]) {
+
+html += `
+
+<button
+class="delete-item"
+onclick="deleteItem(${index})">
+
+🗑️
+
+</button>
+
+`;
+
+}
+
+html += `
+
+</div>
+
+`;
+
+});
+
+
+html += `
+
+</div>
+
+</div>
+
+`;
+
+
+/* EIGENEN PUNKT */
+
+if(customLists[name]) {
+
+html += `
+
+<button
+class="add-item"
+onclick="openItemModal()">
+
+＋ Punkt hinzufügen
+
+</button>
+
+`;
+
+}
+
+
+/* FORTSCHRITT */
+
+html += `
+
+<div class="progress">
+
+<span id="counter">
+${getCheckedCount(name)}
+</span>
+
+/
+
+${list.items.length}
+
+erledigt
+
+</div>
+
+<div
+class="ready"
+id="ready"
+style="${
+getCheckedCount(name) === list.items.length &&
+list.items.length > 0
+? "display:block"
+: ""
+}">
+
+🎉 ALLES DABEI!
+
+<br>
+
+Dann kann es losgehen! 🚗
+
+</div>
+
+<button
+class="reset"
+onclick="resetList()">
+
+↻ Checkliste zurücksetzen
+
+</button>
+
+`;
+
+
+document.getElementById("app").innerHTML = html;
+
+}
+
+
+/* =========================
+   FAMILIENMITGLIED AUSWÄHLEN
+========================= */
+
+function togglePerson(index) {
+
+const position =
+selectedPeople.indexOf(index);
+
+if(position >= 0) {
+
+selectedPeople.splice(position,1);
+
+} else {
+
+selectedPeople.push(index);
+
+}
+
+const button =
+document.getElementById(
+"personChip" + index
+);
+
+if(button) {
+
+button.classList.toggle(
+"selected",
+selectedPeople.includes(index)
+);
+
+}
+
+}
+
+
+/* =========================
+   VORSCHLÄGE ERMITTELN
+========================= */
+
+function getSuggestions(name) {
+
+if(!ageSuggestions[name] ||
+family.length === 0) {
+
+return [];
+
+}
+
+let result = [];
+
+family.forEach(person => {
+
+let age =
+parseInt(person.age);
+
+let group;
+
+if(age < 2) {
+
+group = "baby";
+
+} else if(age <= 4) {
+
+group = "young";
+
+} else {
+
+group = "older";
+
+}
+
+const suggestions =
+ageSuggestions[name][group] || [];
+
+suggestions.forEach(item => {
+
+if(!result.includes(item)) {
+
+result.push(item);
+
+}
+
+});
+
+});
+
+return result;
+
+}
+
+
+/* =========================
+   VORSCHLAG HINZUFÜGEN
+========================= */
+
+function addSuggestedItem(item) {
+
+const list =
+customLists[currentList];
+
+if(!list) {
+
+alert(
+"Altersvorschläge können momentan nur in eigenen Listen gespeichert werden."
+);
+
+return;
+
+}
+
+if(!list.items.includes(item)) {
+
+list.items.push(item);
+
+saveData();
+
+}
+
+openList(currentList);
+
+}
+
+
+/* =========================
+   CHECKBOX
+========================= */
+
+function getItemKey(name,index) {
+
+return name + "_" + index;
+
+}
+
+
+function checkItem(checkbox,index) {
+
+const key =
+getItemKey(currentList,index);
+
+checkedItems[key] =
+checkbox.checked;
+
+const text =
+checkbox.parentElement
+.querySelector("span");
+
+if(checkbox.checked) {
+
+text.classList.add("done");
+
+} else {
+
+text.classList.remove("done");
+
+}
+
+const count =
+getCheckedCount(currentList);
+
+document.getElementById(
+"counter"
+).textContent = count;
+
+const list =
+defaultLists[currentList] ||
+customLists[currentList];
+
+if(
+count === list.items.length &&
+list.items.length > 0
+) {
+
+document.getElementById(
+"ready"
+).style.display = "block";
+
+} else {
+
+document.getElementById(
+"ready"
+).style.display = "none";
+
+}
+
+}
+
+
+function getCheckedCount(name) {
+
+const list =
+defaultLists[name] ||
+customLists[name];
+
+if(!list) return 0;
+
+let count = 0;
+
+list.items.forEach((item,index) => {
+
+if(
+checkedItems[getItemKey(name,index)]
+) {
+
+count++;
+
+}
+
+});
+
+return count;
+
+}
+
+
+/* =========================
+   CHECKLIST ZURÜCKSETZEN
+========================= */
+
+function resetList() {
+
+const list =
+defaultLists[currentList] ||
+customLists[currentList];
+
+if(!list) return;
+
+list.items.forEach((item,index) => {
+
+delete checkedItems[
+getItemKey(currentList,index)
+];
+
+});
+
+openList(currentList);
+
+}
+
+
+/* =========================
+   FAMILIENMITGLIED
+========================= */
+
+function openPersonModal() {
+
+document.getElementById(
+"personModal"
+).style.display = "flex";
+
+document.getElementById(
+"personName"
+).value = "";
+
+document.getElementById(
+"personAge"
+).value = "";
+
+}
+
+
+function savePerson() {
+
+const name =
+document.getElementById(
+"personName"
+).value.trim();
+
+const age =
+document.getElementById(
+"personAge"
+).value;
+
+
+if(!name || age === "") {
+
+alert(
+"Bitte Name und Alter eingeben."
+);
+
+return;
+
+}
+
+
+family.push({
+
+name:name,
+
+age:age
+
+});
+
+
+saveData();
+
+closeModal("personModal");
+
+renderHome();
+
+}
+
+
+function deletePerson(index) {
+
+if(
+confirm(
+"Familienmitglied wirklich löschen?"
+)
+) {
+
+family.splice(index,1);
+
+saveData();
+
+renderHome();
+
+}
+
+}
+
+
+/* =========================
+   EIGENE LISTE
+========================= */
+
+function openListModal() {
+
+document.getElementById(
+"listModal"
+).style.display = "flex";
+
+document.getElementById(
+"listName"
+).value = "";
+
+}
+
+
+function saveList() {
+
+const name =
+document.getElementById(
+"listName"
+).value.trim();
+
+if(!name) {
+
+alert(
+"Bitte einen Namen eingeben."
+);
+
+return;
+
+}
+
+if(
+defaultLists[name] ||
+customLists[name]
+) {
+
+alert(
+"Diese Liste gibt es bereits."
+);
+
+return;
+
+}
+
+customLists[name] = {
+
+emoji:"📋",
+
+items:[]
+
+};
+
+saveData();
+
+closeModal("listModal");
+
+openList(name);
+
+}
+
+
+/* =========================
+   EIGENEN PUNKT
+========================= */
+
+function openItemModal() {
+
+document.getElementById(
+"itemModal"
+).style.display = "flex";
+
+document.getElementById(
+"itemName"
+).value = "";
+
+}
+
+
+function saveItem() {
+
+const item =
+document.getElementById(
+"itemName"
+).value.trim();
+
+if(!item) {
+
+alert(
+"Bitte einen Punkt eingeben."
+);
+
+return;
+
+}
+
+const list =
+customLists[currentList];
+
+if(!list) return;
+
+if(list.items.includes(item)) {
+
+alert(
+"Dieser Punkt ist bereits vorhanden."
+);
+
+return;
+
+}
+
+list.items.push(item);
+
+saveData();
+
+closeModal("itemModal");
+
+openList(currentList);
+
+}
+
+
+/* =========================
+   PUNKT LÖSCHEN
+========================= */
+
+function deleteItem(index) {
+
+if(!customLists[currentList])
+return;
+
+if(
+confirm(
+"Diesen Punkt wirklich löschen?"
+)
+) {
+
+customLists[currentList]
+.items.splice(index,1);
+
+saveData();
+
+openList(currentList);
+
+}
+
+}
+
+
+/* =========================
+   MODAL
+========================= */
+
+function closeModal(id) {
+
+document.getElementById(id)
+.style.display = "none";
+
+}
+
+
+/* =========================
+   HTML SICHERHEIT
+========================= */
+
+function escapeHTML(text) {
+
+return String(text)
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+
+function escapeAttribute(text) {
+
+return String(text)
+.replace(/\\/g,"\\\\")
+.replace(/'/g,"\\'");
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+renderHome();
+
+</script>
+
+</body>
+</html>
