@@ -1,1704 +1,1062 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width,
-initial-scale=1.0,
-maximum-scale=1.0,
-user-scalable=no">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LOS! – Familien-Starthelfer</title>
 
 <style>
-
 * {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
-  background: #f4f5f9;
-  color: #202124;
-}
-
-.app {
-  max-width: 600px;
-  margin: auto;
-  min-height: 100vh;
-  background: white;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  background: #f5f7fa;
+  color: #222;
 }
 
 header {
-  padding: 25px 20px;
-  background: linear-gradient(135deg,#667eea,#764ba2);
-  color: white;
-  border-radius: 0 0 28px 28px;
+  background: white;
+  padding: 24px 18px 18px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
 }
 
-.header-top {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.logo {
-  font-size: 42px;
-}
-
-h1 {
+header h1 {
   margin: 0;
-  font-size: 30px;
+  font-size: 32px;
 }
 
 header p {
-  margin: 3px 0 0;
-  opacity: .85;
+  margin: 6px 0 0;
+  color: #666;
 }
 
 main {
-  padding: 22px 18px 50px;
+  max-width: 650px;
+  margin: auto;
+  padding: 18px;
+}
+
+.card {
+  background: white;
+  border-radius: 18px;
+  padding: 18px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.06);
 }
 
 h2 {
-  margin: 0 0 6px;
-  font-size: 25px;
-}
-
-h3 {
-  margin-bottom: 8px;
-}
-
-.subtitle {
-  margin: 0 0 20px;
-  color: #777;
+  margin-top: 0;
 }
 
 button {
-  font-family: inherit;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 16px;
   cursor: pointer;
 }
 
-.family-box {
-  background: #f4f5f9;
-  border-radius: 18px;
-  padding: 16px;
-  margin-bottom: 25px;
+.primary {
+  background: #111;
+  color: white;
 }
 
-.family-title {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-weight: bold;
+.secondary {
+  background: #eee;
+}
+
+.danger {
+  background: #ffe5e5;
+  color: #b00020;
+}
+
+.list-button {
+  width: 100%;
+  margin: 6px 0;
+  text-align: left;
+  background: #f1f3f5;
+  font-size: 17px;
+}
+
+input {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  font-size: 16px;
+  margin-bottom: 10px;
 }
 
 .person {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  background: white;
+  align-items: center;
   padding: 12px;
-  border-radius: 13px;
-  margin-top: 8px;
+  background: #f5f5f5;
+  border-radius: 12px;
+  margin-bottom: 8px;
 }
 
 .person-info {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  font-size: 16px;
 }
 
-.avatar {
-  font-size: 28px;
-}
-
-.person-name {
-  font-weight: 600;
-}
-
-.person-age {
+.small {
+  color: #777;
   font-size: 13px;
-  color: #777;
 }
 
-.delete {
-  border: 0;
-  background: #ffecec;
-  color: #d33;
-  border-radius: 10px;
-  padding: 7px 10px;
-}
-
-.primary {
-  width: 100%;
-  border: 0;
-  background: #667eea;
-  color: white;
-  padding: 14px;
-  border-radius: 14px;
-  font-size: 16px;
-  font-weight: 600;
-  margin-top: 12px;
-}
-
-.activities {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.activity {
-  border: 0;
-  background: #f4f5f9;
-  border-radius: 18px;
-  padding: 17px 12px;
-  text-align: left;
-  min-height: 125px;
-}
-
-.activity:active {
-  transform: scale(.97);
-}
-
-.activity span {
-  display: block;
-  font-size: 34px;
-  margin-bottom: 8px;
-}
-
-.activity strong {
-  display: block;
-  font-size: 16px;
-}
-
-.activity small {
-  display: block;
-  margin-top: 4px;
-  color: #777;
-}
-
-.custom {
-  width: 100%;
-  margin-top: 15px;
-  padding: 16px;
-  border: 2px dashed #bbb;
-  border-radius: 16px;
-  background: white;
-  font-size: 16px;
-}
-
-.back {
-  border: 0;
-  background: transparent;
-  font-size: 16px;
-  padding: 0;
-  margin-bottom: 20px;
-}
-
-.section {
-  margin-top: 22px;
-}
-
-.person-select {
+.chips {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  margin: 12px 0;
 }
 
-.person-chip {
-  border: 1px solid #ddd;
-  background: white;
+.chip {
+  background: #eee;
+  padding: 10px 13px;
   border-radius: 20px;
-  padding: 9px 13px;
-  font-size: 14px;
+  cursor: pointer;
 }
 
-.person-chip.selected {
-  background: #667eea;
+.chip.active {
+  background: #111;
   color: white;
-  border-color: #667eea;
 }
 
-.checklist {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 15px;
-}
-
-.item {
+.check-item {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 14px;
-  background: #f4f5f9;
-  border-radius: 15px;
-}
-
-.item input {
-  width: 22px;
-  height: 22px;
-}
-
-.done {
-  text-decoration: line-through;
-  opacity: .45;
-}
-
-.progress {
-  margin-top: 20px;
-  padding: 15px;
-  background: #eef0ff;
-  border-radius: 15px;
-  text-align: center;
-  font-weight: 600;
-}
-
-.ready {
-  display: none;
-  margin-top: 15px;
-  padding: 18px;
-  background: #e7f8ed;
-  border-radius: 17px;
-  text-align: center;
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.add-item {
-  width: 100%;
-  border: 0;
-  background: #667eea;
-  color: white;
-  padding: 14px;
-  border-radius: 14px;
-  font-size: 16px;
-  font-weight: 600;
-  margin-top: 12px;
-}
-
-.reset {
-  width: 100%;
-  border: 1px solid #ddd;
-  background: white;
   padding: 13px;
-  border-radius: 14px;
-  font-size: 15px;
-  margin-top: 10px;
-}
-
-.item-row {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-
-.item-row .item {
-  flex: 1;
-}
-
-.delete-item {
-  border: 0;
-  background: #ffecec;
-  color: #d33;
-  border-radius: 10px;
-  padding: 10px;
-}
-
-.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.45);
-  display: none;
-  align-items: flex-end;
-  justify-content: center;
-  z-index: 100;
-}
-
-.modal-content {
-  width: 100%;
-  max-width: 600px;
-  background: white;
-  padding: 25px 20px 35px;
-  border-radius: 25px 25px 0 0;
-}
-
-.modal-content h2 {
-  margin-bottom: 18px;
-}
-
-input[type="text"],
-input[type="number"] {
-  width: 100%;
-  padding: 14px;
-  border: 1px solid #ddd;
+  background: #f7f7f7;
   border-radius: 12px;
-  font-size: 16px;
-  margin-bottom: 12px;
-}
-
-.modal-buttons {
-  display: flex;
-  gap: 10px;
-}
-
-.cancel,
-.save {
-  flex: 1;
-  border: 0;
-  padding: 14px;
-  border-radius: 12px;
-  font-size: 16px;
-}
-
-.cancel {
-  background: #eee;
-}
-
-.save {
-  background: #667eea;
-  color: white;
-  font-weight: bold;
-}
-
-.suggestion {
-  background: #fff7df;
-  border-radius: 15px;
-  padding: 14px;
-  margin-top: 12px;
-}
-
-.suggestion-title {
-  font-weight: bold;
   margin-bottom: 8px;
 }
 
-.suggestion button {
-  border: 0;
-  background: white;
-  border-radius: 10px;
-  padding: 8px 10px;
-  margin: 4px 3px 0 0;
+.check-item input {
+  width: 22px;
+  height: 22px;
+  margin: 0;
+}
+
+.checked {
+  text-decoration: line-through;
+  color: #888;
+}
+
+.section-title {
+  margin-top: 22px;
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.back {
+  margin-bottom: 15px;
+}
+
+.hidden {
+  display: none;
 }
 
 .empty {
+  color: #777;
   text-align: center;
   padding: 15px;
-  color: #777;
 }
-
-.small-note {
-  color: #777;
-  font-size: 13px;
-  margin-top: 8px;
-}
-
 </style>
 </head>
 
 <body>
 
-<div class="app">
-
 <header>
-
-<div class="header-top">
-
-<div class="logo">🚀</div>
-
-<div>
-
-<h1>LOS!</h1>
-
-<p>Familien-Starthelfer</p>
-
-</div>
-
-</div>
-
+  <h1>🚀 LOS!</h1>
+  <p>Der Familien-Starthelfer</p>
 </header>
 
-<main id="app"></main>
+<main>
+
+<!-- STARTSEITE -->
+<div id="home">
+
+  <div class="card">
+    <h2>👨‍👩‍👧‍👦 Meine Familie</h2>
+
+    <div id="familyList"></div>
+
+    <input id="personName" placeholder="Name">
+    <input id="personAge" type="number" min="0" max="100" placeholder="Alter">
+
+    <button class="primary" onclick="addPerson()">
+      ＋ Familienmitglied hinzufügen
+    </button>
+  </div>
+
+  <div class="card">
+    <h2>📋 Was machen wir?</h2>
+    <div id="lists"></div>
+  </div>
+
+  <div class="card">
+    <h2>➕ Eigene Liste</h2>
+
+    <input id="newListName" placeholder="z.B. Zoo, Urlaub, Oma">
+
+    <button class="primary" onclick="createList()">
+      Liste erstellen
+    </button>
+
+    <div id="customLists"></div>
+  </div>
 
 </div>
 
 
-<!-- FAMILIENMITGLIED -->
+<!-- LISTE -->
+<div id="listScreen" class="hidden">
 
-<div class="modal" id="personModal">
+  <button class="secondary back" onclick="goHome()">
+    ← Zurück
+  </button>
 
-<div class="modal-content">
+  <div class="card">
 
-<h2>👤 Familienmitglied</h2>
+    <h2 id="listTitle"></h2>
 
-<input
-id="personName"
-type="text"
-placeholder="Name">
+    <div class="section-title">
+      👨‍👩‍👧‍👦 Für wen?
+    </div>
 
-<input
-id="personAge"
-type="number"
-placeholder="Alter"
-min="0"
-max="99">
+    <div id="personSelector" class="chips"></div>
 
-<div class="modal-buttons">
+    <div id="suggestions"></div>
 
-<button
-class="cancel"
-onclick="closeModal('personModal')">
+  </div>
 
-Abbrechen
+  <div class="card">
 
-</button>
+    <div class="section-title">
+      📝 Deine Checkliste
+    </div>
 
-<button
-class="save"
-onclick="savePerson()">
+    <div id="checklist"></div>
 
-Speichern
+    <button class="secondary" onclick="addCustomItem()">
+      ＋ Punkt hinzufügen
+    </button>
 
-</button>
+    <br><br>
 
-</div>
+    <button class="danger" onclick="resetChecklist()">
+      ↻ Erledigte Punkte zurücksetzen
+    </button>
 
-</div>
-
-</div>
-
-
-<!-- NEUE LISTE -->
-
-<div class="modal" id="listModal">
-
-<div class="modal-content">
-
-<h2>📋 Neue Liste</h2>
-
-<input
-id="listName"
-type="text"
-placeholder="z.B. Zoo">
-
-<div class="modal-buttons">
-
-<button
-class="cancel"
-onclick="closeModal('listModal')">
-
-Abbrechen
-
-</button>
-
-<button
-class="save"
-onclick="saveList()">
-
-Erstellen
-
-</button>
+  </div>
 
 </div>
 
-</div>
-
-</div>
-
-
-<!-- NEUER PUNKT -->
-
-<div class="modal" id="itemModal">
-
-<div class="modal-content">
-
-<h2>➕ Neuer Punkt</h2>
-
-<input
-id="itemName"
-type="text"
-placeholder="z.B. Trinkflasche">
-
-<div class="modal-buttons">
-
-<button
-class="cancel"
-onclick="closeModal('itemModal')">
-
-Abbrechen
-
-</button>
-
-<button
-class="save"
-onclick="saveItem()">
-
-Hinzufügen
-
-</button>
-
-</div>
-
-</div>
-
-</div>
+</main>
 
 
 <script>
 
-/* =========================
-   STANDARDLISTEN
-========================= */
+let family = JSON.parse(
+  localStorage.getItem("los_family") || "[]"
+);
 
-const defaultLists = {
+let customLists = JSON.parse(
+  localStorage.getItem("los_custom_lists") || "[]"
+);
 
-"Schwimmbad": {
-emoji:"🏊",
-items:[
-"Badehose / Badeanzug",
-"Handtuch",
-"Schwimmflügel",
-"Trinkflasche",
-"Sonnencreme",
-"Wechselkleidung",
-"Schwimmwindeln",
-"Snacks"
-]
-},
+let checkedItems = JSON.parse(
+  localStorage.getItem("los_checked_items") || "{}"
+);
 
-"Kindergarten": {
-emoji:"🏫",
-items:[
-"Kindergarten-Rucksack",
-"Trinkflasche",
-"Brotdose",
-"Hausschuhe",
-"Wechselkleidung",
-"Jacke"
-]
-},
-
-"Spielplatz": {
-emoji:"🌳",
-items:[
-"Jacke",
-"Trinkflasche",
-"Snacks",
-"Sonnencreme",
-"Mütze"
-]
-},
-
-"Oma & Opa": {
-emoji:"👵",
-items:[
-"Kinderkleidung",
-"Trinkflasche",
-"Snacks",
-"Lieblingsspielzeug",
-"Wechselkleidung"
-]
-},
-
-"Einkaufen": {
-emoji:"🛒",
-items:[
-"Einkaufstaschen",
-"Einkaufszettel",
-"Portemonnaie",
-"Trinkflaschen"
-]
-},
-
-"Urlaub": {
-emoji:"✈️",
-items:[
-"Kleidung",
-"Unterwäsche",
-"Zahnbürsten",
-"Medikamente",
-"Spielzeug",
-"Ladegeräte",
-"Reisedokumente",
-"Snacks"
-]
-}
-
-};
-
-
-/* =========================
-   ALTERSABHÄNGIGE VORSCHLÄGE
-========================= */
-
-const ageSuggestions = {
-
-"Schwimmbad": {
-
-baby:[
-"Schwimmwindeln",
-"Babyhandtuch",
-"Wechselkleidung"
-],
-
-young:[
-"Schwimmwindeln",
-"Schwimmflügel",
-"Spielzeug"
-],
-
-older:[
-"Schwimmbrille",
-"Schwimmflügel"
-]
-
-},
-
-"Urlaub": {
-
-baby:[
-"Windeln",
-"Feuchttücher",
-"Babyflasche"
-],
-
-young:[
-"Windeln",
-"Feuchttücher",
-"Lieblingsspielzeug"
-],
-
-older:[
-"Reisebeschäftigung",
-"Kopfhörer"
-]
-
-},
-
-"Spielplatz": {
-
-baby:[
-"Windeln",
-"Feuchttücher",
-"Babytrage"
-],
-
-young:[
-"Sandspielzeug",
-"Wechselkleidung"
-],
-
-older:[
-"Ball",
-"Fahrradhelm"
-]
-
-}
-
-};
-
-
-/* =========================
-   DATEN LADEN
-========================= */
-
-let family =
-JSON.parse(
-localStorage.getItem("losFamily")
-) || [];
-
-let customLists =
-JSON.parse(
-localStorage.getItem("losLists")
-) || {};
+let assignments = JSON.parse(
+  localStorage.getItem("los_assignments") || "{}"
+);
 
 let currentList = null;
 
-let selectedPeople = [];
 
-let checkedItems = {};
+/* STANDARDLISTEN */
+
+const defaultLists = {
+
+  "🏊 Schwimmbad": [
+    "Handtücher",
+    "Badesachen",
+    "Trinkflaschen",
+    "Sonnencreme",
+    "Wechselkleidung"
+  ],
+
+  "🏫 Kindergarten": [
+    "Rucksack",
+    "Trinkflasche",
+    "Brotdose",
+    "Wechselkleidung"
+  ],
+
+  "🌳 Spielplatz": [
+    "Trinkflaschen",
+    "Sonnencreme",
+    "Taschentücher",
+    "Wechselkleidung"
+  ],
+
+  "👵 Oma & Opa": [
+    "Wechselkleidung",
+    "Lieblingsspielzeug",
+    "Trinkflasche",
+    "Snacks"
+  ],
+
+  "🛒 Einkaufen": [
+    "Einkaufsliste",
+    "Trinkflaschen",
+    "Snacks"
+  ],
+
+  "✈️ Urlaub": [
+    "Kleidung",
+    "Unterwäsche",
+    "Schuhe",
+    "Waschzeug",
+    "Medikamente",
+    "Dokumente"
+  ]
+
+};
 
 
-/* =========================
-   SPEICHERN
-========================= */
+/* ALTERSSPEZIFISCHE EMPFEHLUNGEN */
 
-function saveData() {
+const ageSuggestions = {
 
-localStorage.setItem(
-"losFamily",
-JSON.stringify(family)
-);
+  "🏊 Schwimmbad": [
+    {
+      min: 0,
+      max: 3,
+      items: [
+        "Schwimmwindel",
+        "Badehose",
+        "Bademantel"
+      ]
+    },
+    {
+      min: 4,
+      max: 6,
+      items: [
+        "Badehose/Badeanzug",
+        "Schwimmbrille",
+        "Badeschuhe"
+      ]
+    },
+    {
+      min: 7,
+      max: 17,
+      items: [
+        "Badehose/Badeanzug",
+        "Schwimmbrille",
+        "Badeschuhe"
+      ]
+    }
+  ],
 
-localStorage.setItem(
-"losLists",
-JSON.stringify(customLists)
-);
+  "✈️ Urlaub": [
+    {
+      min: 0,
+      max: 3,
+      items: [
+        "Windeln",
+        "Feuchttücher",
+        "Lieblingskuscheltier"
+      ]
+    },
+    {
+      min: 4,
+      max: 6,
+      items: [
+        "Lieblingsspielzeug",
+        "Sonnenhut",
+        "Reiseunterhaltung"
+      ]
+    },
+    {
+      min: 7,
+      max: 17,
+      items: [
+        "Kopfhörer",
+        "Reiseunterhaltung",
+        "Sonnenhut"
+      ]
+    }
+  ],
 
+  "🌳 Spielplatz": [
+    {
+      min: 0,
+      max: 3,
+      items: [
+        "Wechselkleidung",
+        "Snack",
+        "Sonnenhut"
+      ]
+    },
+    {
+      min: 4,
+      max: 6,
+      items: [
+        "Wechselkleidung",
+        "Snack",
+        "Trinkflasche"
+      ]
+    }
+  ]
+
+};
+
+
+/* SPEICHERN */
+
+function saveAll() {
+
+  localStorage.setItem(
+    "los_family",
+    JSON.stringify(family)
+  );
+
+  localStorage.setItem(
+    "los_custom_lists",
+    JSON.stringify(customLists)
+  );
+
+  localStorage.setItem(
+    "los_checked_items",
+    JSON.stringify(checkedItems)
+  );
+
+  localStorage.setItem(
+    "los_assignments",
+    JSON.stringify(assignments)
+  );
 }
 
 
-/* =========================
-   STARTSEITE
-========================= */
+/* STARTSEITE */
 
 function renderHome() {
 
-currentList = null;
+  document.getElementById("home").classList.remove("hidden");
+  document.getElementById("listScreen").classList.add("hidden");
 
-let html = `
-
-<h2>Hallo Familie 👋</h2>
-
-<p class="subtitle">
-Was machen wir heute?
-</p>
-
-<div class="family-box">
-
-<div class="family-title">
-
-<span>👨‍👩‍👧 Meine Familie</span>
-
-</div>
-`;
-
-
-if(family.length === 0) {
-
-html += `
-
-<div class="empty">
-Noch keine Familienmitglieder.
-</div>
-
-`;
-
+  renderFamily();
+  renderLists();
+  renderCustomLists();
 }
 
 
-family.forEach((person,index) => {
+/* FAMILIE */
 
-html += `
+function renderFamily() {
 
-<div class="person">
+  const container =
+    document.getElementById("familyList");
 
-<div class="person-info">
+  container.innerHTML = "";
 
-<div class="avatar">
-${index === 0 ? "👦" : "👧"}
-</div>
+  if (family.length === 0) {
 
-<div>
+    container.innerHTML =
+      '<div class="empty">Noch keine Familienmitglieder</div>';
 
-<div class="person-name">
-${escapeHTML(person.name)}
-</div>
+    return;
+  }
 
-<div class="person-age">
-${person.age} Jahre
-</div>
+  family.forEach((person, index) => {
 
-</div>
+    const div = document.createElement("div");
 
-</div>
+    div.className = "person";
 
-<button
-class="delete"
-onclick="deletePerson(${index})">
+    div.innerHTML = `
+      <div class="person-info">
+        👤 <strong>${escapeHTML(person.name)}</strong>
+        <div class="small">${person.age} Jahre</div>
+      </div>
 
-🗑️
+      <button class="danger"
+        onclick="deletePerson(${index})">
+        ✕
+      </button>
+    `;
 
-</button>
-
-</div>
-
-`;
-
-});
-
-
-html += `
-
-<button
-class="primary"
-onclick="openPersonModal()">
-
-＋ Familienmitglied hinzufügen
-
-</button>
-
-</div>
-
-<h2>Was machen wir?</h2>
-
-<p class="subtitle">
-Wähle eine Checkliste.
-</p>
-
-<div class="activities">
-`;
-
-
-Object.keys(defaultLists).forEach(name => {
-
-const list = defaultLists[name];
-
-html += `
-
-<button
-class="activity"
-onclick="openList('${escapeAttribute(name)}')">
-
-<span>${list.emoji}</span>
-
-<strong>${name}</strong>
-
-<small>Checkliste öffnen</small>
-
-</button>
-
-`;
-
-});
-
-
-Object.keys(customLists).forEach(name => {
-
-const list = customLists[name];
-
-html += `
-
-<button
-class="activity"
-onclick="openList('${escapeAttribute(name)}')">
-
-<span>${list.emoji}</span>
-
-<strong>${escapeHTML(name)}</strong>
-
-<small>Eigene Liste</small>
-
-</button>
-
-`;
-
-});
-
-
-html += `
-
-</div>
-
-<button
-class="custom"
-onclick="openListModal()">
-
-＋ Eigene Liste erstellen
-
-</button>
-
-`;
-
-
-document.getElementById("app").innerHTML = html;
-
+    container.appendChild(div);
+  });
 }
 
 
-/* =========================
-   LISTE ÖFFNEN
-========================= */
+function addPerson() {
 
-function openList(name) {
+  const name =
+    document.getElementById("personName").value.trim();
 
-currentList = name;
+  const age =
+    parseInt(document.getElementById("personAge").value);
 
-selectedPeople = [];
+  if (!name || isNaN(age)) {
 
-const list =
-defaultLists[name] ||
-customLists[name];
+    alert("Bitte Name und Alter eingeben.");
 
-let html = `
+    return;
+  }
 
-<button
-class="back"
-onclick="renderHome()">
+  family.push({
+    id: Date.now(),
+    name: name,
+    age: age
+  });
 
-← Zurück
+  document.getElementById("personName").value = "";
+  document.getElementById("personAge").value = "";
 
-</button>
-
-<h2>
-${list.emoji} ${escapeHTML(name)}
-</h2>
-
-<p class="subtitle">
-Was müssen wir mitnehmen?
-</p>
-`;
-
-
-/* FAMILIENMITGLIEDER */
-
-if(family.length > 0) {
-
-html += `
-
-<div class="section">
-
-<h3>👨‍👩‍👧 Für wen?</h3>
-
-<div class="person-select">
-`;
-
-family.forEach((person,index) => {
-
-html += `
-
-<button
-class="person-chip"
-id="personChip${index}"
-onclick="togglePerson(${index})">
-
-${escapeHTML(person.name)}
- · ${person.age}
-
-</button>
-
-`;
-
-});
-
-html += `
-
-</div>
-
-<p class="small-note">
-Wähle die Familienmitglieder aus,
-für die die Liste gilt.
-</p>
-
-</div>
-
-`;
-
-}
-
-
-/* VORSCHLÄGE */
-
-const suggestions =
-getSuggestions(name);
-
-if(suggestions.length > 0) {
-
-html += `
-
-<div class="suggestion">
-
-<div class="suggestion-title">
-💡 Vorschläge für eure Familie
-</div>
-
-`;
-
-suggestions.forEach(item => {
-
-html += `
-
-<button
-onclick="addSuggestedItem('${escapeAttribute(item)}')">
-
-＋ ${escapeHTML(item)}
-
-</button>
-
-`;
-
-});
-
-html += `
-
-</div>
-
-`;
-
-}
-
-
-/* CHECKLISTE */
-
-html += `
-
-<div class="section">
-
-<h3>🎒 Mitnehmen</h3>
-
-<div
-class="checklist"
-id="checklist">
-
-`;
-
-
-list.items.forEach((item,index) => {
-
-const key =
-getItemKey(name,index);
-
-const checked =
-checkedItems[key] === true;
-
-html += `
-
-<div class="item-row">
-
-<label class="item">
-
-<input
-type="checkbox"
-${checked ? "checked" : ""}
-onchange="checkItem(this,${index})">
-
-<span
-class="${checked ? "done" : ""}">
-
-${escapeHTML(item)}
-
-</span>
-
-</label>
-`;
-
-
-if(customLists[name]) {
-
-html += `
-
-<button
-class="delete-item"
-onclick="deleteItem(${index})">
-
-🗑️
-
-</button>
-
-`;
-
-}
-
-html += `
-
-</div>
-
-`;
-
-});
-
-
-html += `
-
-</div>
-
-</div>
-
-`;
-
-
-/* EIGENEN PUNKT */
-
-if(customLists[name]) {
-
-html += `
-
-<button
-class="add-item"
-onclick="openItemModal()">
-
-＋ Punkt hinzufügen
-
-</button>
-
-`;
-
-}
-
-
-/* FORTSCHRITT */
-
-html += `
-
-<div class="progress">
-
-<span id="counter">
-${getCheckedCount(name)}
-</span>
-
-/
-
-${list.items.length}
-
-erledigt
-
-</div>
-
-<div
-class="ready"
-id="ready"
-style="${
-getCheckedCount(name) === list.items.length &&
-list.items.length > 0
-? "display:block"
-: ""
-}">
-
-🎉 ALLES DABEI!
-
-<br>
-
-Dann kann es losgehen! 🚗
-
-</div>
-
-<button
-class="reset"
-onclick="resetList()">
-
-↻ Checkliste zurücksetzen
-
-</button>
-
-`;
-
-
-document.getElementById("app").innerHTML = html;
-
-}
-
-
-/* =========================
-   FAMILIENMITGLIED AUSWÄHLEN
-========================= */
-
-function togglePerson(index) {
-
-const position =
-selectedPeople.indexOf(index);
-
-if(position >= 0) {
-
-selectedPeople.splice(position,1);
-
-} else {
-
-selectedPeople.push(index);
-
-}
-
-const button =
-document.getElementById(
-"personChip" + index
-);
-
-if(button) {
-
-button.classList.toggle(
-"selected",
-selectedPeople.includes(index)
-);
-
-}
-
-}
-
-
-/* =========================
-   VORSCHLÄGE ERMITTELN
-========================= */
-
-function getSuggestions(name) {
-
-if(!ageSuggestions[name] ||
-family.length === 0) {
-
-return [];
-
-}
-
-let result = [];
-
-family.forEach(person => {
-
-let age =
-parseInt(person.age);
-
-let group;
-
-if(age < 2) {
-
-group = "baby";
-
-} else if(age <= 4) {
-
-group = "young";
-
-} else {
-
-group = "older";
-
-}
-
-const suggestions =
-ageSuggestions[name][group] || [];
-
-suggestions.forEach(item => {
-
-if(!result.includes(item)) {
-
-result.push(item);
-
-}
-
-});
-
-});
-
-return result;
-
-}
-
-
-/* =========================
-   VORSCHLAG HINZUFÜGEN
-========================= */
-
-function addSuggestedItem(item) {
-
-const list =
-customLists[currentList];
-
-if(!list) {
-
-alert(
-"Altersvorschläge können momentan nur in eigenen Listen gespeichert werden."
-);
-
-return;
-
-}
-
-if(!list.items.includes(item)) {
-
-list.items.push(item);
-
-saveData();
-
-}
-
-openList(currentList);
-
-}
-
-
-/* =========================
-   CHECKBOX
-========================= */
-
-function getItemKey(name,index) {
-
-return name + "_" + index;
-
-}
-
-
-function checkItem(checkbox,index) {
-
-const key =
-getItemKey(currentList,index);
-
-checkedItems[key] =
-checkbox.checked;
-
-const text =
-checkbox.parentElement
-.querySelector("span");
-
-if(checkbox.checked) {
-
-text.classList.add("done");
-
-} else {
-
-text.classList.remove("done");
-
-}
-
-const count =
-getCheckedCount(currentList);
-
-document.getElementById(
-"counter"
-).textContent = count;
-
-const list =
-defaultLists[currentList] ||
-customLists[currentList];
-
-if(
-count === list.items.length &&
-list.items.length > 0
-) {
-
-document.getElementById(
-"ready"
-).style.display = "block";
-
-} else {
-
-document.getElementById(
-"ready"
-).style.display = "none";
-
-}
-
-}
-
-
-function getCheckedCount(name) {
-
-const list =
-defaultLists[name] ||
-customLists[name];
-
-if(!list) return 0;
-
-let count = 0;
-
-list.items.forEach((item,index) => {
-
-if(
-checkedItems[getItemKey(name,index)]
-) {
-
-count++;
-
-}
-
-});
-
-return count;
-
-}
-
-
-/* =========================
-   CHECKLIST ZURÜCKSETZEN
-========================= */
-
-function resetList() {
-
-const list =
-defaultLists[currentList] ||
-customLists[currentList];
-
-if(!list) return;
-
-list.items.forEach((item,index) => {
-
-delete checkedItems[
-getItemKey(currentList,index)
-];
-
-});
-
-openList(currentList);
-
-}
-
-
-/* =========================
-   FAMILIENMITGLIED
-========================= */
-
-function openPersonModal() {
-
-document.getElementById(
-"personModal"
-).style.display = "flex";
-
-document.getElementById(
-"personName"
-).value = "";
-
-document.getElementById(
-"personAge"
-).value = "";
-
-}
-
-
-function savePerson() {
-
-const name =
-document.getElementById(
-"personName"
-).value.trim();
-
-const age =
-document.getElementById(
-"personAge"
-).value;
-
-
-if(!name || age === "") {
-
-alert(
-"Bitte Name und Alter eingeben."
-);
-
-return;
-
-}
-
-
-family.push({
-
-name:name,
-
-age:age
-
-});
-
-
-saveData();
-
-closeModal("personModal");
-
-renderHome();
-
+  saveAll();
+  renderHome();
 }
 
 
 function deletePerson(index) {
 
-if(
-confirm(
-"Familienmitglied wirklich löschen?"
-)
+  if (!confirm("Familienmitglied wirklich löschen?")) {
+    return;
+  }
+
+  family.splice(index, 1);
+
+  saveAll();
+  renderHome();
+}
+
+
+/* LISTEN */
+
+function renderLists() {
+
+  const container =
+    document.getElementById("lists");
+
+  container.innerHTML = "";
+
+  Object.keys(defaultLists).forEach(name => {
+
+    const button =
+      document.createElement("button");
+
+    button.className = "list-button";
+    button.textContent = name;
+
+    button.onclick = () => openList(name);
+
+    container.appendChild(button);
+  });
+}
+
+
+function renderCustomLists() {
+
+  const container =
+    document.getElementById("customLists");
+
+  container.innerHTML = "";
+
+  if (customLists.length === 0) {
+    return;
+  }
+
+  customLists.forEach(list => {
+
+    const button =
+      document.createElement("button");
+
+    button.className = "list-button";
+    button.textContent = "📌 " + list.name;
+
+    button.onclick = () => openList(list.name);
+
+    container.appendChild(button);
+  });
+}
+
+
+function createList() {
+
+  const input =
+    document.getElementById("newListName");
+
+  const name =
+    input.value.trim();
+
+  if (!name) {
+    alert("Bitte einen Namen eingeben.");
+    return;
+  }
+
+  customLists.push({
+    name: name,
+    items: []
+  });
+
+  input.value = "";
+
+  saveAll();
+  renderHome();
+}
+
+
+/* LISTE ÖFFNEN */
+
+function openList(name) {
+
+  currentList = name;
+
+  document.getElementById("home")
+    .classList.add("hidden");
+
+  document.getElementById("listScreen")
+    .classList.remove("hidden");
+
+  document.getElementById("listTitle")
+    .textContent = name;
+
+  renderPersonSelector();
+  renderChecklist();
+  renderSuggestions();
+}
+
+
+/* PERSONENAUSWAHL */
+
+function renderPersonSelector() {
+
+  const container =
+    document.getElementById("personSelector");
+
+  container.innerHTML = "";
+
+  if (family.length === 0) {
+
+    container.innerHTML =
+      '<div class="empty">Füge zuerst Familienmitglieder hinzu.</div>';
+
+    return;
+  }
+
+  family.forEach(person => {
+
+    const button =
+      document.createElement("div");
+
+    button.className = "chip";
+
+    const selected =
+      assignments[currentList]?.includes(person.id);
+
+    if (selected) {
+      button.classList.add("active");
+    }
+
+    button.textContent =
+      `${person.name} (${person.age})`;
+
+    button.onclick = () => {
+
+      togglePerson(person.id);
+
+    };
+
+    container.appendChild(button);
+  });
+}
+
+
+function togglePerson(personId) {
+
+  if (!assignments[currentList]) {
+    assignments[currentList] = [];
+  }
+
+  const list =
+    assignments[currentList];
+
+  const index =
+    list.indexOf(personId);
+
+  if (index === -1) {
+    list.push(personId);
+  } else {
+    list.splice(index, 1);
+  }
+
+  saveAll();
+
+  renderPersonSelector();
+  renderChecklist();
+  renderSuggestions();
+}
+
+
+/* CHECKLISTE */
+
+function getCurrentItems() {
+
+  if (defaultLists[currentList]) {
+
+    return [...defaultLists[currentList]];
+  }
+
+  const custom =
+    customLists.find(
+      list => list.name === currentList
+    );
+
+  return custom ? [...custom.items] : [];
+}
+
+
+function renderChecklist() {
+
+  const container =
+    document.getElementById("checklist");
+
+  container.innerHTML = "";
+
+  const baseItems =
+    getCurrentItems();
+
+  const selected =
+    assignments[currentList] || [];
+
+  let allItems = [];
+
+  baseItems.forEach(item => {
+
+    allItems.push({
+      item: item,
+      personId: null
+    });
+
+  });
+
+
+  selected.forEach(personId => {
+
+    const person =
+      family.find(p => p.id === personId);
+
+    if (!person) return;
+
+    const suggestions =
+      getAgeSuggestions(person);
+
+    suggestions.forEach(item => {
+
+      allItems.push({
+        item: item,
+        personId: person.id
+      });
+
+    });
+
+  });
+
+
+  if (allItems.length === 0) {
+
+    container.innerHTML =
+      '<div class="empty">Noch keine Punkte vorhanden.</div>';
+
+    return;
+  }
+
+
+  allItems.forEach((entry, index) => {
+
+    const key =
+      makeItemKey(
+        currentList,
+        entry.item,
+        entry.personId,
+        index
+      );
+
+    const wrapper =
+      document.createElement("label");
+
+    wrapper.className = "check-item";
+
+    const checkbox =
+      document.createElement("input");
+
+    checkbox.type = "checkbox";
+
+    checkbox.checked =
+      checkedItems[key] === true;
+
+    const text =
+      document.createElement("span");
+
+    let label =
+      entry.item;
+
+    if (entry.personId) {
+
+      const person =
+        family.find(
+          p => p.id === entry.personId
+        );
+
+      if (person) {
+
+        label =
+          `${entry.item} – ${person.name}`;
+
+      }
+
+    } else {
+
+      label =
+        `${entry.item} – für alle`;
+
+    }
+
+    text.textContent = label;
+
+    if (checkbox.checked) {
+      text.classList.add("checked");
+    }
+
+    checkbox.onchange = () => {
+
+      checkedItems[key] =
+        checkbox.checked;
+
+      saveAll();
+
+      if (checkbox.checked) {
+        text.classList.add("checked");
+      } else {
+        text.classList.remove("checked");
+      }
+
+    };
+
+    wrapper.appendChild(checkbox);
+    wrapper.appendChild(text);
+
+    container.appendChild(wrapper);
+
+  });
+
+}
+
+
+/* ALTERSEMPFEHLUNGEN */
+
+function getAgeSuggestions(person) {
+
+  const rules =
+    ageSuggestions[currentList];
+
+  if (!rules) {
+    return [];
+  }
+
+  const result = [];
+
+  rules.forEach(rule => {
+
+    if (
+      person.age >= rule.min &&
+      person.age <= rule.max
+    ) {
+
+      rule.items.forEach(item => {
+
+        if (!result.includes(item)) {
+          result.push(item);
+        }
+
+      });
+
+    }
+
+  });
+
+  return result;
+}
+
+
+function renderSuggestions() {
+
+  const container =
+    document.getElementById("suggestions");
+
+  container.innerHTML = "";
+
+  const selected =
+    assignments[currentList] || [];
+
+  if (selected.length === 0) {
+    return;
+  }
+
+  const title =
+    document.createElement("div");
+
+  title.className = "section-title";
+
+  title.textContent =
+    "💡 Altersabhängige Vorschläge";
+
+  container.appendChild(title);
+
+
+  selected.forEach(personId => {
+
+    const person =
+      family.find(p => p.id === personId);
+
+    if (!person) return;
+
+    const suggestions =
+      getAgeSuggestions(person);
+
+    if (suggestions.length === 0) {
+      return;
+    }
+
+    const div =
+      document.createElement("div");
+
+    div.className = "small";
+
+    div.style.marginBottom = "8px";
+
+    div.innerHTML =
+      `<strong>${escapeHTML(person.name)}</strong> (${person.age}): ${suggestions.map(escapeHTML).join(", ")}`;
+
+    container.appendChild(div);
+
+  });
+
+}
+
+
+/* EIGENE PUNKTE */
+
+function addCustomItem() {
+
+  const custom =
+    customLists.find(
+      list => list.name === currentList
+    );
+
+  if (!custom) {
+
+    alert(
+      "Eigene Punkte kannst du bei einer eigenen Liste hinzufügen."
+    );
+
+    return;
+  }
+
+  const item =
+    prompt("Was soll auf die Liste?");
+
+  if (!item || !item.trim()) {
+    return;
+  }
+
+  custom.items.push(item.trim());
+
+  saveAll();
+  renderChecklist();
+}
+
+
+/* RESET */
+
+function resetChecklist() {
+
+  if (!confirm(
+    "Alle erledigten Punkte dieser Liste zurücksetzen?"
+  )) {
+    return;
+  }
+
+  Object.keys(checkedItems).forEach(key => {
+
+    if (key.startsWith(currentList + "|")) {
+      delete checkedItems[key];
+    }
+
+  });
+
+  saveAll();
+
+  renderChecklist();
+}
+
+
+/* ZURÜCK */
+
+function goHome() {
+
+  currentList = null;
+
+  renderHome();
+}
+
+
+/* HILFSFUNKTIONEN */
+
+function makeItemKey(
+  list,
+  item,
+  personId,
+  index
 ) {
 
-family.splice(index,1);
-
-saveData();
-
-renderHome();
-
+  return (
+    list +
+    "|" +
+    item +
+    "|" +
+    (personId || "all") +
+    "|" +
+    index
+  );
 }
 
-}
-
-
-/* =========================
-   EIGENE LISTE
-========================= */
-
-function openListModal() {
-
-document.getElementById(
-"listModal"
-).style.display = "flex";
-
-document.getElementById(
-"listName"
-).value = "";
-
-}
-
-
-function saveList() {
-
-const name =
-document.getElementById(
-"listName"
-).value.trim();
-
-if(!name) {
-
-alert(
-"Bitte einen Namen eingeben."
-);
-
-return;
-
-}
-
-if(
-defaultLists[name] ||
-customLists[name]
-) {
-
-alert(
-"Diese Liste gibt es bereits."
-);
-
-return;
-
-}
-
-customLists[name] = {
-
-emoji:"📋",
-
-items:[]
-
-};
-
-saveData();
-
-closeModal("listModal");
-
-openList(name);
-
-}
-
-
-/* =========================
-   EIGENEN PUNKT
-========================= */
-
-function openItemModal() {
-
-document.getElementById(
-"itemModal"
-).style.display = "flex";
-
-document.getElementById(
-"itemName"
-).value = "";
-
-}
-
-
-function saveItem() {
-
-const item =
-document.getElementById(
-"itemName"
-).value.trim();
-
-if(!item) {
-
-alert(
-"Bitte einen Punkt eingeben."
-);
-
-return;
-
-}
-
-const list =
-customLists[currentList];
-
-if(!list) return;
-
-if(list.items.includes(item)) {
-
-alert(
-"Dieser Punkt ist bereits vorhanden."
-);
-
-return;
-
-}
-
-list.items.push(item);
-
-saveData();
-
-closeModal("itemModal");
-
-openList(currentList);
-
-}
-
-
-/* =========================
-   PUNKT LÖSCHEN
-========================= */
-
-function deleteItem(index) {
-
-if(!customLists[currentList])
-return;
-
-if(
-confirm(
-"Diesen Punkt wirklich löschen?"
-)
-) {
-
-customLists[currentList]
-.items.splice(index,1);
-
-saveData();
-
-openList(currentList);
-
-}
-
-}
-
-
-/* =========================
-   MODAL
-========================= */
-
-function closeModal(id) {
-
-document.getElementById(id)
-.style.display = "none";
-
-}
-
-
-/* =========================
-   HTML SICHERHEIT
-========================= */
 
 function escapeHTML(text) {
 
-return String(text)
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
-
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
 
-function escapeAttribute(text) {
-
-return String(text)
-.replace(/\\/g,"\\\\")
-.replace(/'/g,"\\'");
-
-}
-
-
-/* =========================
-   START
-========================= */
+/* START */
 
 renderHome();
 
