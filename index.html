@@ -3,42 +3,34 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>LOS! – Familien-Starthelfer</title>
-
 <style>
 *{box-sizing:border-box}
-
 body{
   margin:0;
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
   background:#f5f7fa;
   color:#222;
 }
-
 header{
   background:white;
   padding:24px 18px 18px;
   text-align:center;
   border-bottom:1px solid #ddd;
 }
-
 header h1{
   margin:0;
   font-size:34px;
 }
-
 header p{
   margin:6px 0 0;
   color:#666;
 }
-
 main{
   max-width:680px;
   margin:auto;
   padding:18px;
 }
-
 .card{
   background:white;
   border-radius:20px;
@@ -46,9 +38,7 @@ main{
   margin-bottom:16px;
   box-shadow:0 3px 12px rgba(0,0,0,.06);
 }
-
 h2{margin-top:0}
-
 button{
   border:none;
   border-radius:13px;
@@ -56,19 +46,15 @@ button{
   font-size:16px;
   cursor:pointer;
 }
-
 .primary{
   background:#111;
   color:white;
 }
-
 .secondary{background:#eee}
-
 .danger{
   background:#ffe5e5;
   color:#b00020;
 }
-
 .list-button{
   width:100%;
   margin:6px 0;
@@ -76,7 +62,6 @@ button{
   background:#f1f3f5;
   font-size:17px;
 }
-
 input,select{
   width:100%;
   padding:13px;
@@ -86,33 +71,27 @@ input,select{
   margin-bottom:10px;
   background:white;
 }
-
 .hero{
   text-align:center;
   padding:8px 0 18px;
 }
-
 .hero-title{
   font-size:24px;
   font-weight:700;
 }
-
 .hero-text{
   color:#666;
   margin-top:6px;
 }
-
 .small{
   color:#777;
   font-size:13px;
 }
-
 .empty{
   color:#777;
   text-align:center;
   padding:15px;
 }
-
 .person{
   display:flex;
   justify-content:space-between;
@@ -122,35 +101,29 @@ input,select{
   border-radius:12px;
   margin-bottom:8px;
 }
-
 .person-info{font-size:16px}
-
 .chips{
   display:flex;
   flex-wrap:wrap;
   gap:8px;
   margin:12px 0;
 }
-
 .chip{
   background:#eee;
   padding:10px 13px;
   border-radius:20px;
   cursor:pointer;
 }
-
 .chip.active{
   background:#111;
   color:white;
 }
-
 .section-title{
   margin-top:20px;
   margin-bottom:10px;
   font-size:18px;
   font-weight:600;
 }
-
 .check-item{
   display:flex;
   align-items:center;
@@ -160,18 +133,15 @@ input,select{
   border-radius:12px;
   margin-bottom:8px;
 }
-
 .check-item input{
   width:22px;
   height:22px;
   margin:0;
 }
-
 .checked{
   text-decoration:line-through;
   color:#888;
 }
-
 .progress{
   height:9px;
   background:#eee;
@@ -179,51 +149,42 @@ input,select{
   overflow:hidden;
   margin:12px 0 18px;
 }
-
 .progress-bar{
   height:100%;
   width:0%;
   background:#111;
   transition:width .2s;
 }
-
 .weather-grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
   gap:8px;
 }
-
 .weather-button{
   background:#eee;
 }
-
 .weather-button.active{
   background:#111;
   color:white;
 }
-
 .transport-grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:8px;
 }
-
 .transport-button{
   background:#eee;
 }
-
 .transport-button.active{
   background:#111;
   color:white;
 }
-
 .summary{
   background:#f1f3f5;
   border-radius:14px;
   padding:13px;
   margin-top:12px;
 }
-
 .notice{
   background:#fff8dc;
   border-radius:14px;
@@ -231,9 +192,7 @@ input,select{
   color:#665500;
   margin-bottom:12px;
 }
-
 .hidden{display:none}
-
 .activity-card{
   border:1px solid #e2e2e2;
   border-radius:17px;
@@ -241,7 +200,6 @@ input,select{
   margin-bottom:14px;
   background:white;
 }
-
 .activity-image{
   width:100%;
   height:190px;
@@ -249,69 +207,64 @@ input,select{
   display:block;
   background:#eee;
 }
-
 .activity-content{
   padding:15px;
 }
-
 .activity-name{
   font-size:19px;
   font-weight:700;
 }
-
 .activity-description{
   color:#666;
   margin-top:5px;
   line-height:1.4;
 }
-
 .activity-meta{
   display:flex;
   flex-wrap:wrap;
   gap:6px;
   margin:12px 0;
 }
-
 .badge{
   background:#f0f1f2;
   padding:6px 9px;
   border-radius:14px;
   font-size:13px;
 }
-
 .activity-button{
   width:100%;
   margin-top:5px;
 }
-
 .route-button{
   width:100%;
   background:#eee;
   margin-top:7px;
 }
-
 .loading{
   text-align:center;
   padding:25px 10px;
 }
-
 .spinner{
   font-size:30px;
   animation:spin 1.2s linear infinite;
   display:inline-block;
 }
-
 @keyframes spin{
   to{transform:rotate(360deg)}
 }
-
 .image-credit{
   font-size:11px;
   color:#777;
   margin-top:7px;
   line-height:1.4;
 }
-
+.google-credit{
+  font-size:11px;
+  color:#777;
+  margin-top:8px;
+  line-height:1.4;
+  text-align:center;
+}
 .osm{
   font-size:12px;
   color:#777;
@@ -321,541 +274,371 @@ input,select{
 }
 </style>
 </head>
-
 <body>
-
 <header>
   <h1>🚀 LOS!</h1>
   <p>Der Familien-Starthelfer</p>
 </header>
-
 <main>
-
 <div id="home">
-
   <div class="card">
-
-    <div class="hero">
-      <div class="hero-title">
-        🌤️ Was machen wir heute?
-      </div>
-
-      <div class="hero-text">
-        LOS! sucht echte Aktivitäten in eurer Umgebung.
-      </div>
-    </div>
-
-    <label>📍 Wo seid ihr?</label>
-
-    <input
-      id="locationInput"
-      value="Bad Kissingen"
-      placeholder="z.B. Bad Kissingen"
-    >
-
-    <div class="section-title">
-      🌤️ Wie ist das Wetter?
-    </div>
-
-    <div class="weather-grid">
-
-      <button
-        class="weather-button active"
-        data-weather="sun"
-        onclick="selectWeather('sun')">
-        ☀️ Sonnig
-      </button>
-
-      <button
-        class="weather-button"
-        data-weather="cloud"
-        onclick="selectWeather('cloud')">
-        ☁️ Bewölkt
-      </button>
-
-      <button
-        class="weather-button"
-        data-weather="rain"
-        onclick="selectWeather('rain')">
-        🌧️ Regen
-      </button>
-
-      <button
-        class="weather-button"
-        data-weather="cold"
-        onclick="selectWeather('cold')">
-        ❄️ Kalt
-      </button>
-
-    </div>
-
-    <div class="section-title">
-      🚗 Wie weit wollt ihr fahren?
-    </div>
-
-    <div class="transport-grid">
-
-      <button
-        class="transport-button"
-        data-time="15"
-        onclick="selectDriveTime(15)">
-        15 Min.
-      </button>
-
-      <button
-        class="transport-button active"
-        data-time="30"
-        onclick="selectDriveTime(30)">
-        30 Min.
-      </button>
-
-      <button
-        class="transport-button"
-        data-time="60"
-        onclick="selectDriveTime(60)">
-        60 Min.
-      </button>
-
-    </div>
-
-    <div class="summary">
-      👨‍👩‍👧‍👦
-      <strong id="familySummary">
-        Noch keine Familie angelegt
-      </strong>
-    </div>
-
-    <br>
-
-    <button
-      class="primary"
-      style="width:100%;"
-      onclick="searchRealActivities()">
-      🔎 Echte Aktivitäten suchen
-    </button>
-
+<div class="hero">
+  <div class="hero-title">
+    🌤️ Was machen wir heute?
   </div>
-
+  <div class="hero-text">
+    LOS! sucht echte Aktivitäten in eurer Umgebung.
+  </div>
+</div>
+<label>📍 Wo seid ihr?</label>
+<input
+  id="locationInput"
+  value="Bad Kissingen"
+  placeholder="z.B. Bad Kissingen"
+>
+<div class="section-title">
+  🌤️ Wie ist das Wetter?
+</div>
+<div class="weather-grid">
+  <button
+    class="weather-button active"
+    data-weather="sun"
+    onclick="selectWeather('sun')">
+    ☀️ Sonnig
+  </button>
+  <button
+    class="weather-button"
+    data-weather="cloud"
+    onclick="selectWeather('cloud')">
+    ☁️ Bewölkt
+  </button>
+  <button
+    class="weather-button"
+    data-weather="rain"
+    onclick="selectWeather('rain')">
+    🌧️ Regen
+  </button>
+  <button
+    class="weather-button"
+    data-weather="cold"
+    onclick="selectWeather('cold')">
+    ❄️ Kalt
+  </button>
+</div>
+<div class="section-title">
+  🚗 Wie weit wollt ihr fahren?
+</div>
+<div class="transport-grid">
+  <button
+    class="transport-button"
+    data-time="15"
+    onclick="selectDriveTime(15)">
+    15 Min.
+  </button>
+  <button
+    class="transport-button active"
+    data-time="30"
+    onclick="selectDriveTime(30)">
+    30 Min.
+  </button>
+  <button
+    class="transport-button"
+    data-time="60"
+    onclick="selectDriveTime(60)">
+    60 Min.
+  </button>
+</div>
+<div class="summary">
+  👨‍👩‍👧‍👦
+  <strong id="familySummary">
+    Noch keine Familie angelegt
+  </strong>
+</div>
+<br>
+<button
+  class="primary"
+  style="width:100%;"
+  onclick="searchRealActivities()">
+  🔎 Echte Aktivitäten suchen
+</button>
+  </div>
   <div
     id="resultsCard"
     class="card hidden">
-
-    <h2>⭐ Aktivitäten in der Nähe</h2>
-
-    <div id="results"></div>
-
-    <div class="osm">
-      Kartendaten © OpenStreetMap-Mitwirkende
-    </div>
-
-  </div>
-
-  <div class="card">
-
-    <h2>👨‍👩‍👧‍👦 Meine Familie</h2>
-
-    <div id="familyList"></div>
-
-    <input
-      id="personName"
-      placeholder="Name">
-
-    <input
-      id="personAge"
-      type="number"
-      min="0"
-      max="100"
-      placeholder="Alter">
-
-    <button
-      class="primary"
-      onclick="addPerson()">
-      ＋ Familienmitglied hinzufügen
-    </button>
-
-  </div>
-
-  <div class="card">
-
-    <h2>📋 Eigene Listen</h2>
-
-    <input
-      id="newListName"
-      placeholder="z.B. Zoo, Urlaub, Oma">
-
-    <button
-      class="primary"
-      onclick="createList()">
-      ＋ Eigene Liste erstellen
-    </button>
-
-    <div id="customLists"></div>
-
-  </div>
-
+<h2>⭐ Aktivitäten in der Nähe</h2>
+<div id="results"></div>
+<div class="google-credit">
+  Orte und Kartendaten bereitgestellt von Google
 </div>
-
-
+  </div>
+  <div class="card">
+<h2>👨‍👩‍👧‍👦 Meine Familie</h2>
+<div id="familyList"></div>
+<input
+  id="personName"
+  placeholder="Name">
+<input
+  id="personAge"
+  type="number"
+  min="0"
+  max="100"
+  placeholder="Alter">
+<button
+  class="primary"
+  onclick="addPerson()">
+  ＋ Familienmitglied hinzufügen
+</button>
+  </div>
+  <div class="card">
+<h2>📋 Eigene Listen</h2>
+<input
+  id="newListName"
+  placeholder="z.B. Zoo, Urlaub, Oma">
+<button
+  class="primary"
+  onclick="createList()">
+  ＋ Eigene Liste erstellen
+</button>
+<div id="customLists"></div>
+  </div>
+</div>
 <div id="peopleScreen" class="hidden">
 
-  <button
-    class="secondary"
-    onclick="goHome()">
-    ← Zurück
-  </button>
-
+← Zurück
   <div class="card">
-
-    <div class="hero">
-
-      <div
-        class="hero-title"
-        id="selectedActivityTitle">
-      </div>
-
-      <div class="hero-text">
-        Wer kommt mit?
-      </div>
-
-    </div>
-
-    <div
-      id="peopleSelector"
-      class="chips">
-    </div>
-
-    <button
-      class="primary"
-      style="width:100%;"
-      onclick="createFamilyChecklist()">
-      🚀 Meine Liste erstellen
-    </button>
-
+<div class="hero">
+  <div
+    class="hero-title"
+    id="selectedActivityTitle">
   </div>
-
+  <div class="hero-text">
+    Wer kommt mit?
+  </div>
 </div>
-
-
+<div
+  id="peopleSelector"
+  class="chips">
+</div>
+<button
+  class="primary"
+  style="width:100%;"
+  onclick="createFamilyChecklist()">
+  🚀 Meine Liste erstellen
+</button>
+  </div>
+</div>
 <div id="listScreen" class="hidden">
 
-  <button
-    class="secondary"
-    onclick="backToPeople()">
-    ← Zurück
-  </button>
-
+← Zurück
   <div class="card">
-
-    <div class="hero">
-
-      <div
-        class="hero-title"
-        id="listTitle">
-      </div>
-
-      <div
-        class="hero-text"
-        id="listSubtitle">
-      </div>
-
-    </div>
-
-    <div class="progress">
-      <div
-        id="progressBar"
-        class="progress-bar">
-      </div>
-    </div>
-
-    <div id="checklist"></div>
-
-    <br>
-
-    <button
-      class="secondary"
-      onclick="addCustomItem()">
-      ＋ Punkt hinzufügen
-    </button>
-
-    <br><br>
-
-    <button
-      class="danger"
-      onclick="resetChecklist()">
-      ↻ Erledigte Punkte zurücksetzen
-    </button>
-
+<div class="hero">
+  <div
+    class="hero-title"
+    id="listTitle">
   </div>
-
+  <div
+    class="hero-text"
+    id="listSubtitle">
+  </div>
 </div>
-
-
+<div class="progress">
+  <div
+    id="progressBar"
+    class="progress-bar">
+  </div>
+</div>
+<div id="checklist"></div>
+<br>
+<button
+  class="secondary"
+  onclick="addCustomItem()">
+  ＋ Punkt hinzufügen
+</button>
+<br><br>
+<button
+  class="danger"
+  onclick="resetChecklist()">
+  ↻ Erledigte Punkte zurücksetzen
+</button>
+  </div>
+</div>
 <script>
-
 let family =
   JSON.parse(
     localStorage.getItem("los_family") || "[]"
   );
-
 let customLists =
   JSON.parse(
     localStorage.getItem("los_custom_lists") || "[]"
   );
-
 let checkedItems =
   JSON.parse(
     localStorage.getItem("los_checked_items") || "{}"
   );
-
 let currentActivity = null;
 let selectedPeople = [];
 let currentItems = [];
-
 let selectedWeather =
   localStorage.getItem("los_weather") || "sun";
-
 let selectedDriveTime =
   parseInt(
     localStorage.getItem("los_drive_time") || "30"
   );
-
-const BAD_KISSINGEN = {
-  lat:50.2020,
-  lon:10.0770
-};
-
-
 /* =========================================
    SPEICHERN
 ========================================= */
-
 function saveAll(){
-
   localStorage.setItem(
     "los_family",
     JSON.stringify(family)
   );
-
   localStorage.setItem(
     "los_custom_lists",
     JSON.stringify(customLists)
   );
-
   localStorage.setItem(
     "los_checked_items",
     JSON.stringify(checkedItems)
   );
-
   localStorage.setItem(
     "los_weather",
     selectedWeather
   );
-
   localStorage.setItem(
     "los_drive_time",
     selectedDriveTime
   );
 }
-
-
 /* =========================================
    NAVIGATION
 ========================================= */
-
 function hideAll(){
-
   document
     .getElementById("home")
     .classList.add("hidden");
-
   document
     .getElementById("peopleScreen")
     .classList.add("hidden");
-
   document
     .getElementById("listScreen")
     .classList.add("hidden");
 }
-
-
 function renderHome(){
-
   hideAll();
-
   document
     .getElementById("home")
     .classList.remove("hidden");
-
   renderFamily();
   renderCustomLists();
   updateFamilySummary();
   updateWeatherButtons();
   updateDriveButtons();
 }
-
-
 /* =========================================
    WETTER
 ========================================= */
-
 function selectWeather(weather){
-
   selectedWeather = weather;
-
   saveAll();
-
   updateWeatherButtons();
 }
-
-
 function updateWeatherButtons(){
-
   document
     .querySelectorAll(".weather-button")
     .forEach(button => {
-
       button.classList.toggle(
         "active",
         button.dataset.weather ===
         selectedWeather
       );
-
     });
 }
-
-
 /* =========================================
    FAHRZEIT
 ========================================= */
-
 function selectDriveTime(time){
-
   selectedDriveTime = time;
-
   saveAll();
-
   updateDriveButtons();
 }
-
-
 function updateDriveButtons(){
-
   document
     .querySelectorAll(".transport-button")
     .forEach(button => {
-
       button.classList.toggle(
         "active",
         parseInt(button.dataset.time) ===
         selectedDriveTime
       );
-
     });
 }
-
-
 /* =========================================
    FAMILIE
 ========================================= */
-
 function renderFamily(){
-
   const container =
     document.getElementById("familyList");
-
   container.innerHTML = "";
-
   if(!family.length){
-
     container.innerHTML =
       '<div class="empty">Noch keine Familienmitglieder</div>';
-
     return;
   }
-
   family.forEach((person,index)=>{
-
     const div =
       document.createElement("div");
-
     div.className = "person";
-
     div.innerHTML = `
-
       <div class="person-info">
-
         👤 <strong>
           ${escapeHTML(person.name)}
         </strong>
-
         <div class="small">
           ${person.age} Jahre
         </div>
-
       </div>
-
       <button
         class="danger"
         onclick="deletePerson(${index})">
         ✕
       </button>
-
     `;
-
     container.appendChild(div);
-
   });
 }
-
-
 function addPerson(){
-
   const name =
     document
       .getElementById("personName")
       .value
       .trim();
-
   const age =
     parseInt(
       document
         .getElementById("personAge")
         .value
     );
-
   if(!name || isNaN(age)){
-
     alert(
       "Bitte Name und Alter eingeben."
     );
-
     return;
   }
-
   family.push({
-
     id:Date.now(),
     name:name,
     age:age
-
   });
-
   document
     .getElementById("personName")
     .value = "";
-
   document
     .getElementById("personAge")
     .value = "";
-
   saveAll();
-
   renderHome();
 }
-
-
 function deletePerson(index){
-
   if(
     !confirm(
       "Familienmitglied wirklich löschen?"
@@ -863,30 +646,20 @@ function deletePerson(index){
   ){
     return;
   }
-
   family.splice(index,1);
-
   saveAll();
-
   renderHome();
 }
-
-
 function updateFamilySummary(){
-
   const element =
     document.getElementById(
       "familySummary"
     );
-
   if(!family.length){
-
     element.textContent =
       "Noch keine Familie angelegt";
-
     return;
   }
-
   element.textContent =
     family
       .map(
@@ -895,317 +668,193 @@ function updateFamilySummary(){
       )
       .join(", ");
 }
-
-
 /* =========================================
-   ECHTE AKTIVITÄTEN
+   GOOGLE PLACES
 ========================================= */
-
 async function searchRealActivities(){
-
   const location =
     document
       .getElementById("locationInput")
       .value
       .trim();
-
   if(
     location.toLowerCase() !==
     "bad kissingen"
   ){
-
     alert(
-      "Version 3.2 unterstützt zunächst Bad Kissingen als Pilotgebiet."
+      "Version 1 der Google-Integration unterstützt zunächst Bad Kissingen als Pilotgebiet."
     );
-
     return;
   }
-
   const resultsCard =
     document.getElementById(
       "resultsCard"
     );
-
   const results =
     document.getElementById(
       "results"
     );
-
   resultsCard.classList.remove(
     "hidden"
   );
-
   results.innerHTML = `
-
     <div class="loading">
-
       <div class="spinner">
         🔄
       </div>
-
       <p>
-        LOS! sucht echte Aktivitäten
-        und passende Bilder...
+        LOS! sucht echte Orte über Google...
       </p>
-
     </div>
-
   `;
-
-  let radius = 25000;
-
-  if(selectedDriveTime === 15){
-    radius = 12000;
-  }
-
-  if(selectedDriveTime === 30){
-    radius = 25000;
-  }
-
-  if(selectedDriveTime === 60){
-    radius = 50000;
-  }
-
-  const query = `
-
-    [out:json][timeout:25];
-
-    (
-
-      nwr[
-        leisure=playground
-      ](
-        around:${radius},
-        ${BAD_KISSINGEN.lat},
-        ${BAD_KISSINGEN.lon}
-      );
-
-      nwr[
-        leisure=swimming_pool
-      ](
-        around:${radius},
-        ${BAD_KISSINGEN.lat},
-        ${BAD_KISSINGEN.lon}
-      );
-
-      nwr[
-        leisure=sports_centre
-      ](
-        around:${radius},
-        ${BAD_KISSINGEN.lat},
-        ${BAD_KISSINGEN.lon}
-      );
-
-      nwr[
-        tourism=museum
-      ](
-        around:${radius},
-        ${BAD_KISSINGEN.lat},
-        ${BAD_KISSINGEN.lon}
-      );
-
-      nwr[
-        tourism=zoo
-      ](
-        around:${radius},
-        ${BAD_KISSINGEN.lat},
-        ${BAD_KISSINGEN.lon}
-      );
-
-      nwr[
-        tourism=theme_park
-      ](
-        around:${radius},
-        ${BAD_KISSINGEN.lat},
-        ${BAD_KISSINGEN.lon}
-      );
-
-      nwr[
-        leisure=park
-      ](
-        around:${radius},
-        ${BAD_KISSINGEN.lat},
-        ${BAD_KISSINGEN.lon}
-      );
-
-      nwr[
-        tourism=attraction
-      ](
-        around:${radius},
-        ${BAD_KISSINGEN.lat},
-        ${BAD_KISSINGEN.lon}
-      );
-
-    );
-
-    out center tags;
-
-  `;
-
   try{
-
-    const response =
-      await fetch(
-        "https://overpass-api.de/api/interpreter",
-        {
-          method:"POST",
-
-          headers:{
-            "Content-Type":
-              "application/x-www-form-urlencoded"
-          },
-
-          body:
-            "data=" +
-            encodeURIComponent(query)
-        }
+    /*
+       Wir suchen mehrere Kategorien.
+       Google entscheidet anhand der
+       echten Places-Daten, welche Orte
+       zur Suchanfrage passen.
+    */
+    const queries = [
+      "Spielplätze in Bad Kissingen",
+      "Schwimmbäder in Bad Kissingen",
+      "Museen in Bad Kissingen",
+      "Tierparks in Bad Kissingen",
+      "Freizeitparks in Bad Kissingen",
+      "Parks in Bad Kissingen",
+      "Freizeitaktivitäten in Bad Kissingen"
+    ];
+    const responses =
+      await Promise.all(
+        queries.map(
+          query =>
+            fetch(
+              "/api/test?query=" +
+              encodeURIComponent(query)
+            )
+              .then(response=>{
+                if(!response.ok){
+                  throw new Error(
+                    "Google API HTTP " +
+                    response.status
+                  );
+                }
+                return response.json();
+              })
+        )
       );
-
-    if(!response.ok){
-
-      throw new Error(
-        "Overpass HTTP " +
-        response.status
-      );
-    }
-
-    const data =
-      await response.json();
-
+    const allPlaces = [];
+    responses.forEach(data=>{
+      if(
+        data &&
+        Array.isArray(data.places)
+      ){
+        data.places.forEach(place=>{
+          allPlaces.push(place);
+        });
+      }
+    });
     const places =
-      processOSMResults(
-        data.elements || []
+      processGoogleResults(
+        allPlaces
       );
-
-    await attachImagesToPlaces(
-      places
-    );
-
     renderRealActivities(
       places
     );
-
   }catch(error){
-
     console.error(error);
-
     results.innerHTML = `
-
       <div class="notice">
-
-        ❌ Die Suche konnte gerade
+        ❌ Die Google-Suche konnte gerade
         nicht durchgeführt werden.
-
         <br><br>
-
-        Bitte versuche es in einigen
-        Sekunden erneut.
-
+        Fehler:
+        ${escapeHTML(error.message)}
       </div>
-
     `;
   }
 }
-
-
 /* =========================================
-   OSM VERARBEITEN
+   GOOGLE ERGEBNISSE VERARBEITEN
 ========================================= */
-
-function processOSMResults(elements){
-
+function processGoogleResults(
+  places
+){
   const result = [];
   const seen = new Set();
-
-  elements.forEach(element=>{
-
-    const tags =
-      element.tags || {};
-
+  places.forEach(place=>{
+    if(!place){
+      return;
+    }
     const name =
-      tags.name;
-
+      place.displayName &&
+      place.displayName.text
+        ? place.displayName.text
+        : null;
     if(!name){
       return;
     }
-
-    const key =
-      `${name}|${element.type}|${element.id}`;
-
-    if(seen.has(key)){
+    const id =
+      place.id ||
+      name;
+    if(seen.has(id)){
       return;
     }
-
-    seen.add(key);
-
-    let lat =
-      element.lat;
-
-    let lon =
-      element.lon;
-
-    if(element.center){
-
-      lat =
-        element.center.lat;
-
-      lon =
-        element.center.lon;
-    }
-
+    seen.add(id);
+    const location =
+      place.location || {};
+    const lat =
+      Number(location.latitude);
+    const lon =
+      Number(location.longitude);
     if(
-      typeof lat !== "number" ||
-      typeof lon !== "number"
+      !Number.isFinite(lat) ||
+      !Number.isFinite(lon)
     ){
       return;
     }
-
     const distance =
       calculateDistance(
-        BAD_KISSINGEN.lat,
-        BAD_KISSINGEN.lon,
+        50.2020,
+        10.0770,
         lat,
         lon
       );
-
     const category =
-      getOSMCategory(tags);
-
+      guessGoogleCategory(
+        name
+      );
     const indoor =
-      isIndoor(tags,category);
-
+      guessIndoorCategory(
+        category
+      );
     const ageMatch =
       getAgeMatch(category);
-
     const weatherMatch =
       weatherSuitable(indoor);
-
     let score = 0;
-
     if(weatherMatch){
       score += 4;
     }
-
     if(ageMatch){
       score += 3;
     }
-
     if(
       distance <=
       getDistanceLimit()
     ){
       score += 2;
     }
-
     if(
-      category === "Spielplatz" &&
-      family.some(p=>p.age >= 2)
+      place.rating
     ){
-      score += 2;
+      score +=
+        Math.min(
+          Number(place.rating),
+          5
+        );
     }
-
     result.push({
-
+      id:id,
       name:name,
       lat:lat,
       lon:lon,
@@ -1215,218 +864,146 @@ function processOSMResults(elements){
       weatherMatch:weatherMatch,
       ageMatch:ageMatch,
       score:score,
-
+      address:
+        place.formattedAddress ||
+        null,
+      rating:
+        place.rating ||
+        null,
+      mapsUri:
+        place.googleMapsUri ||
+        null,
       website:
-        tags.website ||
-        tags["contact:website"] ||
+        place.websiteUri ||
         null,
-
-      phone:
-        tags.phone ||
-        tags["contact:phone"] ||
-        null,
-
-      opening:
-        tags.opening_hours ||
-        null,
-
-      fee:
-        tags.fee ||
-        null,
-
-      description:
-        tags.description ||
-        null,
-
-      osmImage:
-        tags.image ||
-        null,
-
-      wikimedia:
-        tags.wikimedia_commons ||
-        null,
-
-      wikipedia:
-        tags.wikipedia ||
-        null,
-
-      wikidata:
-        tags.wikidata ||
-        null,
-
       image:null,
       imageCredit:null
-
     });
-
   });
-
   result.sort(
     (a,b)=>
       b.score-a.score ||
       a.distance-b.distance
   );
-
   return result;
 }
-
-
 /* =========================================
-   KATEGORIE
+   GOOGLE KATEGORIE
 ========================================= */
-
-function getOSMCategory(tags){
-
-  if(tags.leisure==="playground"){
+function guessGoogleCategory(name){
+  const value =
+    name.toLowerCase();
+  if(
+    value.includes("spielplatz")
+  ){
     return "Spielplatz";
   }
-
-  if(tags.leisure==="swimming_pool"){
+  if(
+    value.includes("schwimm") ||
+    value.includes("bad") ||
+    value.includes("freibad") ||
+    value.includes("hallenbad")
+  ){
     return "Schwimmbad";
   }
-
-  if(tags.tourism==="museum"){
+  if(
+    value.includes("museum")
+  ){
     return "Museum";
   }
-
-  if(tags.tourism==="zoo"){
+  if(
+    value.includes("zoo") ||
+    value.includes("tierpark") ||
+    value.includes("wildpark")
+  ){
     return "Tierpark / Zoo";
   }
-
-  if(tags.tourism==="theme_park"){
-    return "Freizeitpark";
+  if(
+    value.includes("freizeitpark") ||
+    value.includes("park")
+  ){
+    return "Freizeitpark / Park";
   }
-
-  if(tags.leisure==="park"){
-    return "Park";
-  }
-
-  if(tags.tourism==="attraction"){
-    return "Sehenswürdigkeit";
-  }
-
-  if(tags.leisure==="sports_centre"){
-    return "Sport & Freizeit";
-  }
-
   return "Freizeit";
 }
-
-
 /* =========================================
    INDOOR
 ========================================= */
-
-function isIndoor(tags,category){
-
-  if(tags.indoor==="yes"){
-    return true;
-  }
-
-  if(
+function guessIndoorCategory(
+  category
+){
+  return(
     category==="Museum" ||
     category==="Schwimmbad"
-  ){
-    return true;
-  }
-
-  return false;
+  );
 }
-
-
 /* =========================================
    WETTER
 ========================================= */
-
 function weatherSuitable(indoor){
-
   if(
     selectedWeather==="rain" ||
     selectedWeather==="cold"
   ){
     return indoor;
   }
-
   return true;
 }
-
-
 /* =========================================
    ALTER
 ========================================= */
-
 function getAgeMatch(category){
-
   if(!family.length){
     return true;
   }
-
   if(category==="Spielplatz"){
-
     return family.some(
       p =>
         p.age>=1 &&
         p.age<=12
     );
   }
-
   if(category==="Tierpark / Zoo"){
-
     return family.some(
       p =>
         p.age<=14
     );
   }
-
   if(category==="Museum"){
-
     return family.some(
       p =>
         p.age>=3
     );
   }
-
   return true;
 }
-
-
 /* =========================================
    DISTANZ
 ========================================= */
-
 function getDistanceLimit(){
-
   if(selectedDriveTime===15){
     return 12;
   }
-
   if(selectedDriveTime===30){
     return 25;
   }
-
   return 50;
 }
-
-
 function calculateDistance(
   lat1,
   lon1,
   lat2,
   lon2
 ){
-
   const R=6371;
-
   const dLat=
     degreesToRadians(
       lat2-lat1
     );
-
   const dLon=
     degreesToRadians(
       lon2-lon1
     );
-
   const a=
     Math.sin(dLat/2)**2+
     Math.cos(
@@ -1436,492 +1013,68 @@ function calculateDistance(
       degreesToRadians(lat2)
     )*
     Math.sin(dLon/2)**2;
-
   const c=
     2*
     Math.atan2(
       Math.sqrt(a),
       Math.sqrt(1-a)
     );
-
   return R*c;
 }
-
-
 function degreesToRadians(degrees){
-
   return degrees*Math.PI/180;
 }
-
-
 /* =========================================
-   BILDER
+   ERGEBNISSE RENDERN
 ========================================= */
-
-async function attachImagesToPlaces(
-  places
-){
-
-  /*
-     Nur die ersten 12 Ergebnisse
-     brauchen zunächst Bilder.
-  */
-
-  const targets =
-    places.slice(0,12);
-
-  await Promise.all(
-    targets.map(
-      place =>
-        findPlaceImage(place)
-    )
-  );
-}
-
-
-async function findPlaceImage(place){
-
-  /*
-     1. Direktes OSM-Bild
-  */
-
-  if(place.osmImage){
-
-    place.image =
-      normalizeImageURL(
-        place.osmImage
-      );
-
-    if(place.image){
-      place.imageCredit =
-        "Bild über OpenStreetMap verknüpft";
-
-      return;
-    }
-  }
-
-
-  /*
-     2. Wikimedia-Commons-Verknüpfung
-  */
-
-  if(place.wikimedia){
-
-    const commonsImage =
-      await getCommonsImage(
-        place.wikimedia
-      );
-
-    if(commonsImage){
-
-      place.image =
-        commonsImage.url;
-
-      place.imageCredit =
-        commonsImage.credit;
-
-      return;
-    }
-  }
-
-
-  /*
-     3. Wikidata/Wikipedia bzw.
-        geographische Suche
-  */
-
-  const nearbyImage =
-    await findNearbyWikimediaImage(
-      place
-    );
-
-  if(nearbyImage){
-
-    place.image =
-      nearbyImage.url;
-
-    place.imageCredit =
-      nearbyImage.credit;
-
-    return;
-  }
-
-
-  /*
-     4. Kein Bild gefunden
-  */
-
-  place.image = null;
-}
-
-
-/* =========================================
-   OSM IMAGE URL
-========================================= */
-
-function normalizeImageURL(
-  value
-){
-
-  if(!value){
-    return null;
-  }
-
-  if(
-    value.startsWith(
-      "http://"
-    ) ||
-    value.startsWith(
-      "https://"
-    )
-  ){
-
-    return value;
-  }
-
-  return null;
-}
-
-
-/* =========================================
-   COMMONS DATEI
-========================================= */
-
-async function getCommonsImage(
-  value
-){
-
-  try{
-
-    const title =
-      value
-        .replace(
-          /^File:/i,
-          ""
-        )
-        .trim();
-
-    if(!title){
-      return null;
-    }
-
-    const params =
-      new URLSearchParams({
-
-        action:"query",
-
-        format:"json",
-
-        prop:"imageinfo",
-
-        iiprop:"url|extmetadata",
-
-        iiurlwidth:"900",
-
-        titles:
-          "File:"+title
-
-      });
-
-    const url =
-      "https://commons.wikimedia.org/w/api.php?" +
-      params.toString() +
-      "&origin=*";
-
-    const response =
-      await fetch(url);
-
-    if(!response.ok){
-      return null;
-    }
-
-    const data =
-      await response.json();
-
-    const pages =
-      data.query &&
-      data.query.pages;
-
-    if(!pages){
-      return null;
-    }
-
-    const page =
-      Object.values(pages)[0];
-
-    if(
-      !page ||
-      !page.imageinfo ||
-      !page.imageinfo[0]
-    ){
-      return null;
-    }
-
-    const info =
-      page.imageinfo[0];
-
-    const metadata =
-      info.extmetadata || {};
-
-    let author =
-      metadata.Artist &&
-      metadata.Artist.value
-        ? stripHTML(
-            metadata.Artist.value
-          )
-        : "";
-
-    return {
-
-      url:
-        info.thumburl ||
-        info.url,
-
-      credit:
-        "Wikimedia Commons" +
-        (
-          author
-            ? " · " + author
-            : ""
-        )
-
-    };
-
-  }catch(error){
-
-    console.log(
-      "Commons image error",
-      error
-    );
-
-    return null;
-  }
-}
-
-
-/* =========================================
-   WIKIMEDIA IN DER NÄHE
-========================================= */
-
-async function findNearbyWikimediaImage(
-  place
-){
-
-  try{
-
-    const params =
-      new URLSearchParams({
-
-        action:"query",
-
-        generator:"geosearch",
-
-        ggscoord:
-          `${place.lat}|${place.lon}`,
-
-        ggsradius:"1000",
-
-        ggslimit:"5",
-
-        ggsnamespace:"0",
-
-        prop:
-          "coordinates|pageimages",
-
-        piprop:"thumbnail",
-
-        pithumbsize:"900",
-
-        format:"json"
-
-      });
-
-    const url =
-      "https://de.wikipedia.org/w/api.php?" +
-      params.toString() +
-      "&origin=*";
-
-    const response =
-      await fetch(url);
-
-    if(!response.ok){
-      return null;
-    }
-
-    const data =
-      await response.json();
-
-    if(
-      !data.query ||
-      !data.query.pages
-    ){
-      return null;
-    }
-
-    const pages =
-      Object.values(
-        data.query.pages
-      );
-
-    /*
-       Bevorzugt wird ein Artikel,
-       dessen Name ähnlich wie
-       der echte Ortsname ist.
-    */
-
-    pages.sort(
-      (a,b)=>{
-
-        const name =
-          place.name.toLowerCase();
-
-        const aTitle =
-          (a.title || "").toLowerCase();
-
-        const bTitle =
-          (b.title || "").toLowerCase();
-
-        const aMatch =
-          aTitle.includes(name) ||
-          name.includes(aTitle);
-
-        const bMatch =
-          bTitle.includes(name) ||
-          name.includes(bTitle);
-
-        return (
-          Number(bMatch) -
-          Number(aMatch)
-        );
-
-      }
-    );
-
-    for(
-      const page of pages
-    ){
-
-      if(
-        page.thumbnail &&
-        page.thumbnail.source
-      ){
-
-        return {
-
-          url:
-            page.thumbnail.source,
-
-          credit:
-            "Wikimedia / Wikipedia: " +
-            page.title
-
-        };
-
-      }
-
-    }
-
-    return null;
-
-  }catch(error){
-
-    console.log(
-      "Wikipedia image error",
-      error
-    );
-
-    return null;
-  }
-}
-
-
-/* =========================================
-   ERGEBNISSE
-========================================= */
-
 function renderRealActivities(
   places
 ){
-
   const container =
     document.getElementById(
       "results"
     );
-
   container.innerHTML = "";
-
   if(!places.length){
-
     container.innerHTML = `
-
       <div class="notice">
-
         😕 Keine passenden Orte gefunden.
-
         <br><br>
-
         Versuche eine größere Entfernung
         oder ein anderes Wetter.
-
       </div>
-
     `;
-
     return;
   }
-
-
   places
-    .slice(0,20)
+    .slice(0,5)
     .forEach(place=>{
-
       const card =
         document.createElement(
           "div"
         );
-
       card.className =
         "activity-card";
-
-
       const type =
         place.indoor
           ? "🏠 Indoor"
           : "🌳 Outdoor";
-
-
       const age =
         place.ageMatch
           ? "👶 Familiengeeignet"
           : "ℹ️ Altersangabe prüfen";
-
-
       let extra = "";
-
-
-      if(place.opening){
-
+      if(place.rating){
         extra +=
-          `<span class="badge">🕐 ${escapeHTML(place.opening)}</span>`;
-
+          `<span class="badge">⭐ ${Number(place.rating).toFixed(1)}</span>`;
       }
-
-
-      if(place.fee){
-
+      if(place.address){
         extra +=
-          `<span class="badge">💰 ${escapeHTML(place.fee)}</span>`;
-
+          `<span class="badge">📍 ${escapeHTML(place.address)}</span>`;
       }
-
-
       let imageHTML = "";
-
-
       if(place.image){
-
         imageHTML = `
-
           <img
             class="activity-image"
             src="${escapeHTML(place.image)}"
@@ -1929,132 +1082,119 @@ function renderRealActivities(
             loading="lazy"
             onerror="this.style.display='none'"
           >
-
         `;
-
       }
-
-
-      const creditHTML =
-        place.imageCredit
-          ? `
-
-            <div class="image-credit">
-              📷 ${escapeHTML(
-                place.imageCredit
-              )}
-            </div>
-
-          `
-          : "";
-
-
       card.innerHTML = `
-
         ${imageHTML}
-
         <div class="activity-content">
-
           <div class="activity-name">
-
             ${escapeHTML(
               place.name
             )}
-
           </div>
-
           <div class="activity-description">
-
             ${escapeHTML(
               place.category
             )}
-
           </div>
-
           <div class="activity-meta">
-
             <span class="badge">
               📍 ca.
               ${place.distance.toFixed(1)}
               km
             </span>
-
             <span class="badge">
               ${type}
             </span>
-
             <span class="badge">
               ${age}
             </span>
-
             ${extra}
-
           </div>
-
-          ${creditHTML}
-
           <button
             class="primary activity-button"
             onclick='useRealActivity(${JSON.stringify(
               place.name
             )})'>
-
             🚀 Diese Aktivität nehmen
-
           </button>
-
           <button
             class="route-button"
-            onclick="openRoute(
-              ${place.lat},
-              ${place.lon}
-            )">
-
+            onclick='openGooglePlace(${JSON.stringify(
+              place.mapsUri || ""
+            )}, ${place.lat}, ${place.lon})'>
             🗺️ Route öffnen
-
           </button>
-
           ${
             place.website
               ? `
-
                 <button
                   class="route-button"
                   onclick='openWebsite(${JSON.stringify(
                     place.website
                   )})'>
-
                   🌐 Website
-
                 </button>
-
               `
               : ""
           }
-
         </div>
-
       `;
-
       container.appendChild(card);
-
     });
 }
-
-
+/* =========================================
+   GOOGLE MAPS
+========================================= */
+function openGooglePlace(
+  mapsUri,
+  lat,
+  lon
+){
+  if(mapsUri){
+    window.open(
+      mapsUri,
+      "_blank"
+    );
+    return;
+  }
+  openRoute(
+    lat,
+    lon
+  );
+}
+function openRoute(lat,lon){
+  const url =
+    "https://www.google.com/maps/dir/?api=1&destination=" +
+    encodeURIComponent(
+      lat + "," + lon
+    );
+  window.open(
+    url,
+    "_blank"
+  );
+}
+function openWebsite(url){
+  let target = url;
+  if(
+    !/^https?:\/\//i.test(target)
+  ){
+    target =
+      "https://" + target;
+  }
+  window.open(
+    target,
+    "_blank"
+  );
+}
 /* =========================================
    AKTIVITÄT AUSWÄHLEN
 ========================================= */
-
 function useRealActivity(name){
-
   currentActivity =
     name;
-
   selectedPeople = [];
-
   hideAll();
-
   document
     .getElementById(
       "peopleScreen"
@@ -2062,163 +1202,85 @@ function useRealActivity(name){
     .classList.remove(
       "hidden"
     );
-
   document
     .getElementById(
       "selectedActivityTitle"
     )
     .textContent =
       name;
-
   renderPeopleSelector();
 }
-
-
-/* =========================================
-   ROUTE
-========================================= */
-
-function openRoute(lat,lon){
-
-  const url =
-    "https://www.google.com/maps/dir/?api=1&destination=" +
-    encodeURIComponent(
-      lat + "," + lon
-    );
-
-  window.open(
-    url,
-    "_blank"
-  );
-}
-
-
-function openWebsite(url){
-
-  let target = url;
-
-  if(
-    !/^https?:\/\//i.test(target)
-  ){
-
-    target =
-      "https://" + target;
-  }
-
-  window.open(
-    target,
-    "_blank"
-  );
-}
-
-
 /* =========================================
    PERSONENAUSWAHL
 ========================================= */
-
 function renderPeopleSelector(){
-
   const container =
     document.getElementById(
       "peopleSelector"
     );
-
   container.innerHTML = "";
-
   if(!family.length){
-
     container.innerHTML = `
-
       <div class="empty">
-
         Bitte zuerst Familienmitglieder
         hinzufügen.
-
       </div>
-
     `;
-
     return;
   }
-
   family.forEach(person=>{
-
     const button =
       document.createElement(
         "div"
       );
-
     button.className =
       "chip";
-
     if(
       selectedPeople.includes(
         person.id
       )
     ){
-
       button.classList.add(
         "active"
       );
     }
-
     button.textContent =
       `${person.name} (${person.age})`;
-
     button.onclick =
       () =>
         togglePerson(
           person.id
         );
-
     container.appendChild(
       button
     );
-
   });
 }
-
-
 function togglePerson(id){
-
   const index =
     selectedPeople.indexOf(id);
-
   if(index===-1){
-
     selectedPeople.push(id);
-
   }else{
-
     selectedPeople.splice(
       index,
       1
     );
   }
-
   renderPeopleSelector();
 }
-
-
 /* =========================================
    CHECKLISTE
 ========================================= */
-
 function createFamilyChecklist(){
-
   if(!selectedPeople.length){
-
     alert(
       "Bitte mindestens eine Person auswählen."
     );
-
     return;
   }
-
   buildChecklist();
-
   hideAll();
-
   document
     .getElementById(
       "listScreen"
@@ -2226,80 +1288,61 @@ function createFamilyChecklist(){
     .classList.remove(
       "hidden"
     );
-
   document
     .getElementById(
       "listTitle"
     )
     .textContent =
       currentActivity;
-
   document
     .getElementById(
       "listSubtitle"
     )
     .textContent =
       "LOS! hat eure persönliche Liste zusammengestellt";
-
   renderChecklist();
 }
-
-
 function buildChecklist(){
-
   currentItems = [];
-
   const category =
     currentActivity.toLowerCase();
-
   let common = [];
-
   if(category.includes("schwimm")){
-
     common=[
       "Handtücher",
       "Trinkflaschen",
       "Wechselkleidung"
     ];
-
   }else if(
     category.includes("spielplatz")
   ){
-
     common=[
       "Trinkflaschen",
       "Snack",
       "Sonnencreme"
     ];
-
   }else if(
     category.includes("museum")
   ){
-
     common=[
       "Trinkflaschen",
       "Snacks"
     ];
-
   }else if(
     category.includes("tier")
   ){
-
     common=[
       "Trinkflaschen",
       "Snacks",
       "Sonnencreme"
     ];
-
   }else{
-
     common=[
       "Trinkflaschen",
       "Snacks",
       "Wechselkleidung"
     ];
   }
-
   common.forEach(
     item =>
       addItem(
@@ -2308,43 +1351,32 @@ function buildChecklist(){
         null
       )
   );
-
   selectedPeople.forEach(
     personId=>{
-
       const person =
         family.find(
           p =>
             p.id===personId
         );
-
       if(!person){
         return;
       }
-
       let items=[];
-
       if(person.age<=3){
-
         items=[
           "Wechselkleidung",
           "Snack"
         ];
-
       }else if(person.age<=6){
-
         items=[
           "Wechselkleidung",
           "Snack"
         ];
-
       }else{
-
         items=[
           "Trinkflasche"
         ];
       }
-
       items.forEach(
         item =>
           addItem(
@@ -2356,21 +1388,17 @@ function buildChecklist(){
     }
   );
 }
-
-
 function addItem(
   item,
   personName,
   personId
 ){
-
   const id =
     createItemId(
       currentActivity,
       item,
       personId
     );
-
   if(
     currentItems.some(
       x=>x.id===id
@@ -2378,51 +1406,36 @@ function addItem(
   ){
     return;
   }
-
   currentItems.push({
-
     id:id,
     item:item,
     personName:personName,
     personId:personId
-
   });
 }
-
-
 /* =========================================
    CHECKLISTE RENDERN
 ========================================= */
-
 function renderChecklist(){
-
   const container =
     document.getElementById(
       "checklist"
     );
-
   container.innerHTML = "";
-
   const common =
     currentItems.filter(
       x=>!x.personId
     );
-
   if(common.length){
-
     const title =
       document.createElement(
         "div"
       );
-
     title.className =
       "section-title";
-
     title.textContent =
       "👨‍👩‍👧‍👦 Für alle";
-
     container.appendChild(title);
-
     common.forEach(
       item =>
         renderItem(
@@ -2431,43 +1444,33 @@ function renderChecklist(){
         )
     );
   }
-
   selectedPeople.forEach(
     personId=>{
-
       const person =
         family.find(
           p=>p.id===personId
         );
-
       if(!person){
         return;
       }
-
       const items =
         currentItems.filter(
           x =>
             x.personId===
             person.id
         );
-
       if(!items.length){
         return;
       }
-
       const title =
         document.createElement(
           "div"
         );
-
       title.className =
         "section-title";
-
       title.textContent =
         `👤 ${person.name} (${person.age})`;
-
       container.appendChild(title);
-
       items.forEach(
         item =>
           renderItem(
@@ -2477,111 +1480,81 @@ function renderChecklist(){
       );
     }
   );
-
   updateProgress();
 }
-
-
 function renderItem(
   item,
   container
 ){
-
   const wrapper =
     document.createElement(
       "label"
     );
-
   wrapper.className =
     "check-item";
-
   const checkbox =
     document.createElement(
       "input"
     );
-
   checkbox.type =
     "checkbox";
-
   checkbox.checked =
     checkedItems[item.id]===true;
-
   const text =
     document.createElement(
       "span"
     );
-
   text.textContent =
     item.item;
-
   if(checkbox.checked){
-
     text.classList.add(
       "checked"
     );
   }
-
   checkbox.onchange =
     ()=>{
-
       checkedItems[item.id] =
         checkbox.checked;
-
       text.classList.toggle(
         "checked",
         checkbox.checked
       );
-
       saveAll();
-
       updateProgress();
     };
-
   wrapper.appendChild(
     checkbox
   );
-
   wrapper.appendChild(
     text
   );
-
   container.appendChild(
     wrapper
   );
 }
-
-
 /* =========================================
    FORTSCHRITT
 ========================================= */
-
 function updateProgress(){
-
   const total =
     currentItems.length;
-
   if(!total){
-
     document
       .getElementById(
         "progressBar"
       )
       .style.width="0%";
-
     return;
   }
-
   const done =
     currentItems.filter(
       item =>
         checkedItems[item.id]
     ).length;
-
   const percent =
     Math.round(
       done/total*100
     );
-
   document
     .getElementById(
       "progressBar"
@@ -2589,78 +1562,51 @@ function updateProgress(){
     .style.width =
       percent+"%";
 }
-
-
 /* =========================================
    EIGENE LISTEN
 ========================================= */
-
 function createList(){
-
   const input =
     document.getElementById(
       "newListName"
     );
-
   const name =
     input.value.trim();
-
   if(!name){
-
     alert(
       "Bitte einen Namen eingeben."
     );
-
     return;
   }
-
   customLists.push({
-
     name:name,
     items:[]
-
   });
-
   input.value="";
-
   saveAll();
-
   renderHome();
 }
-
-
 function renderCustomLists(){
-
   const container =
     document.getElementById(
       "customLists"
     );
-
   container.innerHTML="";
-
   customLists.forEach(list=>{
-
     const button =
       document.createElement(
         "button"
       );
-
     button.className =
       "list-button";
-
     button.textContent =
       "📌 "+list.name;
-
     button.onclick =
       ()=>{
-
         currentActivity =
           list.name;
-
         selectedPeople=[];
-
         hideAll();
-
         document
           .getElementById(
             "peopleScreen"
@@ -2668,55 +1614,41 @@ function renderCustomLists(){
           .classList.remove(
             "hidden"
           );
-
         document
           .getElementById(
             "selectedActivityTitle"
           )
           .textContent =
             "📌 "+list.name;
-
         renderPeopleSelector();
       };
-
     container.appendChild(
       button
     );
   });
 }
-
-
 /* =========================================
    EIGENER PUNKT
 ========================================= */
-
 function addCustomItem(){
-
   const item =
     prompt(
       "Was soll noch auf die Liste?"
     );
-
   if(!item || !item.trim()){
     return;
   }
-
   addItem(
     item.trim(),
     "Eigener Punkt",
     "custom-"+Date.now()
   );
-
   renderChecklist();
 }
-
-
 /* =========================================
    RESET
 ========================================= */
-
 function resetChecklist(){
-
   if(
     !confirm(
       "Alle erledigten Punkte zurücksetzen?"
@@ -2724,27 +1656,19 @@ function resetChecklist(){
   ){
     return;
   }
-
   currentItems.forEach(
     item=>{
       delete checkedItems[item.id];
     }
   );
-
   saveAll();
-
   renderChecklist();
 }
-
-
 /* =========================================
    ZURÜCK
 ========================================= */
-
 function backToPeople(){
-
   hideAll();
-
   document
     .getElementById(
       "peopleScreen"
@@ -2752,30 +1676,21 @@ function backToPeople(){
     .classList.remove(
       "hidden"
     );
-
   renderPeopleSelector();
 }
-
-
 function goHome(){
-
   currentActivity=null;
   selectedPeople=[];
-
   renderHome();
 }
-
-
 /* =========================================
    ID
 ========================================= */
-
 function createItemId(
   activity,
   item,
   personId
 ){
-
   return(
     activity+
     "|"+
@@ -2784,48 +1699,21 @@ function createItemId(
     (personId||"all")
   );
 }
-
-
 /* =========================================
    HTML SICHER MACHEN
 ========================================= */
-
 function escapeHTML(text){
-
   return String(text)
-
     .replace(/&/g,"&amp;")
-
     .replace(/</g,"&lt;")
-
     .replace(/>/g,"&gt;")
-
     .replace(/"/g,"&quot;")
-
     .replace(/'/g,"&#039;");
 }
-
-
-function stripHTML(text){
-
-  const div =
-    document.createElement(
-      "div"
-    );
-
-  div.innerHTML=text;
-
-  return div.textContent || "";
-}
-
-
 /* =========================================
    START
 ========================================= */
-
 renderHome();
-
 </script>
-
 </body>
 </html>
