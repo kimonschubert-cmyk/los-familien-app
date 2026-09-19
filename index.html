@@ -37,7 +37,7 @@ header p {
 }
 
 main {
-  max-width: 650px;
+  max-width: 680px;
   margin: auto;
   padding: 18px;
 }
@@ -84,13 +84,41 @@ button {
   font-size: 17px;
 }
 
-input {
+input,
+select {
   width: 100%;
   padding: 13px;
   border: 1px solid #ccc;
   border-radius: 12px;
   font-size: 16px;
   margin-bottom: 10px;
+  background: white;
+}
+
+.hero {
+  text-align: center;
+  padding: 8px 0 18px;
+}
+
+.hero-title {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.hero-text {
+  color: #666;
+  margin-top: 6px;
+}
+
+.small {
+  color: #777;
+  font-size: 13px;
+}
+
+.empty {
+  color: #777;
+  text-align: center;
+  padding: 15px;
 }
 
 .person {
@@ -105,11 +133,6 @@ input {
 
 .person-info {
   font-size: 16px;
-}
-
-.small {
-  color: #777;
-  font-size: 13px;
 }
 
 .chips {
@@ -129,6 +152,13 @@ input {
 .chip.active {
   background: #111;
   color: white;
+}
+
+.section-title {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: 600;
 }
 
 .check-item {
@@ -152,43 +182,6 @@ input {
   color: #888;
 }
 
-.section-title {
-  margin-top: 20px;
-  margin-bottom: 10px;
-  font-size: 18px;
-  font-weight: 600;
-}
-
-.hero {
-  text-align: center;
-  padding: 8px 0 18px;
-}
-
-.hero-title {
-  font-size: 24px;
-  font-weight: 700;
-}
-
-.hero-text {
-  color: #666;
-  margin-top: 6px;
-}
-
-.badge {
-  display: inline-block;
-  background: #eee;
-  padding: 6px 10px;
-  border-radius: 15px;
-  font-size: 13px;
-  margin: 3px;
-}
-
-.empty {
-  color: #777;
-  text-align: center;
-  padding: 15px;
-}
-
 .progress {
   height: 9px;
   background: #eee;
@@ -204,14 +197,103 @@ input {
   transition: width .2s;
 }
 
-.category {
+.activity-card {
+  border: 1px solid #e4e4e4;
+  border-radius: 17px;
+  padding: 15px;
+  margin-bottom: 12px;
+  background: white;
+}
+
+.activity-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.activity-name {
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.activity-description {
+  color: #666;
+  margin-top: 5px;
+  line-height: 1.4;
+}
+
+.activity-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 12px 0;
+}
+
+.badge {
+  background: #f0f1f2;
+  padding: 6px 9px;
+  border-radius: 14px;
   font-size: 13px;
-  color: #777;
-  margin-bottom: 5px;
+}
+
+.activity-button {
+  width: 100%;
+  margin-top: 5px;
+}
+
+.weather-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.weather-button {
+  background: #eee;
+}
+
+.weather-button.active {
+  background: #111;
+  color: white;
+}
+
+.transport-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.transport-button {
+  background: #eee;
+}
+
+.transport-button.active {
+  background: #111;
+  color: white;
+}
+
+.summary {
+  background: #f1f3f5;
+  border-radius: 14px;
+  padding: 13px;
+  margin-top: 12px;
+}
+
+.notice {
+  background: #fff8dc;
+  border-radius: 14px;
+  padding: 12px;
+  color: #665500;
+  margin-bottom: 12px;
+}
+
+.hidden {
+  display: none;
 }
 
 </style>
 </head>
+
 
 <body>
 
@@ -227,11 +309,157 @@ input {
 <main>
 
 
-<!-- ========================= -->
-<!-- STARTSEITE -->
-<!-- ========================= -->
+<!-- ================================================= -->
+<!-- HOME -->
+<!-- ================================================= -->
 
 <div id="home">
+
+
+  <!-- WAS MACHEN WIR HEUTE -->
+  <div class="card">
+
+    <div class="hero">
+
+      <div class="hero-title">
+        🌤️ Was machen wir heute?
+      </div>
+
+      <div class="hero-text">
+        LOS! sucht passende Ideen für eure Familie.
+      </div>
+
+    </div>
+
+
+    <label>
+      📍 Wo seid ihr?
+    </label>
+
+    <input
+      id="locationInput"
+      placeholder="z.B. Bad Kissingen"
+    >
+
+
+    <div class="section-title">
+      🌤️ Wie ist das Wetter?
+    </div>
+
+
+    <div class="weather-grid">
+
+      <button
+        class="weather-button active"
+        data-weather="sun"
+        onclick="selectWeather('sun')"
+      >
+        ☀️ Sonnig
+      </button>
+
+      <button
+        class="weather-button"
+        data-weather="cloud"
+        onclick="selectWeather('cloud')"
+      >
+        ☁️ Bewölkt
+      </button>
+
+      <button
+        class="weather-button"
+        data-weather="rain"
+        onclick="selectWeather('rain')"
+      >
+        🌧️ Regen
+      </button>
+
+      <button
+        class="weather-button"
+        data-weather="cold"
+        onclick="selectWeather('cold')"
+      >
+        ❄️ Kalt
+      </button>
+
+    </div>
+
+
+    <div class="section-title">
+      🚗 Wie weit wollt ihr fahren?
+    </div>
+
+
+    <div class="transport-grid">
+
+      <button
+        class="transport-button"
+        data-time="15"
+        onclick="selectDriveTime(15)"
+      >
+        15 Min.
+      </button>
+
+      <button
+        class="transport-button active"
+        data-time="30"
+        onclick="selectDriveTime(30)"
+      >
+        30 Min.
+      </button>
+
+      <button
+        class="transport-button"
+        data-time="60"
+        onclick="selectDriveTime(60)"
+      >
+        60 Min.
+      </button>
+
+    </div>
+
+
+    <div class="summary">
+
+      👨‍👩‍👧‍👦
+      <strong id="familySummary">
+        Noch keine Familie angelegt
+      </strong>
+
+    </div>
+
+
+    <br>
+
+    <button
+      class="primary"
+      style="width:100%;"
+      onclick="findActivities()"
+    >
+      🚀 LOS!
+    </button>
+
+  </div>
+
+
+  <!-- ERGEBNISSE -->
+
+  <div
+    id="recommendationsCard"
+    class="card hidden"
+  >
+
+    <h2>
+      ⭐ Das könnte euch gefallen
+    </h2>
+
+    <div
+      id="recommendations"
+    ></div>
+
+  </div>
+
+
+  <!-- FAMILIE -->
 
   <div class="card">
 
@@ -262,18 +490,7 @@ input {
   </div>
 
 
-  <div class="card">
-
-    <h2>🚀 Was machen wir?</h2>
-
-    <p class="small">
-      Wähle zuerst aus, was ihr heute vorhabt.
-    </p>
-
-    <div id="activityList"></div>
-
-  </div>
-
+  <!-- EIGENE LISTEN -->
 
   <div class="card">
 
@@ -295,15 +512,19 @@ input {
 
   </div>
 
+
 </div>
 
 
 
-<!-- ========================= -->
+<!-- ================================================= -->
 <!-- PERSONENAUSWAHL -->
-<!-- ========================= -->
+<!-- ================================================= -->
 
-<div id="peopleScreen" class="hidden">
+<div
+  id="peopleScreen"
+  class="hidden"
+>
 
   <button
     class="secondary"
@@ -340,7 +561,7 @@ input {
       style="width:100%;"
       onclick="createFamilyChecklist()"
     >
-      🚀 Liste erstellen
+      🚀 Meine Liste erstellen
     </button>
 
   </div>
@@ -349,11 +570,14 @@ input {
 
 
 
-<!-- ========================= -->
+<!-- ================================================= -->
 <!-- CHECKLISTE -->
-<!-- ========================= -->
+<!-- ================================================= -->
 
-<div id="listScreen" class="hidden">
+<div
+  id="listScreen"
+  class="hidden"
+>
 
   <button
     class="secondary"
@@ -390,9 +614,7 @@ input {
     </div>
 
 
-    <div
-      id="checklist"
-    ></div>
+    <div id="checklist"></div>
 
 
     <br>
@@ -404,6 +626,7 @@ input {
     >
       ＋ Punkt hinzufügen
     </button>
+
 
     <br><br>
 
@@ -419,6 +642,7 @@ input {
 
 </div>
 
+
 </main>
 
 
@@ -426,9 +650,9 @@ input {
 <script>
 
 
-/* =====================================
+/* =================================================
    DATEN
-===================================== */
+================================================= */
 
 let family =
   JSON.parse(
@@ -454,14 +678,40 @@ let selectedPeople = [];
 
 let currentItems = [];
 
+let selectedWeather =
+  localStorage.getItem("los_weather") || "sun";
 
-/* =====================================
-   AKTIVITÄTEN
-===================================== */
+let selectedDriveTime =
+  parseInt(
+    localStorage.getItem("los_drive_time") || "30"
+  );
+
+
+/* =================================================
+   AKTIVITÄTEN-DATEN
+================================================= */
 
 const activities = {
 
   "🏊 Schwimmbad": {
+
+    description:
+      "Wasser, Bewegung und Spaß für die Familie.",
+
+    type: "outdoor",
+
+    weather: [
+      "sun",
+      "cloud"
+    ],
+
+    driveTime: 30,
+
+    cost: 20,
+
+    minAge: 0,
+
+    maxAge: 99,
 
     common: [
       "Handtücher",
@@ -496,6 +746,24 @@ const activities = {
 
   "🌳 Spielplatz": {
 
+    description:
+      "Draußen spielen, klettern und toben.",
+
+    type: "outdoor",
+
+    weather: [
+      "sun",
+      "cloud"
+    ],
+
+    driveTime: 15,
+
+    cost: 0,
+
+    minAge: 1,
+
+    maxAge: 12,
+
     common: [
       "Trinkflaschen",
       "Taschentücher",
@@ -527,6 +795,26 @@ const activities = {
 
   "🏫 Kindergarten": {
 
+    description:
+      "Alles für einen normalen Kindergartentag.",
+
+    type: "indoor",
+
+    weather: [
+      "sun",
+      "cloud",
+      "rain",
+      "cold"
+    ],
+
+    driveTime: 15,
+
+    cost: 0,
+
+    minAge: 2,
+
+    maxAge: 7,
+
     common: [],
 
     children: {
@@ -556,6 +844,26 @@ const activities = {
 
 
   "👵 Oma & Opa": {
+
+    description:
+      "Ein Besuch bei Oma und Opa.",
+
+    type: "indoor",
+
+    weather: [
+      "sun",
+      "cloud",
+      "rain",
+      "cold"
+    ],
+
+    driveTime: 30,
+
+    cost: 0,
+
+    minAge: 0,
+
+    maxAge: 99,
 
     common: [
       "Wechselkleidung",
@@ -587,6 +895,26 @@ const activities = {
 
   "🛒 Einkaufen": {
 
+    description:
+      "Familieneinkauf ohne etwas Wichtiges zu vergessen.",
+
+    type: "indoor",
+
+    weather: [
+      "sun",
+      "cloud",
+      "rain",
+      "cold"
+    ],
+
+    driveTime: 15,
+
+    cost: 0,
+
+    minAge: 0,
+
+    maxAge: 99,
+
     common: [
       "Einkaufsliste",
       "Trinkflaschen"
@@ -614,6 +942,26 @@ const activities = {
 
 
   "✈️ Urlaub": {
+
+    description:
+      "Die wichtigsten Dinge für eine Familienreise.",
+
+    type: "outdoor",
+
+    weather: [
+      "sun",
+      "cloud",
+      "rain",
+      "cold"
+    ],
+
+    driveTime: 60,
+
+    cost: 100,
+
+    minAge: 0,
+
+    maxAge: 99,
 
     common: [
       "Dokumente",
@@ -651,9 +999,9 @@ const activities = {
 };
 
 
-/* =====================================
+/* =================================================
    SPEICHERN
-===================================== */
+================================================= */
 
 function saveAll() {
 
@@ -672,29 +1020,22 @@ function saveAll() {
     JSON.stringify(checkedItems)
   );
 
-}
+  localStorage.setItem(
+    "los_weather",
+    selectedWeather
+  );
 
-
-/* =====================================
-   HOME
-===================================== */
-
-function renderHome() {
-
-  hideAll();
-
-  document
-    .getElementById("home")
-    .classList.remove("hidden");
-
-  renderFamily();
-
-  renderActivities();
-
-  renderCustomLists();
+  localStorage.setItem(
+    "los_drive_time",
+    selectedDriveTime
+  );
 
 }
 
+
+/* =================================================
+   ANZEIGE
+================================================= */
 
 function hideAll() {
 
@@ -713,9 +1054,94 @@ function hideAll() {
 }
 
 
-/* =====================================
+function renderHome() {
+
+  hideAll();
+
+  document
+    .getElementById("home")
+    .classList.remove("hidden");
+
+  renderFamily();
+
+  renderActivities();
+
+  renderCustomLists();
+
+  updateFamilySummary();
+
+  updateWeatherButtons();
+
+  updateDriveButtons();
+
+}
+
+
+/* =================================================
+   WETTER
+================================================= */
+
+function selectWeather(weather) {
+
+  selectedWeather = weather;
+
+  saveAll();
+
+  updateWeatherButtons();
+
+}
+
+
+function updateWeatherButtons() {
+
+  document
+    .querySelectorAll(".weather-button")
+    .forEach(button => {
+
+      button.classList.toggle(
+        "active",
+        button.dataset.weather === selectedWeather
+      );
+
+    });
+
+}
+
+
+/* =================================================
+   FAHRZEIT
+================================================= */
+
+function selectDriveTime(time) {
+
+  selectedDriveTime = time;
+
+  saveAll();
+
+  updateDriveButtons();
+
+}
+
+
+function updateDriveButtons() {
+
+  document
+    .querySelectorAll(".transport-button")
+    .forEach(button => {
+
+      button.classList.toggle(
+        "active",
+        parseInt(button.dataset.time) === selectedDriveTime
+      );
+
+    });
+
+}
+
+
+/* =================================================
    FAMILIE
-===================================== */
+================================================= */
 
 function renderFamily() {
 
@@ -723,6 +1149,7 @@ function renderFamily() {
     document.getElementById("familyList");
 
   container.innerHTML = "";
+
 
   if (family.length === 0) {
 
@@ -795,6 +1222,7 @@ function addPerson() {
     );
 
     return;
+
   }
 
 
@@ -845,56 +1273,364 @@ function deletePerson(index) {
 }
 
 
-/* =====================================
-   AKTIVITÄTEN
-===================================== */
+function updateFamilySummary() {
+
+  const element =
+    document.getElementById(
+      "familySummary"
+    );
+
+
+  if (family.length === 0) {
+
+    element.textContent =
+      "Noch keine Familie angelegt";
+
+    return;
+
+  }
+
+
+  element.textContent =
+    family
+      .map(
+        p =>
+          `${p.name} (${p.age})`
+      )
+      .join(", ");
+
+}
+
+
+/* =================================================
+   AKTIVITÄTEN ANZEIGEN
+================================================= */
 
 function renderActivities() {
 
   const container =
-    document.getElementById("activityList");
+    document.getElementById(
+      "activityList"
+    );
 
   container.innerHTML = "";
 
 
-  Object.keys(activities).forEach(
-    name => {
+  Object.keys(activities)
+    .forEach(
+      name => {
 
-      const button =
-        document.createElement("button");
+        const button =
+          document.createElement(
+            "button"
+          );
 
-      button.className =
-        "list-button";
+        button.className =
+          "list-button";
 
-      button.textContent = name;
+        button.textContent =
+          name;
 
-      button.onclick =
-        () => selectActivity(name);
+        button.onclick =
+          () => openActivityDirectly(name);
 
-      container.appendChild(button);
+        container.appendChild(
+          button
+        );
 
-    }
+      }
+    );
+
+}
+
+
+/* =================================================
+   EMPFEHLUNGEN
+================================================= */
+
+function findActivities() {
+
+  const results = [];
+
+
+  Object.entries(activities)
+    .forEach(
+      ([name, activity]) => {
+
+        if (
+          !activity.weather.includes(
+            selectedWeather
+          )
+        ) {
+          return;
+        }
+
+
+        if (
+          activity.driveTime >
+          selectedDriveTime
+        ) {
+          return;
+        }
+
+
+        const suitable =
+          family.some(
+            person =>
+              person.age >= activity.minAge &&
+              person.age <= activity.maxAge
+          );
+
+
+        if (
+          family.length > 0 &&
+          !suitable
+        ) {
+          return;
+        }
+
+
+        let score = 0;
+
+
+        if (
+          activity.weather.includes(
+            selectedWeather
+          )
+        ) {
+          score += 3;
+        }
+
+
+        if (
+          activity.driveTime <=
+          selectedDriveTime
+        ) {
+          score += 2;
+        }
+
+
+        if (
+          activity.type === "indoor" &&
+          (
+            selectedWeather === "rain" ||
+            selectedWeather === "cold"
+          )
+        ) {
+          score += 3;
+        }
+
+
+        if (
+          activity.type === "outdoor" &&
+          selectedWeather === "sun"
+        ) {
+          score += 3;
+        }
+
+
+        results.push({
+
+          name,
+
+          ...activity,
+
+          score
+
+        });
+
+      }
+    );
+
+
+  results.sort(
+    (a, b) =>
+      b.score - a.score
+  );
+
+
+  renderRecommendations(
+    results
   );
 
 }
 
 
-function selectActivity(name) {
+function renderRecommendations(
+  results
+) {
 
-  currentActivity = name;
+  const card =
+    document.getElementById(
+      "recommendationsCard"
+    );
+
+  const container =
+    document.getElementById(
+      "recommendations"
+    );
+
+
+  card.classList.remove(
+    "hidden"
+  );
+
+
+  container.innerHTML = "";
+
+
+  if (
+    results.length === 0
+  ) {
+
+    container.innerHTML = `
+
+      <div class="notice">
+
+        😕 Für eure aktuellen Einstellungen
+        habe ich noch keine passende Aktivität.
+
+        <br><br>
+
+        Versuche eine größere Fahrzeit
+        oder ein anderes Wetter.
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  results
+    .slice(0, 5)
+    .forEach(
+      activity => {
+
+        const div =
+          document.createElement(
+            "div"
+          );
+
+        div.className =
+          "activity-card";
+
+
+        const typeText =
+          activity.type === "indoor"
+            ? "🏠 Indoor"
+            : "🌳 Outdoor";
+
+
+        const costText =
+          activity.cost === 0
+            ? "💰 kostenlos"
+            : `💰 ca. ${activity.cost} € Familie`;
+
+
+        div.innerHTML = `
+
+          <div class="activity-top">
+
+            <div>
+
+              <div class="activity-name">
+                ${escapeHTML(activity.name)}
+              </div>
+
+              <div class="activity-description">
+                ${escapeHTML(activity.description)}
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="activity-meta">
+
+            <span class="badge">
+              ${typeText}
+            </span>
+
+            <span class="badge">
+              🚗 ca. ${activity.driveTime} Min.
+            </span>
+
+            <span class="badge">
+              ${costText}
+            </span>
+
+            <span class="badge">
+              👶 ab ${activity.minAge} Jahre
+            </span>
+
+          </div>
+
+
+          <button
+            class="primary activity-button"
+            onclick="openRecommendedActivity('${escapeAttribute(activity.name)}')"
+          >
+            🚀 Diese Aktivität nehmen
+          </button>
+
+        `;
+
+
+        container.appendChild(
+          div
+        );
+
+      }
+    );
+
+}
+
+
+/* =================================================
+   AKTIVITÄT ÖFFNEN
+================================================= */
+
+function openRecommendedActivity(
+  name
+) {
+
+  openActivityDirectly(
+    name
+  );
+
+}
+
+
+function openActivityDirectly(
+  name
+) {
+
+  currentActivity =
+    name;
 
   selectedPeople = [];
 
   hideAll();
 
   document
-    .getElementById("peopleScreen")
-    .classList.remove("hidden");
+    .getElementById(
+      "peopleScreen"
+    )
+    .classList.remove(
+      "hidden"
+    );
 
 
   document
-    .getElementById("selectedActivityTitle")
-    .textContent = name;
+    .getElementById(
+      "selectedActivityTitle"
+    )
+    .textContent =
+      name;
 
 
   renderPeopleSelector();
@@ -902,9 +1638,9 @@ function selectActivity(name) {
 }
 
 
-/* =====================================
+/* =================================================
    PERSONENAUSWAHL
-===================================== */
+================================================= */
 
 function renderPeopleSelector() {
 
@@ -930,6 +1666,7 @@ function renderPeopleSelector() {
     `;
 
     return;
+
   }
 
 
@@ -937,9 +1674,12 @@ function renderPeopleSelector() {
     person => {
 
       const button =
-        document.createElement("div");
+        document.createElement(
+          "div"
+        );
 
-      button.className = "chip";
+      button.className =
+        "chip";
 
 
       if (
@@ -960,12 +1700,15 @@ function renderPeopleSelector() {
 
 
       button.onclick =
-        () => togglePerson(
-          person.id
-        );
+        () =>
+          togglePerson(
+            person.id
+          );
 
 
-      container.appendChild(button);
+      container.appendChild(
+        button
+      );
 
     }
   );
@@ -976,12 +1719,16 @@ function renderPeopleSelector() {
 function togglePerson(id) {
 
   const index =
-    selectedPeople.indexOf(id);
+    selectedPeople.indexOf(
+      id
+    );
 
 
   if (index === -1) {
 
-    selectedPeople.push(id);
+    selectedPeople.push(
+      id
+    );
 
   } else {
 
@@ -998,9 +1745,9 @@ function togglePerson(id) {
 }
 
 
-/* =====================================
-   LISTE ERSTELLEN
-===================================== */
+/* =================================================
+   CHECKLISTE ERSTELLEN
+================================================= */
 
 function createFamilyChecklist() {
 
@@ -1013,27 +1760,35 @@ function createFamilyChecklist() {
     );
 
     return;
+
   }
 
 
   buildChecklist();
 
-
   hideAll();
 
   document
-    .getElementById("listScreen")
-    .classList.remove("hidden");
+    .getElementById(
+      "listScreen"
+    )
+    .classList.remove(
+      "hidden"
+    );
 
 
   document
-    .getElementById("listTitle")
+    .getElementById(
+      "listTitle"
+    )
     .textContent =
       currentActivity;
 
 
   document
-    .getElementById("listSubtitle")
+    .getElementById(
+      "listSubtitle"
+    )
     .textContent =
       "LOS! hat eure persönliche Liste zusammengestellt";
 
@@ -1043,9 +1798,9 @@ function createFamilyChecklist() {
 }
 
 
-/* =====================================
-   CHECKLISTE ERZEUGEN
-===================================== */
+/* =================================================
+   CHECKLISTE AUFBAUEN
+================================================= */
 
 function buildChecklist() {
 
@@ -1057,92 +1812,125 @@ function buildChecklist() {
 
 
   /*
-     GEMEINSAME SACHEN
+     NORMALE AKTIVITÄT
   */
 
-  activity.common.forEach(
-    item => {
+  if (activity) {
 
-      addItem(
-        item,
-        "Für alle",
-        null
-      );
-
-    }
-  );
-
-
-  /*
-     PERSONEN
-  */
-
-  selectedPeople.forEach(
-    personId => {
-
-      const person =
-        family.find(
-          p => p.id === personId
-        );
-
-
-      if (!person) return;
-
-
-      let group =
-        getAgeGroup(person.age);
-
-
-      let items =
-        activity.children[group] || [];
-
-
-      items.forEach(
+    activity.common
+      .forEach(
         item => {
 
           addItem(
             item,
-            person.name,
-            person.id
+            "Für alle",
+            null
           );
 
         }
       );
 
-    }
-  );
+
+    selectedPeople
+      .forEach(
+        personId => {
+
+          const person =
+            family.find(
+              p =>
+                p.id === personId
+            );
+
+
+          if (!person) return;
+
+
+          const group =
+            getAgeGroup(
+              person.age
+            );
+
+
+          const items =
+            activity.children[group] || [];
+
+
+          items.forEach(
+            item => {
+
+              addItem(
+                item,
+                person.name,
+                person.id
+              );
+
+            }
+          );
+
+        }
+      );
+
+
+    return;
+
+  }
+
+
+  /*
+     EIGENE LISTE
+  */
+
+  const custom =
+    customLists.find(
+      list =>
+        list.name ===
+        currentActivity
+    );
+
+
+  if (custom) {
+
+    custom.items.forEach(
+      item => {
+
+        addItem(
+          item,
+          "Für alle",
+          null
+        );
+
+      }
+    );
+
+  }
 
 }
 
 
-/* =====================================
-   ALTERSGRUPPE
-===================================== */
+/* =================================================
+   ALTER
+================================================= */
 
-function getAgeGroup(age) {
+function getAgeGroup(
+  age
+) {
 
   if (age <= 3) {
-
     return "baby";
-
   }
-
 
   if (age <= 6) {
-
     return "small";
-
   }
-
 
   return "older";
 
 }
 
 
-/* =====================================
-   PUNKT HINZUFÜGEN
-===================================== */
+/* =================================================
+   ITEM
+================================================= */
 
 function addItem(
   item,
@@ -1150,52 +1938,44 @@ function addItem(
   personId
 ) {
 
-  /*
-     Duplikate bei derselben Person
-     verhindern.
-  */
+  const id =
+    createItemId(
+      currentActivity,
+      item,
+      personId
+    );
+
 
   const exists =
     currentItems.some(
       x =>
-        x.item === item &&
-        x.personId === personId
+        x.id === id
     );
 
 
-  if (exists) return;
+  if (exists) {
+    return;
+  }
 
 
   currentItems.push({
 
-    id:
-      createItemId(
-        currentActivity,
-        item,
-        personId
-      ),
+    id,
 
-    item: item,
+    item,
 
-    personName:
-      personName,
+    personName,
 
-    personId:
-      personId,
-
-    category:
-      personId
-        ? "Person"
-        : "Gemeinsam"
+    personId
 
   });
 
 }
 
 
-/* =====================================
-   CHECKLISTE ANZEIGEN
-===================================== */
+/* =================================================
+   CHECKLISTE RENDERN
+================================================= */
 
 function renderChecklist() {
 
@@ -1212,28 +1992,28 @@ function renderChecklist() {
   ) {
 
     container.innerHTML =
-      '<div class="empty">Keine Punkte vorhanden.</div>';
+      '<div class="empty">Noch keine Punkte vorhanden.</div>';
 
     updateProgress();
 
     return;
+
   }
 
 
-  /*
-     GEMEINSAM
-  */
-
   const common =
     currentItems.filter(
-      x => !x.personId
+      x =>
+        !x.personId
     );
 
 
   if (common.length) {
 
     const title =
-      document.createElement("div");
+      document.createElement(
+        "div"
+      );
 
     title.className =
       "section-title";
@@ -1241,69 +2021,80 @@ function renderChecklist() {
     title.textContent =
       "👨‍👩‍👧‍👦 Für alle";
 
-    container.appendChild(title);
+    container.appendChild(
+      title
+    );
 
 
     common.forEach(
-      item => renderItem(
-        item,
-        container
-      )
+      item =>
+        renderItem(
+          item,
+          container
+        )
     );
 
   }
 
 
-  /*
-     PERSONEN
-  */
+  selectedPeople
+    .forEach(
+      personId => {
 
-  selectedPeople.forEach(
-    personId => {
+        const person =
+          family.find(
+            p =>
+              p.id === personId
+          );
 
-      const person =
-        family.find(
-          p => p.id === personId
+
+        if (!person) {
+          return;
+        }
+
+
+        const personItems =
+          currentItems.filter(
+            x =>
+              x.personId ===
+              person.id
+          );
+
+
+        if (
+          !personItems.length
+        ) {
+          return;
+        }
+
+
+        const title =
+          document.createElement(
+            "div"
+          );
+
+        title.className =
+          "section-title";
+
+        title.textContent =
+          `👤 ${person.name} (${person.age})`;
+
+
+        container.appendChild(
+          title
         );
 
-      if (!person) return;
 
-
-      const personItems =
-        currentItems.filter(
-          x =>
-            x.personId === person.id
+        personItems.forEach(
+          item =>
+            renderItem(
+              item,
+              container
+            )
         );
 
-
-      if (!personItems.length) {
-        return;
       }
-
-
-      const title =
-        document.createElement("div");
-
-      title.className =
-        "section-title";
-
-      title.textContent =
-        `👤 ${person.name} (${person.age})`;
-
-
-      container.appendChild(title);
-
-
-      personItems.forEach(
-        item =>
-          renderItem(
-            item,
-            container
-          )
-      );
-
-    }
-  );
+    );
 
 
   updateProgress();
@@ -1311,20 +2102,28 @@ function renderChecklist() {
 }
 
 
+/* =================================================
+   ITEM ANZEIGEN
+================================================= */
+
 function renderItem(
   item,
   container
 ) {
 
   const wrapper =
-    document.createElement("label");
+    document.createElement(
+      "label"
+    );
 
   wrapper.className =
     "check-item";
 
 
   const checkbox =
-    document.createElement("input");
+    document.createElement(
+      "input"
+    );
 
   checkbox.type =
     "checkbox";
@@ -1335,13 +2134,17 @@ function renderItem(
 
 
   const text =
-    document.createElement("span");
+    document.createElement(
+      "span"
+    );
 
   text.textContent =
     item.item;
 
 
-  if (checkbox.checked) {
+  if (
+    checkbox.checked
+  ) {
 
     text.classList.add(
       "checked"
@@ -1350,34 +2153,35 @@ function renderItem(
   }
 
 
-  checkbox.onchange = () => {
+  checkbox.onchange =
+    () => {
 
-    checkedItems[item.id] =
-      checkbox.checked;
-
-
-    if (
-      checkbox.checked
-    ) {
-
-      text.classList.add(
-        "checked"
-      );
-
-    } else {
-
-      text.classList.remove(
-        "checked"
-      );
-
-    }
+      checkedItems[item.id] =
+        checkbox.checked;
 
 
-    saveAll();
+      if (
+        checkbox.checked
+      ) {
 
-    updateProgress();
+        text.classList.add(
+          "checked"
+        );
 
-  };
+      } else {
+
+        text.classList.remove(
+          "checked"
+        );
+
+      }
+
+
+      saveAll();
+
+      updateProgress();
+
+    };
 
 
   wrapper.appendChild(
@@ -1395,9 +2199,9 @@ function renderItem(
 }
 
 
-/* =====================================
+/* =================================================
    FORTSCHRITT
-===================================== */
+================================================= */
 
 function updateProgress() {
 
@@ -1411,9 +2215,11 @@ function updateProgress() {
       .getElementById(
         "progressBar"
       )
-      .style.width = "0%";
+      .style.width =
+        "0%";
 
     return;
+
   }
 
 
@@ -1426,7 +2232,7 @@ function updateProgress() {
 
   const percent =
     Math.round(
-      (done / total) * 100
+      done / total * 100
     );
 
 
@@ -1440,78 +2246,9 @@ function updateProgress() {
 }
 
 
-/* =====================================
-   EIGENER PUNKT
-===================================== */
-
-function addCustomItem() {
-
-  const item =
-    prompt(
-      "Was soll noch auf die Liste?"
-    );
-
-
-  if (
-    !item ||
-    !item.trim()
-  ) {
-
-    return;
-
-  }
-
-
-  addItem(
-    item.trim(),
-    "Eigener Punkt",
-    "custom"
-  );
-
-
-  renderChecklist();
-
-}
-
-
-/* =====================================
-   RESET
-===================================== */
-
-function resetChecklist() {
-
-  if (
-    !confirm(
-      "Alle erledigten Punkte zurücksetzen?"
-    )
-  ) {
-
-    return;
-
-  }
-
-
-  currentItems.forEach(
-    item => {
-
-      delete checkedItems[
-        item.id
-      ];
-
-    }
-  );
-
-
-  saveAll();
-
-  renderChecklist();
-
-}
-
-
-/* =====================================
+/* =================================================
    EIGENE LISTEN
-===================================== */
+================================================= */
 
 function createList() {
 
@@ -1538,7 +2275,7 @@ function createList() {
 
   customLists.push({
 
-    name: name,
+    name,
 
     items: []
 
@@ -1546,7 +2283,6 @@ function createList() {
 
 
   input.value = "";
-
 
   saveAll();
 
@@ -1562,8 +2298,14 @@ function renderCustomLists() {
       "customLists"
     );
 
-
   container.innerHTML = "";
+
+
+  if (
+    customLists.length === 0
+  ) {
+    return;
+  }
 
 
   customLists.forEach(
@@ -1574,20 +2316,17 @@ function renderCustomLists() {
           "button"
         );
 
-
       button.className =
         "list-button";
-
 
       button.textContent =
         "📌 " + list.name;
 
-
       button.onclick =
-        () => openCustomList(
-          list
-        );
-
+        () =>
+          openActivityDirectly(
+            list.name
+          );
 
       container.appendChild(
         button
@@ -1599,43 +2338,74 @@ function renderCustomLists() {
 }
 
 
-function openCustomList(list) {
+/* =================================================
+   EIGENER PUNKT
+================================================= */
 
-  currentActivity =
-    list.name;
+function addCustomItem() {
 
-
-  selectedPeople = [];
-
-
-  hideAll();
-
-
-  document
-    .getElementById(
-      "peopleScreen"
-    )
-    .classList.remove(
-      "hidden"
+  const item =
+    prompt(
+      "Was soll noch auf die Liste?"
     );
 
 
-  document
-    .getElementById(
-      "selectedActivityTitle"
-    )
-    .textContent =
-      "📌 " + list.name;
+  if (
+    !item ||
+    !item.trim()
+  ) {
+    return;
+  }
 
 
-  renderPeopleSelector();
+  addItem(
+    item.trim(),
+    "Eigener Punkt",
+    "custom-" + Date.now()
+  );
+
+
+  renderChecklist();
 
 }
 
 
-/* =====================================
+/* =================================================
+   RESET
+================================================= */
+
+function resetChecklist() {
+
+  if (
+    !confirm(
+      "Alle erledigten Punkte zurücksetzen?"
+    )
+  ) {
+    return;
+  }
+
+
+  currentItems.forEach(
+    item => {
+
+      delete checkedItems[
+        item.id
+      ];
+
+    }
+  );
+
+
+  saveAll();
+
+  renderChecklist();
+
+}
+
+
+/* =================================================
    ZURÜCK
-===================================== */
+================================================= */
 
 function backToPeople() {
 
@@ -1648,7 +2418,6 @@ function backToPeople() {
     .classList.remove(
       "hidden"
     );
-
 
   renderPeopleSelector();
 
@@ -1667,9 +2436,9 @@ function goHome() {
 }
 
 
-/* =====================================
+/* =================================================
    ID
-===================================== */
+================================================= */
 
 function createItemId(
   activity,
@@ -1678,23 +2447,23 @@ function createItemId(
 ) {
 
   return (
-
     activity +
     "|" +
     item +
     "|" +
     (personId || "all")
-
   );
 
 }
 
 
-/* =====================================
-   HTML SICHER MACHEN
-===================================== */
+/* =================================================
+   SICHERHEIT
+================================================= */
 
-function escapeHTML(text) {
+function escapeHTML(
+  text
+) {
 
   return String(text)
 
@@ -1726,9 +2495,26 @@ function escapeHTML(text) {
 }
 
 
-/* =====================================
+function escapeAttribute(
+  text
+) {
+
+  return String(text)
+    .replace(
+      /\\/g,
+      "\\\\"
+    )
+    .replace(
+      /'/g,
+      "\\'"
+    );
+
+}
+
+
+/* =================================================
    START
-===================================== */
+================================================= */
 
 renderHome();
 
