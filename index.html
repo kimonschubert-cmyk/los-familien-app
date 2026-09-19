@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width,
+      initial-scale=1.0,
+      maximum-scale=1.0,
+      user-scalable=no">
+
+<title>LOS! – Familien-Starthelfer</title>
+
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  background: #f5f6fa;
+  color: #202124;
+}
+
+.app {
+  max-width: 600px;
+  margin: auto;
+  min-height: 100vh;
+  background: white;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  padding: 30px 22px 20px;
+
+  background: linear-gradient(
+    135deg,
+    #667eea,
+    #764ba2
+  );
+
+  color: white;
+
+  border-radius:
+    0 0 28px 28px;
+}
+
+.logo {
+  font-size: 42px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 32px;
+}
+
+header p {
+  margin: 3px 0 0;
+  opacity: .85;
+}
+
+main {
+  padding: 25px 18px 40px;
+}
+
+h2 {
+  margin: 0 0 5px;
+  font-size: 25px;
+}
+
+.subtitle {
+  color: #777;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.activities {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.activity {
+  border: 0;
+  background: #f5f6fa;
+
+  border-radius: 18px;
+
+  padding: 18px 12px;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  min-height: 125px;
+
+  transition: .15s;
+}
+
+.activity:active {
+  transform: scale(.97);
+}
+
+.activity span {
+  display: block;
+  font-size: 34px;
+  margin-bottom: 8px;
+}
+
+.activity strong {
+  display: block;
+  font-size: 16px;
+}
+
+.activity small {
+  display: block;
+  margin-top: 4px;
+  color: #777;
+}
+
+.custom {
+  width: 100%;
+
+  margin-top: 15px;
+
+  padding: 17px;
+
+  border:
+    2px dashed #bbb;
+
+  border-radius: 17px;
+
+  background: white;
+
+  font-size: 16px;
+
+  cursor: pointer;
+}
+
+.checklist {
+  display: flex;
+  flex-direction: column;
+
+  gap: 10px;
+
+  margin-top: 20px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 15px;
+
+  background: #f5f6fa;
+
+  border-radius: 15px;
+
+  font-size: 16px;
+}
+
+.item input {
+  width: 22px;
+  height: 22px;
+}
+
+.done {
+  text-decoration: line-through;
+  opacity: .5;
+}
+
+.progress {
+  margin-top: 20px;
+
+  padding: 16px;
+
+  background: #f0f2ff;
+
+  border-radius: 15px;
+
+  text-align: center;
+}
+
+.ready {
+  display: none;
+
+  margin-top: 15px;
+
+  padding: 18px;
+
+  background: #e9f9ef;
+
+  border-radius: 17px;
+
+  text-align: center;
+
+  font-weight: bold;
+
+  font-size: 18px;
+}
+
+.back {
+  border: 0;
+
+  background: transparent;
+
+  font-size: 16px;
+
+  padding: 0;
+
+  margin-bottom: 20px;
+
+  cursor: pointer;
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="app">
+
+<header>
+
+<div class="logo">🚀</div>
+
+<div>
+
+<h1>LOS!</h1>
+
+<p>
+Familien-Starthelfer
+</p>
+
+</div>
+
+</header>
+
+
+<main id="app">
+
+<h2>
+Was machen wir?
+</h2>
+
+<p class="subtitle">
+Wähle aus, was heute ansteht.
+</p>
+
+
+<div class="activities">
+
+
+<button
+class="activity"
+onclick="openList('Schwimmbad')">
+
+<span>🏊</span>
+
+<strong>
+Schwimmbad
+</strong>
+
+<small>
+Alles fürs Schwimmen
+</small>
+
+</button>
+
+
+<button
+class="activity"
+onclick="openList('Kindergarten')">
+
+<span>🏫</span>
+
+<strong>
+Kindergarten
+</strong>
+
+<small>
+Alles für den Kindergarten
+</small>
+
+</button>
+
+
+<button
+class="activity"
+onclick="openList('Spielplatz')">
+
+<span>🌳</span>
+
+<strong>
+Spielplatz
+</strong>
+
+<small>
+Für einen Tag draußen
+</small>
+
+</button>
+
+
+<button
+class="activity"
+onclick="openList('Oma & Opa')">
+
+<span>👵</span>
+
+<strong>
+Oma & Opa
+</strong>
+
+<small>
+Nichts vergessen
+</small>
+
+</button>
+
+
+<button
+class="activity"
+onclick="openList('Einkaufen')">
+
+<span>🛒</span>
+
+<strong>
+Einkaufen
+</strong>
+
+<small>
+Alles fürs Einkaufen
+</small>
+
+</button>
+
+
+<button
+class="activity"
+onclick="openList('Urlaub')">
+
+<span>✈️</span>
+
+<strong>
+Urlaub
+</strong>
+
+<small>
+Reise-Checkliste
+</small>
+
+</button>
+
+
+</div>
+
+
+<button
+class="custom"
+onclick="openCustom()">
+
+＋ Eigene Liste erstellen
+
+</button>
+
+
+</main>
+
+</div>
+
+
+<script>
+
+const lists = {
+
+
+"Schwimmbad": [
+
+"Badehose / Badeanzug",
+
+"Handtuch",
+
+"Schwimmflügel",
+
+"Trinkflasche",
+
+"Sonnencreme",
+
+"Wechselkleidung",
+
+"Schwimmwindeln",
+
+"Snacks"
+
+],
+
+
+"Kindergarten": [
+
+"Kindergarten-Rucksack",
+
+"Trinkflasche",
+
+"Brotdose",
+
+"Hausschuhe",
+
+"Wechselkleidung",
+
+"Jacke"
+
+],
+
+
+"Spielplatz": [
+
+"Jacke",
+
+"Trinkflasche",
+
+"Snacks",
+
+"Sonnencreme",
+
+"Mütze"
+
+],
+
+
+"Oma & Opa": [
+
+"Kinderkleidung",
+
+"Trinkflasche",
+
+"Snacks",
+
+"Lieblingsspielzeug",
+
+"Wechselkleidung"
+
+],
+
+
+"Einkaufen": [
+
+"Einkaufstaschen",
+
+"Einkaufszettel",
+
+"Portemonnaie",
+
+"Trinkflaschen"
+
+],
+
+
+"Urlaub": [
+
+"Kleidung",
+
+"Unterwäsche",
+
+"Zahnbürsten",
+
+"Medikamente",
+
+"Spielzeug",
+
+"Ladegeräte",
+
+"Reisedokumente",
+
+"Snacks"
+
+]
+
+};
+
+
+function openList(name) {
+
+
+const items = lists[name];
+
+
+let html = `
+
+<button
+class="back"
+onclick="location.reload()">
+
+← Zurück
+
+</button>
+
+
+<h2>
+
+${getEmoji(name)}
+
+${name}
+
+</h2>
+
+
+<p class="subtitle">
+
+Was müssen wir mitnehmen?
+
+</p>
+
+
+<div class="checklist">
+
+`;
+
+
+items.forEach(
+
+(item, index) => {
+
+
+html += `
+
+<label class="item">
+
+<input
+type="checkbox"
+onchange="checkItem(this)"
+id="item${index}">
+
+<span>
+${item}
+</span>
+
+</label>
+
+`;
+
+});
+
+
+html += `
+
+</div>
+
+
+<div class="progress">
+
+<span id="counter">
+0
+</span>
+
+/
+
+${items.length}
+
+erledigt
+
+</div>
+
+
+<div
+class="ready"
+id="ready">
+
+🎉 ALLES DABEI!
+
+<br>
+
+Dann kann es losgehen! 🚗
+
+</div>
+
+`;
+
+
+document.getElementById(
+"app"
+).innerHTML = html;
+
+}
+
+
+function checkItem(
+checkbox
+) {
+
+
+const label =
+checkbox.parentElement;
+
+
+const text =
+label.querySelector("span");
+
+
+if (
+checkbox.checked
+) {
+
+text.classList.add(
+"done"
+);
+
+} else {
+
+text.classList.remove(
+"done"
+);
+
+}
+
+
+const all =
+document.querySelectorAll(
+'.item input[type="checkbox"]'
+);
+
+
+const checked =
+document.querySelectorAll(
+'.item input[type="checkbox"]:checked'
+);
+
+
+document.getElementById(
+"counter"
+).textContent =
+checked.length;
+
+
+if (
+checked.length ===
+all.length
+) {
+
+document.getElementById(
+"ready"
+).style.display =
+"block";
+
+} else {
+
+document.getElementById(
+"ready"
+).style.display =
+"none";
+
+}
+
+}
+
+
+function getEmoji(name) {
+
+
+const emojis = {
+
+"Schwimmbad": "🏊",
+
+"Kindergarten": "🏫",
+
+"Spielplatz": "🌳",
+
+"Oma & Opa": "👵",
+
+"Einkaufen": "🛒",
+
+"Urlaub": "✈️"
+
+};
+
+
+return emojis[name] || "📋";
+
+}
+
+
+function openCustom() {
+
+
+const name =
+prompt(
+"Wie soll deine neue Liste heißen?"
+);
+
+
+if (!name)
+return;
+
+
+lists[name] = [
+
+"Punkt 1",
+
+"Punkt 2",
+
+"Punkt 3"
+
+];
+
+
+openList(name);
+
+}
+
+</script>
+
+
+</body>
+
+</html>
