@@ -8,6 +8,9 @@ export default async function handler(req, res) {
       });
     }
 
+    const query =
+      req.query?.query || "Familienaktivitäten in Bad Kissingen";
+
     const response = await fetch(
       "https://places.googleapis.com/v1/places:searchText",
       {
@@ -19,10 +22,10 @@ export default async function handler(req, res) {
             "places.id,places.displayName,places.formattedAddress,places.location,places.photos,places.googleMapsUri"
         },
         body: JSON.stringify({
-          textQuery: "Spielplätze in Bad Kissingen",
+          textQuery: query,
           languageCode: "de",
           regionCode: "DE",
-          pageSize: 5
+          pageSize: 10
         })
       }
     );
