@@ -1,9 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="de">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LOS! – Familien-Starthelfer</title>
+
 <style>
 *{box-sizing:border-box}
 
@@ -45,7 +47,9 @@ main{
   box-shadow:0 3px 12px rgba(0,0,0,.06);
 }
 
-h2{margin-top:0}
+h2{
+  margin-top:0;
+}
 
 button{
   border:none;
@@ -60,7 +64,9 @@ button{
   color:white;
 }
 
-.secondary{background:#eee}
+.secondary{
+  background:#eee;
+}
 
 .danger{
   background:#ffe5e5;
@@ -121,7 +127,9 @@ input,select{
   margin-bottom:8px;
 }
 
-.person-info{font-size:16px}
+.person-info{
+  font-size:16px;
+}
 
 .chips{
   display:flex;
@@ -230,7 +238,9 @@ input,select{
   margin-bottom:12px;
 }
 
-.hidden{display:none}
+.hidden{
+  display:none;
+}
 
 .activity-card{
   border:1px solid #e2e2e2;
@@ -238,14 +248,6 @@ input,select{
   overflow:hidden;
   margin-bottom:14px;
   background:white;
-}
-
-.activity-image{
-  width:100%;
-  height:190px;
-  object-fit:cover;
-  display:block;
-  background:#eee;
 }
 
 .activity-content{
@@ -303,27 +305,12 @@ input,select{
   to{transform:rotate(360deg)}
 }
 
-.image-credit{
-  font-size:11px;
-  color:#777;
-  margin-top:7px;
-  line-height:1.4;
-}
-
 .google-credit{
   font-size:11px;
   color:#777;
   margin-top:8px;
   line-height:1.4;
   text-align:center;
-}
-
-.osm{
-  font-size:12px;
-  color:#777;
-  text-align:center;
-  margin-top:14px;
-  line-height:1.5;
 }
 </style>
 
@@ -608,6 +595,14 @@ onclick="backToPeople()">
 
 <script>
 
+const GOOGLE_API_URL =
+  "https://los-familien-app.vercel.app/api/test";
+
+const BAD_KISSINGEN = {
+  lat:50.2020,
+  lon:10.0770
+};
+
 let family =
   JSON.parse(
     localStorage.getItem("los_family") || "[]"
@@ -635,10 +630,6 @@ let selectedDriveTime =
     localStorage.getItem("los_drive_time") || "30"
   );
 
-
-/* =========================================
-   SPEICHERN
-========================================= */
 
 function saveAll(){
 
@@ -669,22 +660,15 @@ function saveAll(){
 }
 
 
-/* =========================================
-   NAVIGATION
-========================================= */
-
 function hideAll(){
 
-  document
-    .getElementById("home")
+  document.getElementById("home")
     .classList.add("hidden");
 
-  document
-    .getElementById("peopleScreen")
+  document.getElementById("peopleScreen")
     .classList.add("hidden");
 
-  document
-    .getElementById("listScreen")
+  document.getElementById("listScreen")
     .classList.add("hidden");
 }
 
@@ -693,8 +677,7 @@ function renderHome(){
 
   hideAll();
 
-  document
-    .getElementById("home")
+  document.getElementById("home")
     .classList.remove("hidden");
 
   renderFamily();
@@ -704,10 +687,6 @@ function renderHome(){
   updateDriveButtons();
 }
 
-
-/* =========================================
-   WETTER
-========================================= */
 
 function selectWeather(weather){
 
@@ -727,17 +706,12 @@ function updateWeatherButtons(){
 
       button.classList.toggle(
         "active",
-        button.dataset.weather ===
-        selectedWeather
+        button.dataset.weather === selectedWeather
       );
 
     });
 }
 
-
-/* =========================================
-   FAHRZEIT
-========================================= */
 
 function selectDriveTime(time){
 
@@ -757,17 +731,12 @@ function updateDriveButtons(){
 
       button.classList.toggle(
         "active",
-        parseInt(button.dataset.time) ===
-        selectedDriveTime
+        parseInt(button.dataset.time) === selectedDriveTime
       );
 
     });
 }
 
-
-/* =========================================
-   FAMILIE
-========================================= */
 
 function renderFamily(){
 
@@ -822,15 +791,12 @@ function renderFamily(){
 function addPerson(){
 
   const name =
-    document
-      .getElementById("personName")
-      .value
-      .trim();
+    document.getElementById("personName")
+      .value.trim();
 
   const age =
     parseInt(
-      document
-        .getElementById("personAge")
+      document.getElementById("personAge")
         .value
     );
 
@@ -844,20 +810,13 @@ function addPerson(){
   }
 
   family.push({
-
     id:Date.now(),
     name:name,
     age:age
-
   });
 
-  document
-    .getElementById("personName")
-    .value = "";
-
-  document
-    .getElementById("personAge")
-    .value = "";
+  document.getElementById("personName").value = "";
+  document.getElementById("personAge").value = "";
 
   saveAll();
 
@@ -886,9 +845,7 @@ function deletePerson(index){
 function updateFamilySummary(){
 
   const element =
-    document.getElementById(
-      "familySummary"
-    );
+    document.getElementById("familySummary");
 
   if(!family.length){
 
@@ -901,16 +858,11 @@ function updateFamilySummary(){
   element.textContent =
     family
       .map(
-        p =>
-          `${p.name} (${p.age})`
+        p => `${p.name} (${p.age})`
       )
       .join(", ");
 }
 
-
-/* =========================================
-   GOOGLE PLACES
-========================================= */
 
 async function searchRealActivities(){
 
@@ -958,17 +910,27 @@ async function searchRealActivities(){
 
   try{
 
-    /*
-      Zunächst nur EINE Google-Suche.
-      Dadurch vermeiden wir 7 parallele
-      API-Anfragen.
-    */
-
-    const query =
+    let query =
       "Familienaktivitäten in Bad Kissingen";
 
+    if(
+      selectedWeather === "rain" ||
+      selectedWeather === "cold"
+    ){
+
+      query =
+        "Indoor Familienaktivitäten in Bad Kissingen";
+
+    }else{
+
+      query =
+        "Familienaktivitäten in Bad Kissingen";
+
+    }
+
     const apiUrl =
-      "https://los-familien-app.vercel.app/api/test?query=" +
+      GOOGLE_API_URL +
+      "?query=" +
       encodeURIComponent(query);
 
     const response =
@@ -1002,9 +964,7 @@ async function searchRealActivities(){
         data.places
       );
 
-    renderRealActivities(
-      places
-    );
+    renderRealActivities(places);
 
   }catch(error){
 
@@ -1030,53 +990,121 @@ async function searchRealActivities(){
     `;
   }
 }
-=========================
-   GOOGLE ERGEBNISSE VERARBEITEN
-========================================= */
 
-function processGoogleResults(places) {
+
+function processGoogleResults(places){
+
   return places
-    .map(place => {
-      const lat = place.location?.latitude;
-      const lon = place.location?.longitude;
+    .map(place=>{
 
-      if (!lat || !lon) return null;
+      const lat =
+        place.location?.latitude;
 
-      const distance = calculateDistance(
-        BAD_KISSINGEN.lat,
-        BAD_KISSINGEN.lon,
-        lat,
-        lon
-      );
+      const lon =
+        place.location?.longitude;
+
+      if(
+        typeof lat !== "number" ||
+        typeof lon !== "number"
+      ){
+        return null;
+      }
+
+      const distance =
+        calculateDistance(
+          BAD_KISSINGEN.lat,
+          BAD_KISSINGEN.lon,
+          lat,
+          lon
+        );
+
+      const category =
+        guessGoogleCategory(
+          place.displayName?.text || ""
+        );
+
+      const indoor =
+        guessIndoorCategory(category);
+
+      const ageMatch =
+        getAgeMatch(category);
 
       return {
-        id: place.id,
-        name: place.displayName?.text || "Unbekannte Aktivität",
-        address: place.formattedAddress || "Adresse nicht verfügbar",
-        lat,
-        lon,
-        distance,
-        googleMapsUri: place.googleMapsUri || null,
-        category: guessGoogleCategory(
-          place.displayName?.text || ""
-        ),
-        rating: place.rating || null,
-        website: place.websiteUri || null,
-        photos: place.photos || []
+
+        id:place.id,
+
+        name:
+          place.displayName?.text ||
+          "Unbekannte Aktivität",
+
+        address:
+          place.formattedAddress ||
+          "Adresse nicht verfügbar",
+
+        lat:lat,
+        lon:lon,
+
+        distance:distance,
+
+        googleMapsUri:
+          place.googleMapsUri || null,
+
+        mapsUri:
+          place.googleMapsUri || null,
+
+        category:category,
+
+        indoor:indoor,
+
+        ageMatch:ageMatch,
+
+        rating:
+          place.rating || null,
+
+        website:
+          place.websiteUri || null
+
       };
+
     })
+
     .filter(Boolean)
-    .filter(place => {
-      return place.distance <= selectedDriveTime * 2;
+
+    .filter(place=>{
+
+      return (
+        place.distance <=
+        getDistanceLimit()
+      );
+
     })
-    .sort((a, b) => a.distance - b.distance)
-    .slice(0, 5);
+
+    .filter(place=>{
+
+      return weatherSuitable(
+        place.indoor
+      );
+
+    })
+
+    .sort((a,b)=>{
+
+      if(
+        a.ageMatch !==
+        b.ageMatch
+      ){
+
+        return a.ageMatch ? -1 : 1;
+
+      }
+
+      return a.distance-b.distance;
+
+    })
+
+    .slice(0,5);
 }
 
-
-/* =========================================
-   GOOGLE KATEGORIE
-========================================= */
 
 function guessGoogleCategory(name){
 
@@ -1084,9 +1112,13 @@ function guessGoogleCategory(name){
     name.toLowerCase();
 
   if(
-    value.includes("spielplatz")
+    value.includes("spielplatz") ||
+    value.includes("wasserspielplatz") ||
+    value.includes("aktivspielplatz")
   ){
+
     return "Spielplatz";
+
   }
 
   if(
@@ -1095,13 +1127,17 @@ function guessGoogleCategory(name){
     value.includes("freibad") ||
     value.includes("hallenbad")
   ){
+
     return "Schwimmbad";
+
   }
 
   if(
     value.includes("museum")
   ){
+
     return "Museum";
+
   }
 
   if(
@@ -1109,55 +1145,50 @@ function guessGoogleCategory(name){
     value.includes("tierpark") ||
     value.includes("wildpark")
   ){
+
     return "Tierpark / Zoo";
+
   }
 
   if(
     value.includes("freizeitpark") ||
     value.includes("park")
   ){
+
     return "Freizeitpark / Park";
+
   }
 
   return "Freizeit";
+
 }
 
 
-/* =========================================
-   INDOOR
-========================================= */
-
-function guessIndoorCategory(
-  category
-){
+function guessIndoorCategory(category){
 
   return(
-    category==="Museum" ||
-    category==="Schwimmbad"
+    category === "Museum" ||
+    category === "Schwimmbad"
   );
+
 }
 
-
-/* =========================================
-   WETTER
-========================================= */
 
 function weatherSuitable(indoor){
 
   if(
-    selectedWeather==="rain" ||
-    selectedWeather==="cold"
+    selectedWeather === "rain" ||
+    selectedWeather === "cold"
   ){
+
     return indoor;
+
   }
 
   return true;
+
 }
 
-
-/* =========================================
-   ALTER
-========================================= */
 
 function getAgeMatch(category){
 
@@ -1165,46 +1196,45 @@ function getAgeMatch(category){
     return true;
   }
 
-  if(category==="Spielplatz"){
+  if(category === "Spielplatz"){
 
     return family.some(
       p =>
-        p.age>=1 &&
-        p.age<=12
+        p.age >= 1 &&
+        p.age <= 12
     );
+
   }
 
-  if(category==="Tierpark / Zoo"){
+  if(category === "Tierpark / Zoo"){
 
     return family.some(
       p =>
-        p.age<=14
+        p.age <= 14
     );
+
   }
 
-  if(category==="Museum"){
+  if(category === "Museum"){
 
     return family.some(
       p =>
-        p.age>=3
+        p.age >= 3
     );
+
   }
 
   return true;
 }
 
 
-/* =========================================
-   DISTANZ
-========================================= */
-
 function getDistanceLimit(){
 
-  if(selectedDriveTime===15){
+  if(selectedDriveTime === 15){
     return 12;
   }
 
-  if(selectedDriveTime===30){
+  if(selectedDriveTime === 30){
     return 25;
   }
 
@@ -1219,30 +1249,30 @@ function calculateDistance(
   lon2
 ){
 
-  const R=6371;
+  const R = 6371;
 
-  const dLat=
+  const dLat =
     degreesToRadians(
       lat2-lat1
     );
 
-  const dLon=
+  const dLon =
     degreesToRadians(
       lon2-lon1
     );
 
-  const a=
-    Math.sin(dLat/2)**2+
+  const a =
+    Math.sin(dLat/2)**2 +
     Math.cos(
       degreesToRadians(lat1)
-    )*
+    ) *
     Math.cos(
       degreesToRadians(lat2)
-    )*
+    ) *
     Math.sin(dLon/2)**2;
 
-  const c=
-    2*
+  const c =
+    2 *
     Math.atan2(
       Math.sqrt(a),
       Math.sqrt(1-a)
@@ -1255,21 +1285,14 @@ function calculateDistance(
 function degreesToRadians(degrees){
 
   return degrees*Math.PI/180;
+
 }
 
 
-/* =========================================
-   ERGEBNISSE RENDERN
-========================================= */
-
-function renderRealActivities(
-  places
-){
+function renderRealActivities(places){
 
   const container =
-    document.getElementById(
-      "results"
-    );
+    document.getElementById("results");
 
   container.innerHTML = "";
 
@@ -1293,164 +1316,116 @@ function renderRealActivities(
     return;
   }
 
+  places.forEach(place=>{
 
-  places
-    .slice(0,5)
-    .forEach(place=>{
+    const card =
+      document.createElement("div");
 
-      const card =
-        document.createElement(
-          "div"
-        );
+    card.className =
+      "activity-card";
 
-      card.className =
-        "activity-card";
+    const type =
+      place.indoor
+        ? "🏠 Indoor"
+        : "🌳 Outdoor";
 
+    const age =
+      place.ageMatch
+        ? "👶 Familiengeeignet"
+        : "ℹ️ Altersangabe prüfen";
 
-      const type =
-        place.indoor
-          ? "🏠 Indoor"
-          : "🌳 Outdoor";
+    let extra = "";
 
+    if(place.rating){
 
-      const age =
-        place.ageMatch
-          ? "👶 Familiengeeignet"
-          : "ℹ️ Altersangabe prüfen";
+      extra +=
+        `<span class="badge">
+          ⭐ ${Number(place.rating).toFixed(1)}
+        </span>`;
 
+    }
 
-      let extra = "";
+    if(place.address){
 
+      extra +=
+        `<span class="badge">
+          📍 ${escapeHTML(place.address)}
+        </span>`;
 
-      if(place.rating){
+    }
 
-        extra +=
-          `<span class="badge">⭐ ${Number(place.rating).toFixed(1)}</span>`;
+    card.innerHTML = `
 
-      }
+      <div class="activity-content">
 
+        <div class="activity-name">
+          ${escapeHTML(place.name)}
+        </div>
 
-      if(place.address){
+        <div class="activity-description">
+          ${escapeHTML(place.category)}
+        </div>
 
-        extra +=
-          `<span class="badge">📍 ${escapeHTML(place.address)}</span>`;
+        <div class="activity-meta">
 
-      }
+          <span class="badge">
+            📍 ca. ${place.distance.toFixed(1)} km
+          </span>
 
+          <span class="badge">
+            ${type}
+          </span>
 
-      let imageHTML = "";
+          <span class="badge">
+            ${age}
+          </span>
 
-
-      if(place.image){
-
-        imageHTML = `
-
-          <img
-            class="activity-image"
-            src="${escapeHTML(place.image)}"
-            alt="${escapeHTML(place.name)}"
-            loading="lazy"
-            onerror="this.style.display='none'"
-          >
-
-        `;
-
-      }
-
-
-      card.innerHTML = `
-
-        ${imageHTML}
-
-        <div class="activity-content">
-
-          <div class="activity-name">
-
-            ${escapeHTML(
-              place.name
-            )}
-
-          </div>
-
-          <div class="activity-description">
-
-            ${escapeHTML(
-              place.category
-            )}
-
-          </div>
-
-          <div class="activity-meta">
-
-            <span class="badge">
-              📍 ca.
-              ${place.distance.toFixed(1)}
-              km
-            </span>
-
-            <span class="badge">
-              ${type}
-            </span>
-
-            <span class="badge">
-              ${age}
-            </span>
-
-            ${extra}
-
-          </div>
-
-          <button
-            class="primary activity-button"
-            onclick='useRealActivity(${JSON.stringify(
-              place.name
-            )})'>
-
-            🚀 Diese Aktivität nehmen
-
-          </button>
-
-          <button
-            class="route-button"
-            onclick='openGooglePlace(${JSON.stringify(
-              place.mapsUri || ""
-            )}, ${place.lat}, ${place.lon})'>
-
-            🗺️ Route öffnen
-
-          </button>
-
-          ${
-            place.website
-              ? `
-
-                <button
-                  class="route-button"
-                  onclick='openWebsite(${JSON.stringify(
-                    place.website
-                  )})'>
-
-                  🌐 Website
-
-                </button>
-
-              `
-              : ""
-          }
+          ${extra}
 
         </div>
 
-      `;
+        <button
+          class="primary activity-button"
+          onclick='useRealActivity(${JSON.stringify(place.name)})'>
 
-      container.appendChild(card);
+          🚀 Diese Aktivität nehmen
 
-    });
+        </button>
+
+        <button
+          class="route-button"
+          onclick='openGooglePlace(${JSON.stringify(place.mapsUri || "")}, ${place.lat}, ${place.lon})'>
+
+          🗺️ Route öffnen
+
+        </button>
+
+        ${
+          place.website
+            ? `
+
+              <button
+                class="route-button"
+                onclick='openWebsite(${JSON.stringify(place.website)})'>
+
+                🌐 Website
+
+              </button>
+
+            `
+            : ""
+        }
+
+      </div>
+
+    `;
+
+    container.appendChild(card);
+
+  });
+
 }
 
-
-/* =========================================
-   GOOGLE MAPS
-========================================= */
 
 function openGooglePlace(
   mapsUri,
@@ -1466,12 +1441,14 @@ function openGooglePlace(
     );
 
     return;
+
   }
 
   openRoute(
     lat,
     lon
   );
+
 }
 
 
@@ -1487,6 +1464,7 @@ function openRoute(lat,lon){
     url,
     "_blank"
   );
+
 }
 
 
@@ -1500,18 +1478,16 @@ function openWebsite(url){
 
     target =
       "https://" + target;
+
   }
 
   window.open(
     target,
     "_blank"
   );
+
 }
 
-
-/* =========================================
-   AKTIVITÄT AUSWÄHLEN
-========================================= */
 
 function useRealActivity(name){
 
@@ -1523,34 +1499,23 @@ function useRealActivity(name){
   hideAll();
 
   document
-    .getElementById(
-      "peopleScreen"
-    )
-    .classList.remove(
-      "hidden"
-    );
+    .getElementById("peopleScreen")
+    .classList.remove("hidden");
 
   document
-    .getElementById(
-      "selectedActivityTitle"
-    )
+    .getElementById("selectedActivityTitle")
     .textContent =
       name;
 
   renderPeopleSelector();
+
 }
 
-
-/* =========================================
-   PERSONENAUSWAHL
-========================================= */
 
 function renderPeopleSelector(){
 
   const container =
-    document.getElementById(
-      "peopleSelector"
-    );
+    document.getElementById("peopleSelector");
 
   container.innerHTML = "";
 
@@ -1568,27 +1533,22 @@ function renderPeopleSelector(){
     `;
 
     return;
+
   }
 
   family.forEach(person=>{
 
     const button =
-      document.createElement(
-        "div"
-      );
+      document.createElement("div");
 
-    button.className =
-      "chip";
+    button.className = "chip";
 
     if(
-      selectedPeople.includes(
-        person.id
-      )
+      selectedPeople.includes(person.id)
     ){
 
-      button.classList.add(
-        "active"
-      );
+      button.classList.add("active");
+
     }
 
     button.textContent =
@@ -1596,15 +1556,12 @@ function renderPeopleSelector(){
 
     button.onclick =
       () =>
-        togglePerson(
-          person.id
-        );
+        togglePerson(person.id);
 
-    container.appendChild(
-      button
-    );
+    container.appendChild(button);
 
   });
+
 }
 
 
@@ -1613,7 +1570,7 @@ function togglePerson(id){
   const index =
     selectedPeople.indexOf(id);
 
-  if(index===-1){
+  if(index === -1){
 
     selectedPeople.push(id);
 
@@ -1623,15 +1580,13 @@ function togglePerson(id){
       index,
       1
     );
+
   }
 
   renderPeopleSelector();
+
 }
 
-
-/* =========================================
-   CHECKLISTE
-========================================= */
 
 function createFamilyChecklist(){
 
@@ -1642,6 +1597,7 @@ function createFamilyChecklist(){
     );
 
     return;
+
   }
 
   buildChecklist();
@@ -1649,28 +1605,21 @@ function createFamilyChecklist(){
   hideAll();
 
   document
-    .getElementById(
-      "listScreen"
-    )
-    .classList.remove(
-      "hidden"
-    );
+    .getElementById("listScreen")
+    .classList.remove("hidden");
 
   document
-    .getElementById(
-      "listTitle"
-    )
+    .getElementById("listTitle")
     .textContent =
       currentActivity;
 
   document
-    .getElementById(
-      "listSubtitle"
-    )
+    .getElementById("listSubtitle")
     .textContent =
       "LOS! hat eure persönliche Liste zusammengestellt";
 
   renderChecklist();
+
 }
 
 
@@ -1685,7 +1634,7 @@ function buildChecklist(){
 
   if(category.includes("schwimm")){
 
-    common=[
+    common = [
       "Handtücher",
       "Trinkflaschen",
       "Wechselkleidung"
@@ -1695,7 +1644,7 @@ function buildChecklist(){
     category.includes("spielplatz")
   ){
 
-    common=[
+    common = [
       "Trinkflaschen",
       "Snack",
       "Sonnencreme"
@@ -1705,7 +1654,7 @@ function buildChecklist(){
     category.includes("museum")
   ){
 
-    common=[
+    common = [
       "Trinkflaschen",
       "Snacks"
     ];
@@ -1714,7 +1663,7 @@ function buildChecklist(){
     category.includes("tier")
   ){
 
-    common=[
+    common = [
       "Trinkflaschen",
       "Snacks",
       "Sonnencreme"
@@ -1722,11 +1671,12 @@ function buildChecklist(){
 
   }else{
 
-    common=[
+    common = [
       "Trinkflaschen",
       "Snacks",
       "Wechselkleidung"
     ];
+
   }
 
   common.forEach(
@@ -1743,35 +1693,28 @@ function buildChecklist(){
 
       const person =
         family.find(
-          p =>
-            p.id===personId
+          p => p.id === personId
         );
 
       if(!person){
         return;
       }
 
-      let items=[];
+      let items = [];
 
-      if(person.age<=3){
+      if(person.age <= 6){
 
-        items=[
-          "Wechselkleidung",
-          "Snack"
-        ];
-
-      }else if(person.age<=6){
-
-        items=[
+        items = [
           "Wechselkleidung",
           "Snack"
         ];
 
       }else{
 
-        items=[
+        items = [
           "Trinkflasche"
         ];
+
       }
 
       items.forEach(
@@ -1782,8 +1725,10 @@ function buildChecklist(){
             person.id
           )
       );
+
     }
   );
+
 }
 
 
@@ -1802,10 +1747,12 @@ function addItem(
 
   if(
     currentItems.some(
-      x=>x.id===id
+      x => x.id === id
     )
   ){
+
     return;
+
   }
 
   currentItems.push({
@@ -1816,33 +1763,26 @@ function addItem(
     personId:personId
 
   });
+
 }
 
-
-/* =========================================
-   CHECKLISTE RENDERN
-========================================= */
 
 function renderChecklist(){
 
   const container =
-    document.getElementById(
-      "checklist"
-    );
+    document.getElementById("checklist");
 
   container.innerHTML = "";
 
   const common =
     currentItems.filter(
-      x=>!x.personId
+      x => !x.personId
     );
 
   if(common.length){
 
     const title =
-      document.createElement(
-        "div"
-      );
+      document.createElement("div");
 
     title.className =
       "section-title";
@@ -1859,6 +1799,7 @@ function renderChecklist(){
           container
         )
     );
+
   }
 
   selectedPeople.forEach(
@@ -1866,7 +1807,7 @@ function renderChecklist(){
 
       const person =
         family.find(
-          p=>p.id===personId
+          p => p.id === personId
         );
 
       if(!person){
@@ -1876,8 +1817,7 @@ function renderChecklist(){
       const items =
         currentItems.filter(
           x =>
-            x.personId===
-            person.id
+            x.personId === person.id
         );
 
       if(!items.length){
@@ -1885,9 +1825,7 @@ function renderChecklist(){
       }
 
       const title =
-        document.createElement(
-          "div"
-        );
+        document.createElement("div");
 
       title.className =
         "section-title";
@@ -1904,10 +1842,12 @@ function renderChecklist(){
             container
           )
       );
+
     }
   );
 
   updateProgress();
+
 }
 
 
@@ -1917,37 +1857,30 @@ function renderItem(
 ){
 
   const wrapper =
-    document.createElement(
-      "label"
-    );
+    document.createElement("label");
 
   wrapper.className =
     "check-item";
 
   const checkbox =
-    document.createElement(
-      "input"
-    );
+    document.createElement("input");
 
   checkbox.type =
     "checkbox";
 
   checkbox.checked =
-    checkedItems[item.id]===true;
+    checkedItems[item.id] === true;
 
   const text =
-    document.createElement(
-      "span"
-    );
+    document.createElement("span");
 
   text.textContent =
     item.item;
 
   if(checkbox.checked){
 
-    text.classList.add(
-      "checked"
-    );
+    text.classList.add("checked");
+
   }
 
   checkbox.onchange =
@@ -1964,25 +1897,16 @@ function renderItem(
       saveAll();
 
       updateProgress();
+
     };
 
-  wrapper.appendChild(
-    checkbox
-  );
+  wrapper.appendChild(checkbox);
+  wrapper.appendChild(text);
 
-  wrapper.appendChild(
-    text
-  );
+  container.appendChild(wrapper);
 
-  container.appendChild(
-    wrapper
-  );
 }
 
-
-/* =========================================
-   FORTSCHRITT
-========================================= */
 
 function updateProgress(){
 
@@ -1992,12 +1916,11 @@ function updateProgress(){
   if(!total){
 
     document
-      .getElementById(
-        "progressBar"
-      )
-      .style.width="0%";
+      .getElementById("progressBar")
+      .style.width = "0%";
 
     return;
+
   }
 
   const done =
@@ -2008,28 +1931,21 @@ function updateProgress(){
 
   const percent =
     Math.round(
-      done/total*100
+      done / total * 100
     );
 
   document
-    .getElementById(
-      "progressBar"
-    )
+    .getElementById("progressBar")
     .style.width =
-      percent+"%";
+      percent + "%";
+
 }
 
-
-/* =========================================
-   EIGENE LISTEN
-========================================= */
 
 function createList(){
 
   const input =
-    document.getElementById(
-      "newListName"
-    );
+    document.getElementById("newListName");
 
   const name =
     input.value.trim();
@@ -2041,6 +1957,7 @@ function createList(){
     );
 
     return;
+
   }
 
   customLists.push({
@@ -2050,35 +1967,32 @@ function createList(){
 
   });
 
-  input.value="";
+  input.value = "";
 
   saveAll();
 
   renderHome();
+
 }
 
 
 function renderCustomLists(){
 
   const container =
-    document.getElementById(
-      "customLists"
-    );
+    document.getElementById("customLists");
 
-  container.innerHTML="";
+  container.innerHTML = "";
 
   customLists.forEach(list=>{
 
     const button =
-      document.createElement(
-        "button"
-      );
+      document.createElement("button");
 
     button.className =
       "list-button";
 
     button.textContent =
-      "📌 "+list.name;
+      "📌 " + list.name;
 
     button.onclick =
       ()=>{
@@ -2086,38 +2000,29 @@ function renderCustomLists(){
         currentActivity =
           list.name;
 
-        selectedPeople=[];
+        selectedPeople = [];
 
         hideAll();
 
         document
-          .getElementById(
-            "peopleScreen"
-          )
-          .classList.remove(
-            "hidden"
-          );
+          .getElementById("peopleScreen")
+          .classList.remove("hidden");
 
         document
-          .getElementById(
-            "selectedActivityTitle"
-          )
+          .getElementById("selectedActivityTitle")
           .textContent =
-            "📌 "+list.name;
+            "📌 " + list.name;
 
         renderPeopleSelector();
+
       };
 
-    container.appendChild(
-      button
-    );
+    container.appendChild(button);
+
   });
+
 }
 
-
-/* =========================================
-   EIGENER PUNKT
-========================================= */
 
 function addCustomItem(){
 
@@ -2126,23 +2031,25 @@ function addCustomItem(){
       "Was soll noch auf die Liste?"
     );
 
-  if(!item || !item.trim()){
+  if(
+    !item ||
+    !item.trim()
+  ){
+
     return;
+
   }
 
   addItem(
     item.trim(),
     "Eigener Punkt",
-    "custom-"+Date.now()
+    "custom-" + Date.now()
   );
 
   renderChecklist();
+
 }
 
-
-/* =========================================
-   RESET
-========================================= */
 
 function resetChecklist(){
 
@@ -2151,7 +2058,9 @@ function resetChecklist(){
       "Alle erledigten Punkte zurücksetzen?"
     )
   ){
+
     return;
+
   }
 
   currentItems.forEach(
@@ -2163,41 +2072,32 @@ function resetChecklist(){
   saveAll();
 
   renderChecklist();
+
 }
 
-
-/* =========================================
-   ZURÜCK
-========================================= */
 
 function backToPeople(){
 
   hideAll();
 
   document
-    .getElementById(
-      "peopleScreen"
-    )
-    .classList.remove(
-      "hidden"
-    );
+    .getElementById("peopleScreen")
+    .classList.remove("hidden");
 
   renderPeopleSelector();
+
 }
 
 
 function goHome(){
 
-  currentActivity=null;
-  selectedPeople=[];
+  currentActivity = null;
+  selectedPeople = [];
 
   renderHome();
+
 }
 
-
-/* =========================================
-   ID
-========================================= */
 
 function createItemId(
   activity,
@@ -2206,38 +2106,27 @@ function createItemId(
 ){
 
   return(
-    activity+
-    "|"+
-    item+
-    "|"+
-    (personId||"all")
+    activity +
+    "|" +
+    item +
+    "|" +
+    (personId || "all")
   );
+
 }
 
-
-/* =========================================
-   HTML SICHER MACHEN
-========================================= */
 
 function escapeHTML(text){
 
   return String(text)
-
     .replace(/&/g,"&amp;")
-
     .replace(/</g,"&lt;")
-
     .replace(/>/g,"&gt;")
-
     .replace(/"/g,"&quot;")
-
     .replace(/'/g,"&#039;");
+
 }
 
-
-/* =========================================
-   START
-========================================= */
 
 renderHome();
 
