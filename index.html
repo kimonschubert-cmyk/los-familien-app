@@ -401,6 +401,26 @@ button .icon {
   line-height: 1.5;
 }
 
+.discount-box {
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid #bbf7d0;
+  border-radius: 11px;
+  background: #f0fdf4;
+  color: #166534;
+}
+
+.discount-box strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.discount-box small {
+  display: block;
+  margin-top: 5px;
+  color: #4b5563;
+}
+
 @media (max-width: 480px) {
   main {
     padding: 12px;
@@ -806,6 +826,9 @@ button .icon {
 
 const GOOGLE_API_URL =
   "https://los-familien-app.vercel.app/api/places";
+
+const DISCOUNT_API_URL =
+  "https://los-familien-app.vercel.app/api/discounts";
 
 /*
 ==================================================
@@ -1504,8 +1527,13 @@ async function searchActivities() {
         results
       );
 
+    const enriched =
+      await enrichDiscounts(
+        processed
+      );
+
     renderRealActivities(
-      processed
+      enriched
     );
 
   } catch (error) {
@@ -1559,6 +1587,48 @@ function getOpeningHours(
   return place.currentOpeningHours ||
     place.regularOpeningHours ||
     null;
+
+}
+
+async function enrichDiscounts(
+  activities
+) {
+
+  return Promise.all(
+    activities.map(
+      async activity => {
+
+        if (!activity.websiteUri) {
+          return activity;
+        }
+
+        try {
+          const response =
+            await fetch(
+              DISCOUNT_API_URL +
+              "?url=" +
+              encodeURIComponent(
+                activity.websiteUri
+              )
+            );
+
+          if (response.ok) {
+            activity.discount =
+              await response.json();
+          }
+
+        } catch (error) {
+          console.warn(
+            "Rabattprüfung nicht verfügbar:",
+            error
+          );
+        }
+
+        return activity;
+
+      }
+    )
+  );
 
 }
 
@@ -2823,6 +2893,45 @@ function renderRealActivities(
             <p>
               ${escapeHTML(address)}
             </p>
+
+            ${
+              activity.discount?.verified &&
+              activity.discount.code
+                ? `
+                    <div class="discount-box">
+                      <strong>
+                        Rabattcode: ${escapeHTML(
+                          activity.discount.code
+                        )}
+                      </strong>
+
+                      <span>
+                        Auf der offiziellen Website gefunden
+                      </span>
+
+                      <small>
+                        Geprüft am ${escapeHTML(
+                          new Date(
+                            activity.discount.checkedAt
+                          ).toLocaleString(
+                            "de-DE"
+                          )
+                        )}
+                        ·
+                        <a
+                          href="${escapeAttribute(
+                            activity.discount.sourceUrl
+                          )}"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Quelle öffnen
+                        </a>
+                      </small>
+                    </div>
+                  `
+                : ""
+            }
 
             ${openingHoursMarkup}
 
