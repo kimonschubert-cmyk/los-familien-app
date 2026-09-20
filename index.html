@@ -1635,8 +1635,7 @@ async function processResults(
       .filter(
         place =>
           place.estimatedCost === null
-            ? state.maxBudget >= 250
-            : place.estimatedCost <=
+            || place.estimatedCost <=
               state.maxBudget
       )
 
