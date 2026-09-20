@@ -1813,6 +1813,20 @@ async function processResults(
       a.totalScore
   );
 
+  const rotatingPool =
+    pool
+      .slice(
+        0,
+        Math.min(
+          8,
+          pool.length
+        )
+      )
+      .sort(
+        () =>
+          Math.random() - 0.5
+      );
+
   /*
   ================================================
   MAXIMAL 3 VORSCHLÄGE
@@ -1823,7 +1837,7 @@ async function processResults(
   const categories = new Set();
 
   for (
-    const place of pool
+    const place of rotatingPool
   ) {
 
     if (
@@ -1851,7 +1865,7 @@ async function processResults(
   }
 
   for (
-    const place of pool
+    const place of rotatingPool
   ) {
 
     if (
