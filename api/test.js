@@ -42,7 +42,7 @@ const response =
         "X-Goog-Api-Key":
           apiKey,
         "X-Goog-FieldMask":
-          "places.id,places.displayName,places.formattedAddress,places.location,places.photos,places.googleMapsUri,places.rating,places.websiteUri,places.currentOpeningHours,places.regularOpeningHours"
+          "places.id,places.displayName,places.formattedAddress,places.location,places.photos,places.googleMapsUri,places.rating,places.websiteUri"
       },
       body: JSON.stringify({
         textQuery: query,
