@@ -4,34 +4,42 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LOS! – Familien-Starthelfer</title>
+<script src="https://unpkg.com/lucide@latest"></script>
 <style>
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+}
 body{
   margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
   background:#f5f7fa;
-  color:#222;
+  color:#1f2937;
 }
 header{
-  background:white;
-  padding:24px 18px 18px;
+  background:#ffffff;
+  padding:18px 20px;
   text-align:center;
-  border-bottom:1px solid #ddd;
+  box-shadow:0 2px 8px rgba(0,0,0,0.08);
+  position:sticky;
+  top:0;
+  z-index:20;
 }
 header h1{
   margin:0;
-  font-size:34px;
+  font-size:28px;
+  font-weight:800;
+  letter-spacing:-0.5px;
 }
 header p{
-  margin:6px 0 0;
-  color:#666;
+  margin:5px 0 0;
+  color:#6b7280;
+  font-size:14px;
 }
 main{
-  max-width:680px;
-  margin:auto;
-  padding:18px;
+  max-width:700px;
+  margin:0 auto;
+  padding:16px;
 }
-/* DIE 4 TRENNFLÄCHEN */
 .card{
   background:#ffffff;
   border-radius:16px;
@@ -43,416 +51,539 @@ main{
 }
 h2{
   margin-top:0;
+  font-size:21px;
+}
+h3{
+  margin-bottom:8px;
+}
+label{
+  display:block;
+  font-weight:600;
+  margin-bottom:7px;
+}
+input,
+select{
+  width:100%;
+  padding:13px;
+  border:1px solid #d1d5db;
+  border-radius:11px;
+  font-size:16px;
+  margin-bottom:14px;
+  background:#fff;
 }
 button{
   border:none;
-  border-radius:13px;
-  padding:12px 16px;
-  font-size:16px;
+  border-radius:11px;
+  padding:12px 15px;
+  font-size:15px;
+  font-weight:700;
   cursor:pointer;
+  transition:0.15s;
+}
+button:active{
+  transform:scale(0.98);
 }
 .primary{
-  background:#111;
+  background:#111827;
   color:white;
+  width:100%;
 }
 .secondary{
-  background:#eee;
+  background:#eef2f7;
+  color:#1f2937;
+}
+.success{
+  background:#166534;
+  color:white;
 }
 .danger{
-  background:#ffe5e5;
-  color:#b00020;
+  background:#dc2626;
+  color:white;
 }
-.list-button{
-  width:100%;
-  margin:6px 0;
-  text-align:left;
-  background:#f1f3f5;
-  font-size:17px;
+.icon{
+  width:18px;
+  height:18px;
+  vertical-align:-4px;
+  stroke-width:2.2;
 }
-input,select{
-  width:100%;
-  padding:13px;
-  border:1px solid #ccc;
-  border-radius:12px;
-  font-size:16px;
-  margin-bottom:10px;
-  background:white;
+.icon-lg{
+  width:28px;
+  height:28px;
+  vertical-align:-7px;
+  stroke-width:2;
 }
-.hero{
-  text-align:center;
-  padding:8px 0 18px;
+button .icon{
+  margin-right:7px;
 }
-.hero-title{
-  font-size:24px;
-  font-weight:700;
+.section-title{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  margin-bottom:14px;
 }
-.hero-text{
-  color:#666;
-  margin-top:6px;
+.section-title .icon{
+  color:#111827;
 }
-.small{
-  color:#777;
+.weather-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+  margin-bottom:18px;
+}
+.weather-btn{
+  background:#f3f4f6;
+  color:#374151;
+  padding:11px 5px;
   font-size:13px;
 }
-.empty{
-  color:#777;
-  text-align:center;
-  padding:15px;
+.weather-btn.active{
+  background:#111827;
+  color:#fff;
 }
-.person{
+.drive-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-bottom:18px;
+}
+.drive-btn{
+  background:#f3f4f6;
+  color:#374151;
+}
+.drive-btn.active{
+  background:#111827;
+  color:#fff;
+}
+.family-summary{
+  background:#f8fafc;
+  border-radius:12px;
+  padding:13px;
+  margin-bottom:16px;
+}
+.family-member{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:12px;
-  background:#f5f5f5;
-  border-radius:12px;
-  margin-bottom:8px;
+  padding:8px 0;
+  border-bottom:1px solid #e5e7eb;
 }
-.person-info{
-  font-size:16px;
+.family-member:last-child{
+  border-bottom:none;
 }
-.chips{
+.person-age{
+  color:#6b7280;
+  font-size:14px;
+}
+.result-card{
+  border:1px solid #e5e7eb;
+  border-radius:14px;
+  padding:15px;
+  margin-bottom:12px;
+  background:#fff;
+}
+.result-card h3{
+  margin:0 0 8px;
+  font-size:18px;
+}
+.result-meta{
   display:flex;
   flex-wrap:wrap;
-  gap:8px;
-  margin:12px 0;
+  gap:7px;
+  margin:9px 0;
 }
-.chip{
-  background:#eee;
-  padding:10px 13px;
+.badge{
+  background:#f3f4f6;
   border-radius:20px;
-  cursor:pointer;
+  padding:6px 9px;
+  font-size:12px;
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
 }
-.chip.active{
-  background:#111;
-  color:white;
+.badge .icon{
+  width:14px;
+  height:14px;
+  margin:0;
 }
-.section-title{
-  margin-top:20px;
-  margin-bottom:10px;
-  font-size:18px;
-  font-weight:600;
+.rating{
+  font-weight:700;
+}
+.result-actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:12px;
+}
+.result-actions button{
+  width:100%;
+}
+.hidden{
+  display:none !important;
+}
+.people-list{
+  margin-bottom:15px;
+}
+.person-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:12px;
+  background:#f8fafc;
+  border-radius:11px;
+  margin-bottom:8px;
+}
+.person-info strong{
+  display:block;
+}
+.person-info span{
+  color:#6b7280;
+  font-size:13px;
+}
+.small-actions{
+  display:flex;
+  gap:6px;
+}
+.small-btn{
+  padding:8px 10px;
+  font-size:13px;
+}
+.list-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:11px 0;
+  border-bottom:1px solid #e5e7eb;
+}
+.list-item:last-child{
+  border-bottom:none;
 }
 .check-item{
   display:flex;
   align-items:center;
-  gap:12px;
-  padding:13px;
-  background:#f7f7f7;
-  border-radius:12px;
+  gap:10px;
+  padding:12px;
+  background:#f8fafc;
+  border-radius:11px;
   margin-bottom:8px;
 }
 .check-item input{
-  width:22px;
-  height:22px;
+  width:20px;
+  height:20px;
   margin:0;
-}
-.checked{
-  text-decoration:line-through;
-  color:#888;
 }
 .progress{
   height:9px;
-  background:#eee;
+  background:#e5e7eb;
   border-radius:10px;
   overflow:hidden;
-  margin:12px 0 18px;
+  margin:12px 0 16px;
 }
 .progress-bar{
   height:100%;
+  background:#166534;
   width:0%;
-  background:#111;
-  transition:width .2s;
+  transition:0.2s;
 }
-.weather-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:8px;
-}
-.weather-button{
-  background:#eee;
-}
-.weather-button.active{
-  background:#111;
-  color:white;
-}
-.transport-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
-}
-.transport-button{
-  background:#eee;
-}
-.transport-button.active{
-  background:#111;
-  color:white;
-}
-.summary{
-  background:#f1f3f5;
-  border-radius:14px;
-  padding:13px;
-  margin-top:12px;
-}
-.notice{
-  background:#fff8dc;
-  border-radius:14px;
-  padding:12px;
-  color:#665500;
-  margin-bottom:12px;
-}
-.hidden{
-  display:none;
-}
-.activity-card{
-  border:1px solid #e2e2e2;
-  border-radius:17px;
-  overflow:hidden;
-  margin-bottom:14px;
-  background:white;
-}
-.activity-content{
-  padding:15px;
-}
-.activity-name{
-  font-size:19px;
-  font-weight:700;
-}
-.activity-description{
-  color:#666;
-  margin-top:5px;
-  line-height:1.4;
-}
-.activity-meta{
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px;
-  margin:12px 0;
-}
-.badge{
-  background:#f0f1f2;
-  padding:6px 9px;
-  border-radius:14px;
-  font-size:13px;
-}
-.activity-button{
-  width:100%;
-  margin-top:5px;
-}
-.route-button{
-  width:100%;
-  background:#eee;
-  margin-top:7px;
+.empty{
+  text-align:center;
+  color:#6b7280;
+  padding:20px 5px;
 }
 .loading{
   text-align:center;
-  padding:25px 10px;
+  padding:20px;
+  color:#6b7280;
 }
-.spinner{
-  font-size:30px;
-  animation:spin 1.2s linear infinite;
-  display:inline-block;
-}
-@keyframes spin{
-  to{
-    transform:rotate(360deg);
-  }
-}
-.google-credit{
+.footer-note{
   font-size:11px;
-  color:#777;
-  margin-top:8px;
-  line-height:1.4;
+  color:#9ca3af;
   text-align:center;
+  margin-top:10px;
+  line-height:1.5;
+}
+@media(max-width:480px){
+  main{
+    padding:12px;
+  }
+  .card{
+    padding:16px;
+    border-radius:14px;
+  }
+  .weather-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+  .drive-grid{
+    grid-template-columns:repeat(3,1fr);
+  }
+  .result-actions{
+    grid-template-columns:1fr;
+  }
+  header h1{
+    font-size:25px;
+  }
 }
 </style>
 </head>
 <body>
 <header>
-  <h1>🚀 LOS!</h1>
-  <p>Der Familien-Starthelfer</p>
+  <h1>
+    <i data-lucide="rocket" class="icon-lg"></i>
+    LOS!
+  </h1>
+  <p>Familien-Starthelfer</p>
 </header>
 <main>
-<div id="home">
-  <div class="card">
-<div class="hero">
-  <div class="hero-title">
-    🌤️ Was machen wir heute?
+  <!-- HOME -->
+  <section id="homeScreen">
+<!-- CARD 1 -->
+<div class="card">
+  <div class="section-title">
+    <i data-lucide="map-pin" class="icon"></i>
+    <h2>Was machen wir?</h2>
   </div>
-  <div class="hero-text">
-    LOS! sucht echte Aktivitäten in eurer Umgebung.
+  <label for="locationInput">Standort</label>
+  <input
+    id="locationInput"
+    type="text"
+    value="Bad Kissingen"
+    placeholder="z. B. Bad Kissingen"
+  >
+  <div class="section-title">
+    <i data-lucide="cloud-sun" class="icon"></i>
+    <h3>Wie ist das Wetter?</h3>
   </div>
-</div>
-<label>📍 Wo seid ihr?</label>
-<input
-  id="locationInput"
-  value="Bad Kissingen"
-  placeholder="z.B. Bad Kissingen"
->
-<div class="section-title">
-  🌤️ Wie ist das Wetter?
-</div>
-<div class="weather-grid">
+  <div class="weather-grid">
+    <button
+      class="weather-btn active"
+      data-weather="sunny"
+      onclick="setWeather('sunny',this)"
+    >
+      <i data-lucide="sun" class="icon"></i>
+      Sonnig
+    </button>
+    <button
+      class="weather-btn"
+      data-weather="cloudy"
+      onclick="setWeather('cloudy',this)"
+    >
+      <i data-lucide="cloud" class="icon"></i>
+      Bewölkt
+    </button>
+    <button
+      class="weather-btn"
+      data-weather="rain"
+      onclick="setWeather('rain',this)"
+    >
+      <i data-lucide="cloud-rain" class="icon"></i>
+      Regen
+    </button>
+    <button
+      class="weather-btn"
+      data-weather="cold"
+      onclick="setWeather('cold',this)"
+    >
+      <i data-lucide="snowflake" class="icon"></i>
+      Kalt
+    </button>
+  </div>
+  <div class="section-title">
+    <i data-lucide="car" class="icon"></i>
+    <h3>Wie weit möchten wir fahren?</h3>
+  </div>
+  <div class="drive-grid">
+    <button
+      class="drive-btn"
+      onclick="setDrive(15,this)"
+    >
+      15 Min.
+    </button>
+    <button
+      class="drive-btn active"
+      onclick="setDrive(30,this)"
+    >
+      30 Min.
+    </button>
+    <button
+      class="drive-btn"
+      onclick="setDrive(60,this)"
+    >
+      60 Min.
+    </button>
+  </div>
+  <div class="family-summary">
+    <div class="section-title">
+      <i data-lucide="users" class="icon"></i>
+      <strong>Unsere Familie</strong>
+    </div>
+    <div id="homeFamilySummary"></div>
+  </div>
   <button
-    class="weather-button active"
-    data-weather="sun"
-    onclick="selectWeather('sun')">
-    ☀️ Sonnig
-  </button>
-  <button
-    class="weather-button"
-    data-weather="cloud"
-    onclick="selectWeather('cloud')">
-    ☁️ Bewölkt
-  </button>
-  <button
-    class="weather-button"
-    data-weather="rain"
-    onclick="selectWeather('rain')">
-    🌧️ Regen
-  </button>
-  <button
-    class="weather-button"
-    data-weather="cold"
-    onclick="selectWeather('cold')">
-    ❄️ Kalt
+    class="primary"
+    onclick="searchActivities()"
+  >
+    <i data-lucide="search" class="icon"></i>
+    Aktivitäten finden
   </button>
 </div>
-<div class="section-title">
-  🚗 Wie weit wollt ihr fahren?
-</div>
-<div class="transport-grid">
-  <button
-    class="transport-button"
-    data-time="15"
-    onclick="selectDriveTime(15)">
-    15 Min.
-  </button>
-  <button
-    class="transport-button active"
-    data-time="30"
-    onclick="selectDriveTime(30)">
-    30 Min.
-  </button>
-  <button
-    class="transport-button"
-    data-time="60"
-    onclick="selectDriveTime(60)">
-    60 Min.
-  </button>
-</div>
-<div class="summary">
-  👨‍👩‍👧‍👦
-  <strong id="familySummary">
-    Noch keine Familie angelegt
-  </strong>
-</div>
-<br>
-<button
-  class="primary"
-  style="width:100%;"
-  onclick="searchRealActivities()">
-  🔎 Echte Aktivitäten suchen
-</button>
-  </div>
-  <div id="resultsCard" class="card hidden">
-<h2>⭐ Aktivitäten in der Nähe</h2>
-<div id="results"></div>
-<div class="google-credit">
-  Orte und Kartendaten bereitgestellt von Google
-</div>
-  </div>
-  <div class="card">
-<h2>👨‍👩‍👧‍👦 Meine Familie</h2>
-<div id="familyList"></div>
-<input
-  id="personName"
-  placeholder="Name">
-<input
-  id="personAge"
-  type="number"
-  min="0"
-  max="100"
-  placeholder="Alter">
-<button
-  class="primary"
-  onclick="addPerson()">
-  ＋ Familienmitglied hinzufügen
-</button>
-  </div>
-  <div class="card">
-<h2>📋 Eigene Listen</h2>
-<input
-  id="newListName"
-  placeholder="z.B. Zoo, Urlaub, Oma">
-<button
-  class="primary"
-  onclick="createList()">
-  ＋ Eigene Liste erstellen
-</button>
-<div id="customLists"></div>
-  </div>
-</div>
-<div id="peopleScreen" class="hidden">
-
-← Zurück
-  <div class="card">
-<div class="hero">
-  <div
-    class="hero-title"
-    id="selectedActivityTitle">
-  </div>
-  <div class="hero-text">
-    Wer kommt mit?
-  </div>
-</div>
+<!-- CARD 2 -->
 <div
-  id="peopleSelector"
-  class="chips">
-</div>
-<button
-  class="primary"
-  style="width:100%;"
-  onclick="createFamilyChecklist()">
-  🚀 Meine Liste erstellen
-</button>
+  class="card hidden"
+  id="resultsCard"
+>
+  <div class="section-title">
+    <i data-lucide="star" class="icon"></i>
+    <h2>Unsere Vorschläge</h2>
+  </div>
+  <div id="resultsContainer"></div>
+  <div class="footer-note">
+    Orte und Kartendaten bereitgestellt von Google.
   </div>
 </div>
-<div id="listScreen" class="hidden">
-
-← Zurück
-  <div class="card">
-<div class="hero">
-  <div
-    class="hero-title"
-    id="listTitle">
+<!-- CARD 3 -->
+<div class="card">
+  <div class="section-title">
+    <i data-lucide="users" class="icon"></i>
+    <h2>Familie</h2>
   </div>
-  <div
-    class="hero-text"
-    id="listSubtitle">
-  </div>
+  <p>
+    Lege die Familienmitglieder und deren Alter fest.
+  </p>
+  <button
+    class="secondary"
+    onclick="showPeopleScreen()"
+  >
+    <i data-lucide="user-plus" class="icon"></i>
+    Familie verwalten
+  </button>
 </div>
-<div class="progress">
-  <div
-    id="progressBar"
-    class="progress-bar">
+<!-- CARD 4 -->
+<div class="card">
+  <div class="section-title">
+    <i data-lucide="list" class="icon"></i>
+    <h2>Meine Listen</h2>
   </div>
+  <p>
+    Eigene Checklisten und Listen für die Familie.
+  </p>
+  <button
+    class="secondary"
+    onclick="showListsScreen()"
+  >
+    <i data-lucide="list-plus" class="icon"></i>
+    Listen verwalten
+  </button>
 </div>
-<div id="checklist"></div>
-<br>
-<button
-  class="secondary"
-  onclick="addCustomItem()">
-  ＋ Punkt hinzufügen
-</button>
-<br><br>
-<button
-  class="danger"
-  onclick="resetChecklist()">
-  ↻ Erledigte Punkte zurücksetzen
-</button>
+  </section>
+  <!-- PEOPLE SCREEN -->
+  <section
+    id="peopleScreen"
+    class="hidden"
+  >
+<div class="card">
+  <div class="section-title">
+    <i data-lucide="users" class="icon"></i>
+    <h2>Familie verwalten</h2>
   </div>
+  <div id="peopleContainer"></div>
+  <h3>Familienmitglied hinzufügen</h3>
+  <input
+    id="personName"
+    type="text"
+    placeholder="Name"
+  >
+  <input
+    id="personAge"
+    type="number"
+    min="0"
+    max="100"
+    placeholder="Alter"
+  >
+  <button
+    class="success"
+    onclick="addPerson()"
+  >
+    <i data-lucide="plus" class="icon"></i>
+    Hinzufügen
+  </button>
+  <br><br>
+  <button
+    class="secondary"
+    onclick="showHome()"
+  >
+    <i data-lucide="arrow-left" class="icon"></i>
+    Zurück
+  </button>
 </div>
+  </section>
+  <!-- LIST SCREEN -->
+  <section
+    id="listScreen"
+    class="hidden"
+  >
+<div class="card">
+  <div class="section-title">
+    <i data-lucide="list" class="icon"></i>
+    <h2>Meine Listen</h2>
+  </div>
+  <div id="customListsContainer"></div>
+  <h3>Neue Liste erstellen</h3>
+  <input
+    id="listName"
+    type="text"
+    placeholder="z. B. Schwimmbad"
+  >
+  <button
+    class="success"
+    onclick="addCustomList()"
+  >
+    <i data-lucide="plus" class="icon"></i>
+    Liste erstellen
+  </button>
+  <br><br>
+  <button
+    class="secondary"
+    onclick="showHome()"
+  >
+    <i data-lucide="arrow-left" class="icon"></i>
+    Zurück
+  </button>
+</div>
+  </section>
+  <!-- CHECKLIST SCREEN -->
+  <section
+    id="checklistScreen"
+    class="hidden"
+  >
+<div class="card">
+  <div class="section-title">
+    <i data-lucide="clipboard-check" class="icon"></i>
+    <h2 id="checklistTitle">Checkliste</h2>
+  </div>
+  <div class="progress">
+    <div
+      id="progressBar"
+      class="progress-bar"
+    ></div>
+  </div>
+  <div id="checklistContainer"></div>
+  <br>
+  <button
+    class="secondary"
+    onclick="showHome()"
+  >
+    <i data-lucide="arrow-left" class="icon"></i>
+    Zurück
+  </button>
+  <button
+    class="danger"
+    onclick="resetChecklist()"
+  >
+    <i data-lucide="rotate-ccw" class="icon"></i>
+    Zurücksetzen
+  </button>
+</div>
+  </section>
+</main>
 <script>
 const GOOGLE_API_URL =
   "https://los-familien-app.vercel.app/api/test";
@@ -460,410 +591,344 @@ const BAD_KISSINGEN = {
   lat:50.2020,
   lon:10.0770
 };
-let family =
-  JSON.parse(
-    localStorage.getItem("los_family") || "[]"
-  );
-let customLists =
-  JSON.parse(
-    localStorage.getItem("los_custom_lists") || "[]"
-  );
-let checkedItems =
-  JSON.parse(
-    localStorage.getItem("los_checked_items") || "{}"
-  );
-let currentActivity = null;
-let selectedPeople = [];
-let currentItems = [];
-let selectedWeather =
-  localStorage.getItem("los_weather") || "sun";
-let selectedDriveTime =
-  parseInt(
-    localStorage.getItem("los_drive_time") || "30"
-  );
-function saveAll(){
+let state = {
+  weather:"sunny",
+  driveTime:30,
+  people:JSON.parse(
+    localStorage.getItem("los_people") || "[]"
+  ),
+  lists:JSON.parse(
+    localStorage.getItem("los_lists") || "[]"
+  ),
+  checklist:[],
+  currentList:null
+};
+function refreshIcons(){
+  if(window.lucide){
+    lucide.createIcons();
+  }
+}
+function saveState(){
   localStorage.setItem(
-    "los_family",
-    JSON.stringify(family)
+    "los_people",
+    JSON.stringify(state.people)
   );
   localStorage.setItem(
-    "los_custom_lists",
-    JSON.stringify(customLists)
-  );
-  localStorage.setItem(
-    "los_checked_items",
-    JSON.stringify(checkedItems)
-  );
-  localStorage.setItem(
-    "los_weather",
-    selectedWeather
-  );
-  localStorage.setItem(
-    "los_drive_time",
-    selectedDriveTime
+    "los_lists",
+    JSON.stringify(state.lists)
   );
 }
-function hideAll(){
-  document.getElementById("home")
-    .classList.add("hidden");
-  document.getElementById("peopleScreen")
-    .classList.add("hidden");
-  document.getElementById("listScreen")
-    .classList.add("hidden");
+function setWeather(weather,button){
+  state.weather = weather;
+  document
+    .querySelectorAll(".weather-btn")
+    .forEach(btn =>
+      btn.classList.remove("active")
+    );
+  button.classList.add("active");
+}
+function setDrive(minutes,button){
+  state.driveTime = minutes;
+  document
+    .querySelectorAll(".drive-btn")
+    .forEach(btn =>
+      btn.classList.remove("active")
+    );
+  button.classList.add("active");
+}
+function showScreen(id){
+  [
+    "homeScreen",
+    "peopleScreen",
+    "listScreen",
+    "checklistScreen"
+  ].forEach(screen => {
+    document
+      .getElementById(screen)
+      .classList.add("hidden");
+  });
+  document
+    .getElementById(id)
+    .classList.remove("hidden");
+  refreshIcons();
+}
+function showHome(){
+  showScreen("homeScreen");
+  renderHome();
+}
+function showPeopleScreen(){
+  showScreen("peopleScreen");
+  renderPeople();
+}
+function showListsScreen(){
+  showScreen("listScreen");
+  renderCustomLists();
 }
 function renderHome(){
-  hideAll();
-  document.getElementById("home")
-    .classList.remove("hidden");
-  renderFamily();
-  renderCustomLists();
-  updateFamilySummary();
-  updateWeatherButtons();
-  updateDriveButtons();
-}
-function selectWeather(weather){
-  selectedWeather = weather;
-  saveAll();
-  updateWeatherButtons();
-}
-function updateWeatherButtons(){
-  document
-    .querySelectorAll(".weather-button")
-    .forEach(button => {
-      button.classList.toggle(
-        "active",
-        button.dataset.weather === selectedWeather
-      );
-    });
-}
-function selectDriveTime(time){
-  selectedDriveTime = time;
-  saveAll();
-  updateDriveButtons();
-}
-function updateDriveButtons(){
-  document
-    .querySelectorAll(".transport-button")
-    .forEach(button => {
-      button.classList.toggle(
-        "active",
-        parseInt(button.dataset.time) === selectedDriveTime
-      );
-    });
-}
-function renderFamily(){
   const container =
-    document.getElementById("familyList");
-  container.innerHTML = "";
-  if(!family.length){
+    document.getElementById(
+      "homeFamilySummary"
+    );
+  if(!state.people.length){
     container.innerHTML =
-      '<div class="empty">Noch keine Familienmitglieder</div>';
+      `<div class="empty">
+        Noch keine Familienmitglieder angelegt.
+      </div>`;
+    refreshIcons();
     return;
   }
-  family.forEach((person,index)=>{
-    const div =
-      document.createElement("div");
-    div.className = "person";
-    div.innerHTML = `
-      <div class="person-info">
-        👤 <strong>
-          ${escapeHTML(person.name)}
-        </strong>
-        <div class="small">
-          ${person.age} Jahre
+  container.innerHTML =
+    state.people.map(person => `
+      <div class="family-member">
+        <div>
+          <strong>
+            ${escapeHTML(person.name)}
+          </strong>
+          <span class="person-age">
+            ${person.age} Jahre
+          </span>
+        </div>
+        <i data-lucide="user" class="icon"></i>
+      </div>
+    `).join("");
+  refreshIcons();
+}
+function renderPeople(){
+  const container =
+    document.getElementById(
+      "peopleContainer"
+    );
+  if(!state.people.length){
+    container.innerHTML =
+      `<div class="empty">
+        Noch keine Familienmitglieder vorhanden.
+      </div>`;
+    refreshIcons();
+    return;
+  }
+  container.innerHTML =
+    state.people.map((person,index) => `
+      <div class="person-row">
+        <div class="person-info">
+          <strong>
+            ${escapeHTML(person.name)}
+          </strong>
+          <span>
+            ${person.age} Jahre
+          </span>
+        </div>
+        <div class="small-actions">
+          <button
+            class="danger small-btn"
+            onclick="deletePerson(${index})"
+          >
+            <i data-lucide="trash-2" class="icon"></i>
+            Löschen
+          </button>
         </div>
       </div>
-      <button
-        class="danger"
-        onclick="deletePerson(${index})">
-        ✕
-      </button>
-    `;
-    container.appendChild(div);
-  });
+    `).join("");
+  refreshIcons();
 }
 function addPerson(){
   const name =
-    document.getElementById("personName")
-      .value.trim();
+    document
+      .getElementById("personName")
+      .value
+      .trim();
   const age =
     parseInt(
-      document.getElementById("personAge")
+      document
+        .getElementById("personAge")
         .value
     );
-  if(!name || isNaN(age)){
-    alert(
-      "Bitte Name und Alter eingeben."
-    );
+  if(!name){
+    alert("Bitte einen Namen eingeben.");
     return;
   }
-  family.push({
-    id:Date.now(),
-    name:name,
-    age:age
+  if(
+    Number.isNaN(age) ||
+    age < 0 ||
+    age > 100
+  ){
+    alert("Bitte ein gültiges Alter eingeben.");
+    return;
+  }
+  state.people.push({
+    name,
+    age
   });
-  document.getElementById("personName").value = "";
-  document.getElementById("personAge").value = "";
-  saveAll();
+  saveState();
+  document
+    .getElementById("personName")
+    .value = "";
+  document
+    .getElementById("personAge")
+    .value = "";
+  renderPeople();
   renderHome();
 }
 function deletePerson(index){
   if(
     !confirm(
-      "Familienmitglied wirklich löschen?"
+      "Dieses Familienmitglied wirklich löschen?"
     )
   ){
     return;
   }
-  family.splice(index,1);
-  saveAll();
+  state.people.splice(index,1);
+  saveState();
+  renderPeople();
   renderHome();
 }
-function updateFamilySummary(){
-  const element =
-    document.getElementById("familySummary");
-  if(!family.length){
-    element.textContent =
-      "Noch keine Familie angelegt";
-    return;
-  }
-  element.textContent =
-    family
-      .map(
-        p => `${p.name} (${p.age})`
-      )
-      .join(", ");
-}
-async function searchRealActivities(){
+async function searchActivities(){
   const location =
     document
       .getElementById("locationInput")
       .value
       .trim();
-  if(
-    location.toLowerCase() !==
-    "bad kissingen"
-  ){
-    alert(
-      "Version 1 der Google-Integration unterstützt zunächst Bad Kissingen als Pilotgebiet."
-    );
+  if(!location){
+    alert("Bitte einen Standort eingeben.");
     return;
   }
-  const resultsCard =
+  const card =
     document.getElementById("resultsCard");
-  const results =
-    document.getElementById("results");
-  resultsCard.classList.remove("hidden");
-  results.innerHTML = `
+  const container =
+    document.getElementById(
+      "resultsContainer"
+    );
+  card.classList.remove("hidden");
+  container.innerHTML = `
     <div class="loading">
-      <div class="spinner">
-        🔄
-      </div>
-      <p>
-        LOS! sucht echte Orte über Google...
-      </p>
+      <i data-lucide="loader-circle" class="icon"></i>
+      Aktivitäten werden gesucht...
     </div>
   `;
+  refreshIcons();
   try{
-    let query =
-      "Familienaktivitäten in Bad Kissingen";
-    if(
-      selectedWeather === "rain" ||
-      selectedWeather === "cold"
+    const queries = [
+      "Spielplätze in " + location,
+      "Schwimmbäder in " + location,
+      "Museen in " + location,
+      "Freizeitparks in " + location,
+      "Zoos in " + location,
+      "Parks in " + location,
+      "Freizeitanlagen in " + location
+    ];
+    const results = [];
+    for(
+      const query of queries
     ){
-      query =
-        "Indoor Familienaktivitäten in Bad Kissingen";
+      try{
+        const response =
+          await fetch(
+            GOOGLE_API_URL +
+            "?query=" +
+            encodeURIComponent(query)
+          );
+        if(!response.ok){
+          continue;
+        }
+        const data =
+          await response.json();
+        if(
+          data.places &&
+          Array.isArray(data.places)
+        ){
+          data.places.forEach(place => {
+            if(
+              !results.some(
+                item =>
+                  item.id === place.id
+              )
+            ){
+              results.push(place);
+            }
+          });
+        }
+      }catch(error){
+        console.log(
+          "Suche fehlgeschlagen:",
+          error
+        );
+      }
     }
-    const apiUrl =
-      GOOGLE_API_URL +
-      "?query=" +
-      encodeURIComponent(query);
-    const response =
-      await fetch(apiUrl);
-    if(!response.ok){
-      throw new Error(
-        "Google API HTTP " +
-        response.status
-      );
-    }
-    const data =
-      await response.json();
-    if(
-      !data ||
-      !Array.isArray(data.places)
-    ){
-      throw new Error(
-        "Google hat keine Orte zurückgegeben."
-      );
-    }
-    const places =
-      processGoogleResults(
-        data.places
-      );
-    renderRealActivities(places);
+    const processed =
+      processResults(results);
+    renderRealActivities(processed);
   }catch(error){
-    console.error(
-      "Google Places Fehler:",
-      error
-    );
-    results.innerHTML = `
-      <div class="notice">
-        ❌ Die Google-Suche konnte gerade
-        nicht durchgeführt werden.
-        <br><br>
-        Fehler:
-        ${escapeHTML(error.message)}
+    container.innerHTML = `
+      <div class="empty">
+        <i data-lucide="circle-alert" class="icon-lg"></i>
+        <p>
+          Bei der Suche ist ein Fehler aufgetreten.
+        </p>
       </div>
     `;
+    refreshIcons();
   }
 }
-function processGoogleResults(places){
-  return places
-    .map(place=>{
+function processResults(results){
+  return results
+    .map(place => {
       const lat =
         place.location?.latitude;
       const lon =
         place.location?.longitude;
+      let distance = 999;
       if(
-        typeof lat !== "number" ||
-        typeof lon !== "number"
+        typeof lat === "number" &&
+        typeof lon === "number"
       ){
-        return null;
+        distance =
+          calculateDistance(
+            BAD_KISSINGEN.lat,
+            BAD_KISSINGEN.lon,
+            lat,
+            lon
+          );
       }
-      const distance =
-        calculateDistance(
-          BAD_KISSINGEN.lat,
-          BAD_KISSINGEN.lon,
-          lat,
-          lon
-        );
+      const name =
+        place.displayName?.text ||
+        "Unbekannter Ort";
       const category =
-        guessGoogleCategory(
-          place.displayName?.text || ""
+        guessCategory(name);
+      const weatherScore =
+        getWeatherScore(
+          category
         );
-      const indoor =
-        guessIndoorCategory(category);
-      const ageMatch =
-        getAgeMatch(category);
+      const ageScore =
+        getAgeScore(
+          category
+        );
+      const distanceScore =
+        getDistanceScore(
+          distance
+        );
+      const totalScore =
+        weatherScore +
+        ageScore +
+        distanceScore +
+        (place.rating || 0);
       return {
-        id:place.id,
-        name:
-          place.displayName?.text ||
-          "Unbekannte Aktivität",
-        address:
-          place.formattedAddress ||
-          "Adresse nicht verfügbar",
-        lat:lat,
-        lon:lon,
-        distance:distance,
-        googleMapsUri:
-          place.googleMapsUri || null,
-        mapsUri:
-          place.googleMapsUri || null,
-        category:category,
-        indoor:indoor,
-        ageMatch:ageMatch,
-        rating:
-          place.rating || null,
-        website:
-          place.websiteUri || null
+        ...place,
+        name,
+        category,
+        distance,
+        totalScore
       };
     })
-    .filter(Boolean)
-    .filter(place =>
-      place.distance <= getDistanceLimit()
+    .filter(
+      place =>
+        place.distance <=
+        state.driveTime * 1.5
     )
-    .filter(place =>
-      weatherSuitable(place.indoor)
+    .sort(
+      (a,b) =>
+        b.totalScore -
+        a.totalScore
     )
-    .sort((a,b)=>{
-      if(a.ageMatch !== b.ageMatch){
-        return a.ageMatch ? -1 : 1;
-      }
-      return a.distance-b.distance;
-    })
     .slice(0,5);
-}
-function guessGoogleCategory(name){
-  const value =
-    name.toLowerCase();
-  if(
-    value.includes("spielplatz") ||
-    value.includes("wasserspielplatz") ||
-    value.includes("aktivspielplatz")
-  ){
-    return "Spielplatz";
-  }
-  if(
-    value.includes("schwimm") ||
-    value.includes("freibad") ||
-    value.includes("hallenbad") ||
-    value.includes("therme")
-  ){
-    return "Schwimmbad";
-  }
-  if(value.includes("museum")){
-    return "Museum";
-  }
-  if(
-    value.includes("zoo") ||
-    value.includes("tierpark") ||
-    value.includes("wildpark")
-  ){
-    return "Tierpark / Zoo";
-  }
-  if(
-    value.includes("freizeitpark") ||
-    value.includes("park")
-  ){
-    return "Freizeitpark / Park";
-  }
-  return "Freizeit";
-}
-function guessIndoorCategory(category){
-  return(
-    category === "Museum" ||
-    category === "Schwimmbad"
-  );
-}
-function weatherSuitable(indoor){
-  if(
-    selectedWeather === "rain" ||
-    selectedWeather === "cold"
-  ){
-    return indoor;
-  }
-  return true;
-}
-function getAgeMatch(category){
-  if(!family.length){
-    return true;
-  }
-  if(category === "Spielplatz"){
-    return family.some(
-      p => p.age >= 1 && p.age <= 12
-    );
-  }
-  if(category === "Tierpark / Zoo"){
-    return family.some(
-      p => p.age <= 14
-    );
-  }
-  if(category === "Museum"){
-    return family.some(
-      p => p.age >= 3
-    );
-  }
-  return true;
-}
-function getDistanceLimit(){
-  if(selectedDriveTime === 15){
-    return 12;
-  }
-  if(selectedDriveTime === 30){
-    return 25;
-  }
-  return 50;
 }
 function calculateDistance(
   lat1,
@@ -873,493 +938,578 @@ function calculateDistance(
 ){
   const R = 6371;
   const dLat =
-    degreesToRadians(lat2-lat1);
+    degreesToRadians(
+      lat2 - lat1
+    );
   const dLon =
-    degreesToRadians(lon2-lon1);
+    degreesToRadians(
+      lon2 - lon1
+    );
   const a =
-    Math.sin(dLat/2)**2 +
-    Math.cos(degreesToRadians(lat1)) *
-    Math.cos(degreesToRadians(lat2)) *
-    Math.sin(dLon/2)**2;
+    Math.sin(dLat/2) *
+    Math.sin(dLat/2) +
+    Math.cos(
+      degreesToRadians(lat1)
+    ) *
+    Math.cos(
+      degreesToRadians(lat2)
+    ) *
+    Math.sin(dLon/2) *
+    Math.sin(dLon/2);
   const c =
     2 *
     Math.atan2(
       Math.sqrt(a),
       Math.sqrt(1-a)
     );
-  return R*c;
+  return R * c;
 }
 function degreesToRadians(degrees){
-  return degrees*Math.PI/180;
+  return degrees *
+    Math.PI /
+    180;
 }
-function renderRealActivities(places){
+function guessCategory(name){
+  const n =
+    name.toLowerCase();
+  if(
+    n.includes("spielplatz") ||
+    n.includes("spiel")
+  ){
+    return "Spielplatz";
+  }
+  if(
+    n.includes("schwimm") ||
+    n.includes("bad")
+  ){
+    return "Schwimmbad";
+  }
+  if(
+    n.includes("museum")
+  ){
+    return "Museum";
+  }
+  if(
+    n.includes("zoo") ||
+    n.includes("tierpark")
+  ){
+    return "Zoo";
+  }
+  if(
+    n.includes("park") ||
+    n.includes("garten")
+  ){
+    return "Park";
+  }
+  if(
+    n.includes("freizeit") ||
+    n.includes("erlebnis")
+  ){
+    return "Freizeit";
+  }
+  return "Ausflugsziel";
+}
+function getWeatherScore(category){
+  if(
+    state.weather === "rain" ||
+    state.weather === "cold"
+  ){
+    if(
+      category === "Schwimmbad" ||
+      category === "Museum"
+    ){
+      return 4;
+    }
+    if(category === "Spielplatz"){
+      return 0;
+    }
+  }
+  if(
+    state.weather === "sunny"
+  ){
+    if(
+      category === "Spielplatz" ||
+      category === "Park" ||
+      category === "Zoo"
+    ){
+      return 4;
+    }
+  }
+  return 2;
+}
+function getAgeScore(category){
+  if(!state.people.length){
+    return 2;
+  }
+  const youngest =
+    Math.min(
+      ...state.people.map(
+        p => p.age
+      )
+    );
+  if(
+    youngest <= 5 &&
+    (
+      category === "Spielplatz" ||
+      category === "Zoo" ||
+      category === "Schwimmbad"
+    )
+  ){
+    return 4;
+  }
+  return 2;
+}
+function getDistanceScore(distance){
+  if(distance <= 5){
+    return 4;
+  }
+  if(distance <= 15){
+    return 3;
+  }
+  if(distance <= 30){
+    return 2;
+  }
+  return 1;
+}
+function renderRealActivities(activities){
   const container =
-    document.getElementById("results");
-  container.innerHTML = "";
-  if(!places.length){
+    document.getElementById(
+      "resultsContainer"
+    );
+  if(!activities.length){
     container.innerHTML = `
-      <div class="notice">
-        😕 Keine passenden Orte gefunden.
-        <br><br>
-        Versuche eine größere Entfernung
-        oder ein anderes Wetter.
+      <div class="empty">
+        <i data-lucide="search-x" class="icon-lg"></i>
+        <p>
+          Keine passenden Aktivitäten gefunden.
+        </p>
       </div>
     `;
+    refreshIcons();
     return;
   }
-  places.forEach(place=>{
-    const card =
-      document.createElement("div");
-    card.className =
-      "activity-card";
-    const type =
-      place.indoor
-        ? "🏠 Indoor"
-        : "🌳 Outdoor";
-    const age =
-      place.ageMatch
-        ? "👶 Familiengeeignet"
-        : "ℹ️ Altersangabe prüfen";
-    let extra = "";
-    if(place.rating){
-      extra +=
-        `<span class="badge">
-          ⭐ ${Number(place.rating).toFixed(1)}
-        </span>`;
-    }
-    if(place.address){
-      extra +=
-        `<span class="badge">
-          📍 ${escapeHTML(place.address)}
-        </span>`;
-    }
-    card.innerHTML = `
-      <div class="activity-content">
-        <div class="activity-name">
-          ${escapeHTML(place.name)}
-        </div>
-        <div class="activity-description">
-          ${escapeHTML(place.category)}
-        </div>
-        <div class="activity-meta">
-          <span class="badge">
-            📍 ca. ${place.distance.toFixed(1)} km
-          </span>
-          <span class="badge">
-            ${type}
-          </span>
-          <span class="badge">
-            ${age}
-          </span>
-          ${extra}
-        </div>
-        <button
-          class="primary activity-button"
-          onclick='useRealActivity(${JSON.stringify(place.name)})'>
-          🚀 Diese Aktivität nehmen
-        </button>
-        <button
-          class="route-button"
-          onclick='openGooglePlace(${JSON.stringify(place.mapsUri || "")}, ${place.lat}, ${place.lon})'>
-          🗺️ Route öffnen
-        </button>
-        ${
-          place.website
-            ? `
+  container.innerHTML =
+    activities.map(
+      (activity,index) => {
+        const address =
+          activity.formattedAddress ||
+          "Adresse nicht verfügbar";
+        const rating =
+          activity.rating
+            ? activity.rating.toFixed(1)
+            : null;
+        const icon =
+          getCategoryIcon(
+            activity.category
+          );
+        return `
+          <div class="result-card">
+            <h3>
+              <i
+                data-lucide="${icon}"
+                class="icon"
+              ></i>
+              ${escapeHTML(
+                activity.name
+              )}
+            </h3>
+            <div class="result-meta">
+              <span class="badge">
+                <i
+                  data-lucide="map-pin"
+                  class="icon"
+                ></i>
+                ${activity.distance.toFixed(1)} km
+              </span>
+              <span class="badge">
+                <i
+                  data-lucide="clock-3"
+                  class="icon"
+                ></i>
+                ca. ${Math.max(
+                  5,
+                  Math.round(
+                    activity.distance * 2
+                  )
+                )} Min.
+              </span>
+              ${
+                rating
+                ? `
+                  <span class="badge rating">
+                    <i
+                      data-lucide="star"
+                      class="icon"
+                    ></i>
+                    ${rating}
+                  </span>
+                `
+                : ""
+              }
+              <span class="badge">
+                <i
+                  data-lucide="users"
+                  class="icon"
+                ></i>
+                Familienfreundlich
+              </span>
+            </div>
+            <p>
+              ${escapeHTML(address)}
+            </p>
+            <div class="result-actions">
               <button
-                class="route-button"
-                onclick='openWebsite(${JSON.stringify(place.website)})'>
-                🌐 Website
+                class="success"
+                onclick="selectActivity(${index})"
+              >
+                <i
+                  data-lucide="arrow-right"
+                  class="icon"
+                ></i>
+                Diese Aktivität nehmen
               </button>
-            `
-            : ""
-        }
+              ${
+                activity.googleMapsUri
+                ? `
+                  <button
+                    class="secondary"
+                    onclick="openRoute('${escapeAttribute(
+                      activity.googleMapsUri
+                    )}')"
+                  >
+                    <i
+                      data-lucide="navigation"
+                      class="icon"
+                    ></i>
+                    Route
+                  </button>
+                `
+                : ""
+              }
+              ${
+                activity.websiteUri
+                ? `
+                  <button
+                    class="secondary"
+                    onclick="openWebsite('${escapeAttribute(
+                      activity.websiteUri
+                    )}')"
+                  >
+                    <i
+                      data-lucide="globe"
+                      class="icon"
+                    ></i>
+                    Website
+                  </button>
+                `
+                : ""
+              }
+            </div>
+          </div>
+        `;
+      }
+    ).join("");
+  window.currentActivities =
+    activities;
+  refreshIcons();
+}
+function getCategoryIcon(category){
+  const icons = {
+    "Spielplatz":"trees",
+    "Schwimmbad":"waves",
+    "Museum":"landmark",
+    "Zoo":"paw-print",
+    "Park":"trees",
+    "Freizeit":"ferris-wheel",
+    "Ausflugsziel":"map"
+  };
+  return (
+    icons[category] ||
+    "map-pin"
+  );
+}
+function selectActivity(index){
+  const activity =
+    window.currentActivities?.[index];
+  if(!activity){
+    return;
+  }
+  const title =
+    activity.name;
+  const category =
+    activity.category;
+  const list =
+    state.lists.find(
+      l =>
+        l.name === category
+    );
+  if(list){
+    state.currentList =
+      list;
+  }else{
+    state.currentList = {
+      name:title,
+      items:[]
+    };
+  }
+  const defaultItems = [
+    "Getränke",
+    "Snacks",
+    "Wechselkleidung",
+    "Handtücher",
+    "Sonnencreme",
+    "Taschentücher"
+  ];
+  state.checklist =
+    defaultItems.map(
+      item => ({
+        text:item,
+        done:false
+      })
+    );
+  renderChecklist(
+    title
+  );
+  showScreen(
+    "checklistScreen"
+  );
+}
+function renderChecklist(title){
+  document
+    .getElementById(
+      "checklistTitle"
+    )
+    .textContent =
+    title || "Checkliste";
+  const container =
+    document.getElementById(
+      "checklistContainer"
+    );
+  container.innerHTML =
+    state.checklist
+      .map(
+        (item,index) => `
+          <label class="check-item">
+            <input
+              type="checkbox"
+              ${
+                item.done
+                  ? "checked"
+                  : ""
+              }
+              onchange="toggleChecklist(${index},this.checked)"
+            >
+            <span>
+              ${escapeHTML(item.text)}
+            </span>
+          </label>
+        `
+      )
+      .join("");
+  updateProgress();
+  refreshIcons();
+}
+function toggleChecklist(
+  index,
+  checked
+){
+  if(
+    state.checklist[index]
+  ){
+    state.checklist[index].done =
+      checked;
+  }
+  updateProgress();
+}
+function updateProgress(){
+  const total =
+    state.checklist.length;
+  const done =
+    state.checklist.filter(
+      item => item.done
+    ).length;
+  const percentage =
+    total
+      ? (done / total) * 100
+      : 0;
+  document
+    .getElementById(
+      "progressBar"
+    )
+    .style.width =
+    percentage + "%";
+}
+function resetChecklist(){
+  state.checklist =
+    state.checklist.map(
+      item => ({
+        ...item,
+        done:false
+      })
+    );
+  renderChecklist(
+    document
+      .getElementById(
+        "checklistTitle"
+      )
+      .textContent
+  );
+}
+function renderCustomLists(){
+  const container =
+    document.getElementById(
+      "customListsContainer"
+    );
+  if(!state.lists.length){
+    container.innerHTML = `
+      <div class="empty">
+        <i data-lucide="list-x" class="icon-lg"></i>
+        <p>
+          Noch keine eigenen Listen.
+        </p>
       </div>
     `;
-    container.appendChild(card);
-  });
+    refreshIcons();
+    return;
+  }
+  container.innerHTML =
+    state.lists.map(
+      (list,index) => `
+        <div class="list-item">
+          <span>
+            <i
+              data-lucide="pin"
+              class="icon"
+            ></i>
+            ${escapeHTML(list.name)}
+          </span>
+          <div class="small-actions">
+            <button
+              class="secondary small-btn"
+              onclick="openList(${index})"
+            >
+              <i
+                data-lucide="arrow-right"
+                class="icon"
+              ></i>
+              Öffnen
+            </button>
+            <button
+              class="danger small-btn"
+              onclick="deleteList(${index})"
+            >
+              <i
+                data-lucide="trash-2"
+                class="icon"
+              ></i>
+            </button>
+          </div>
+        </div>
+      `
+    ).join("");
+  refreshIcons();
 }
-function openGooglePlace(
-  mapsUri,
-  lat,
-  lon
-){
-  if(mapsUri){
-    window.open(
-      mapsUri,
-      "_blank"
+function addCustomList(){
+  const input =
+    document.getElementById(
+      "listName"
+    );
+  const name =
+    input.value.trim();
+  if(!name){
+    alert(
+      "Bitte einen Namen für die Liste eingeben."
     );
     return;
   }
-  openRoute(lat,lon);
+  state.lists.push({
+    name,
+    items:[]
+  });
+  saveState();
+  input.value = "";
+  renderCustomLists();
 }
-function openRoute(lat,lon){
-  const url =
-    "https://www.google.com/maps/dir/?api=1&destination=" +
-    encodeURIComponent(lat + "," + lon);
+function deleteList(index){
+  if(
+    !confirm(
+      "Diese Liste wirklich löschen?"
+    )
+  ){
+    return;
+  }
+  state.lists.splice(
+    index,
+    1
+  );
+  saveState();
+  renderCustomLists();
+}
+function openList(index){
+  const list =
+    state.lists[index];
+  if(!list){
+    return;
+  }
+  state.currentList =
+    list;
+  state.checklist =
+    list.items.map(
+      item => ({
+        text:item,
+        done:false
+      })
+    );
+  if(
+    !state.checklist.length
+  ){
+    state.checklist = [
+      {
+        text:"Ersten Punkt hinzufügen",
+        done:false
+      }
+    ];
+  }
+  renderChecklist(
+    list.name
+  );
+  showScreen(
+    "checklistScreen"
+  );
+}
+function openRoute(url){
   window.open(
     url,
     "_blank"
   );
 }
 function openWebsite(url){
-  let target = url;
-  if(!/^https?:\/\//i.test(target)){
-    target = "https://" + target;
-  }
   window.open(
-    target,
+    url,
     "_blank"
   );
 }
-function useRealActivity(name){
-  currentActivity = name;
-  selectedPeople = [];
-  hideAll();
-  document
-    .getElementById("peopleScreen")
-    .classList.remove("hidden");
-  document
-    .getElementById("selectedActivityTitle")
-    .textContent = name;
-  renderPeopleSelector();
+function escapeHTML(value){
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
 }
-function renderPeopleSelector(){
-  const container =
-    document.getElementById("peopleSelector");
-  container.innerHTML = "";
-  if(!family.length){
-    container.innerHTML = `
-      <div class="empty">
-        Bitte zuerst Familienmitglieder
-        hinzufügen.
-      </div>
-    `;
-    return;
+function escapeAttribute(value){
+  return String(value)
+    .replaceAll("\\","\\\\")
+    .replaceAll("'","\\'");
+}
+window.currentActivities = [];
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+    renderHome();
+    refreshIcons();
   }
-  family.forEach(person=>{
-    const button =
-      document.createElement("div");
-    button.className = "chip";
-    if(selectedPeople.includes(person.id)){
-      button.classList.add("active");
-    }
-    button.textContent =
-      `${person.name} (${person.age})`;
-    button.onclick =
-      () => togglePerson(person.id);
-    container.appendChild(button);
-  });
-}
-function togglePerson(id){
-  const index =
-    selectedPeople.indexOf(id);
-  if(index === -1){
-    selectedPeople.push(id);
-  }else{
-    selectedPeople.splice(index,1);
-  }
-  renderPeopleSelector();
-}
-function createFamilyChecklist(){
-  if(!selectedPeople.length){
-    alert(
-      "Bitte mindestens eine Person auswählen."
-    );
-    return;
-  }
-  buildChecklist();
-  hideAll();
-  document
-    .getElementById("listScreen")
-    .classList.remove("hidden");
-  document
-    .getElementById("listTitle")
-    .textContent = currentActivity;
-  document
-    .getElementById("listSubtitle")
-    .textContent =
-      "LOS! hat eure persönliche Liste zusammengestellt";
-  renderChecklist();
-}
-function buildChecklist(){
-  currentItems = [];
-  const category =
-    currentActivity.toLowerCase();
-  let common = [];
-  if(category.includes("schwimm")){
-    common = [
-      "Handtücher",
-      "Trinkflaschen",
-      "Wechselkleidung"
-    ];
-  }else if(category.includes("spielplatz")){
-    common = [
-      "Trinkflaschen",
-      "Snack",
-      "Sonnencreme"
-    ];
-  }else if(category.includes("museum")){
-    common = [
-      "Trinkflaschen",
-      "Snacks"
-    ];
-  }else if(category.includes("tier")){
-    common = [
-      "Trinkflaschen",
-      "Snacks",
-      "Sonnencreme"
-    ];
-  }else{
-    common = [
-      "Trinkflaschen",
-      "Snacks",
-      "Wechselkleidung"
-    ];
-  }
-  common.forEach(item =>
-    addItem(item,"Für alle",null)
-  );
-  selectedPeople.forEach(personId=>{
-    const person =
-      family.find(p => p.id === personId);
-    if(!person) return;
-    let items = [];
-    if(person.age <= 6){
-      items = [
-        "Wechselkleidung",
-        "Snack"
-      ];
-    }else{
-      items = [
-        "Trinkflasche"
-      ];
-    }
-    items.forEach(item =>
-      addItem(item,person.name,person.id)
-    );
-  });
-}
-function addItem(
-  item,
-  personName,
-  personId
-){
-  const id =
-    createItemId(
-      currentActivity,
-      item,
-      personId
-    );
-  if(currentItems.some(x => x.id === id)){
-    return;
-  }
-  currentItems.push({
-    id:id,
-    item:item,
-    personName:personName,
-    personId:personId
-  });
-}
-function renderChecklist(){
-  const container =
-    document.getElementById("checklist");
-  container.innerHTML = "";
-  const common =
-    currentItems.filter(x => !x.personId);
-  if(common.length){
-    const title =
-      document.createElement("div");
-    title.className = "section-title";
-    title.textContent = "👨‍👩‍👧‍👦 Für alle";
-    container.appendChild(title);
-    common.forEach(item =>
-      renderItem(item,container)
-    );
-  }
-  selectedPeople.forEach(personId=>{
-    const person =
-      family.find(p => p.id === personId);
-    if(!person) return;
-    const items =
-      currentItems.filter(
-        x => x.personId === person.id
-      );
-    if(!items.length) return;
-    const title =
-      document.createElement("div");
-    title.className = "section-title";
-    title.textContent =
-      `👤 ${person.name} (${person.age})`;
-    container.appendChild(title);
-    items.forEach(item =>
-      renderItem(item,container)
-    );
-  });
-  updateProgress();
-}
-function renderItem(
-  item,
-  container
-){
-  const wrapper =
-    document.createElement("label");
-  wrapper.className = "check-item";
-  const checkbox =
-    document.createElement("input");
-  checkbox.type = "checkbox";
-  checkbox.checked =
-    checkedItems[item.id] === true;
-  const text =
-    document.createElement("span");
-  text.textContent = item.item;
-  if(checkbox.checked){
-    text.classList.add("checked");
-  }
-  checkbox.onchange = ()=>{
-    checkedItems[item.id] =
-      checkbox.checked;
-    text.classList.toggle(
-      "checked",
-      checkbox.checked
-    );
-    saveAll();
-    updateProgress();
-  };
-  wrapper.appendChild(checkbox);
-  wrapper.appendChild(text);
-  container.appendChild(wrapper);
-}
-function updateProgress(){
-  const total =
-    currentItems.length;
-  if(!total){
-    document
-      .getElementById("progressBar")
-      .style.width = "0%";
-    return;
-  }
-  const done =
-    currentItems.filter(
-      item => checkedItems[item.id]
-    ).length;
-  const percent =
-    Math.round(done / total * 100);
-  document
-    .getElementById("progressBar")
-    .style.width =
-      percent + "%";
-}
-function createList(){
-  const input =
-    document.getElementById("newListName");
-  const name =
-    input.value.trim();
-  if(!name){
-    alert(
-      "Bitte einen Namen eingeben."
-    );
-    return;
-  }
-  customLists.push({
-    name:name,
-    items:[]
-  });
-  input.value = "";
-  saveAll();
-  renderHome();
-}
-function renderCustomLists(){
-  const container =
-    document.getElementById("customLists");
-  container.innerHTML = "";
-  customLists.forEach(list=>{
-    const button =
-      document.createElement("button");
-    button.className =
-      "list-button";
-    button.textContent =
-      "📌 " + list.name;
-    button.onclick = ()=>{
-      currentActivity =
-        list.name;
-      selectedPeople = [];
-      hideAll();
-      document
-        .getElementById("peopleScreen")
-        .classList.remove("hidden");
-      document
-        .getElementById("selectedActivityTitle")
-        .textContent =
-          "📌 " + list.name;
-      renderPeopleSelector();
-    };
-    container.appendChild(button);
-  });
-}
-function addCustomItem(){
-  const item =
-    prompt(
-      "Was soll noch auf die Liste?"
-    );
-  if(!item || !item.trim()){
-    return;
-  }
-  addItem(
-    item.trim(),
-    "Eigener Punkt",
-    "custom-" + Date.now()
-  );
-  renderChecklist();
-}
-function resetChecklist(){
-  if(
-    !confirm(
-      "Alle erledigten Punkte zurücksetzen?"
-    )
-  ){
-    return;
-  }
-  currentItems.forEach(item=>{
-    delete checkedItems[item.id];
-  });
-  saveAll();
-  renderChecklist();
-}
-function backToPeople(){
-  hideAll();
-  document
-    .getElementById("peopleScreen")
-    .classList.remove("hidden");
-  renderPeopleSelector();
-}
-function goHome(){
-  currentActivity = null;
-  selectedPeople = [];
-  renderHome();
-}
-function createItemId(
-  activity,
-  item,
-  personId
-){
-  return(
-    activity +
-    "|" +
-    item +
-    "|" +
-    (personId || "all")
-  );
-}
-function escapeHTML(text){
-  return String(text)
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-}
-renderHome();
+);
 </script>
 </body>
 </html>
