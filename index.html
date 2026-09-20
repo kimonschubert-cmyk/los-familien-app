@@ -1381,7 +1381,8 @@ async function searchActivities() {
     */
 
     const query =
-      "Familienaktivitäten in " +
+      "Schwimmbäder Thermen Freizeitparks Funparks " +
+      "Erlebnisparks Kletterparks Familienattraktionen in " +
       location;
 
     const response =
@@ -2121,7 +2122,8 @@ function guessCategory(
 
   if (
     n.includes("schwimm") ||
-    n.includes("bad")
+    n.includes("bad") ||
+    n.includes("therme")
   ) {
     return "Schwimmbad";
   }
@@ -2148,7 +2150,13 @@ function guessCategory(
 
   if (
     n.includes("freizeit") ||
-    n.includes("erlebnis")
+    n.includes("erlebnis") ||
+    n.includes("funpark") ||
+    n.includes("freizeitpark") ||
+    n.includes("kletterpark") ||
+    n.includes("trampolin") ||
+    n.includes("indoor") ||
+    n.includes("kart")
   ) {
     return "Freizeit";
   }
@@ -2424,6 +2432,13 @@ function getRelevanceScore(
     "abenteuer",
     "erlebnis",
     "freizeit",
+    "freizeitpark",
+    "funpark",
+    "schwimmbad",
+    "therme",
+    "kletterpark",
+    "trampolin",
+    "attraktion",
     "aktiv",
     "spiel"
   ];
