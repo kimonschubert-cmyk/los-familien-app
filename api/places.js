@@ -60,7 +60,7 @@ module.exports = async (req, res) => {
 
             regionCode: "DE",
 
-            pageSize: 10
+            pageSize: 20
 
           })
         }

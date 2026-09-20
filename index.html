@@ -819,6 +819,8 @@ let searchOrigin = {
   name: "Bad Kissingen"
 };
 
+let lastActivityIds = [];
+
 /*
 ==================================================
 APP STATE
@@ -1818,7 +1820,7 @@ async function processResults(
       .slice(
         0,
         Math.min(
-          12,
+          20,
           pool.length
         )
       )
@@ -1826,6 +1828,19 @@ async function processResults(
         () =>
           Math.random() - 0.5
       );
+
+  const freshPool =
+    rotatingPool.filter(
+      place =>
+        !lastActivityIds.includes(
+          place.id
+        )
+    );
+
+  const selectionPool =
+    freshPool.length >= 3
+      ? freshPool
+      : rotatingPool;
 
   /*
   ================================================
@@ -1837,7 +1852,7 @@ async function processResults(
   const categories = new Set();
 
   for (
-    const place of rotatingPool
+    const place of selectionPool
   ) {
 
     if (
@@ -1865,7 +1880,7 @@ async function processResults(
   }
 
   for (
-    const place of rotatingPool
+    const place of selectionPool
   ) {
 
     if (
@@ -1888,8 +1903,16 @@ async function processResults(
 
   }
 
-  return selected
-    .slice(0, 3);
+  const finalSelection =
+    selected.slice(0, 3);
+
+  lastActivityIds =
+    finalSelection.map(
+      place =>
+        place.id
+    );
+
+  return finalSelection;
 
 }
 
