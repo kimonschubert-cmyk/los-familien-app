@@ -187,6 +187,43 @@ button .icon {
   color: white;
 }
 
+.budget-control {
+  margin-bottom: 18px;
+}
+
+.budget-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.budget-heading label {
+  margin-bottom: 0;
+}
+
+.budget-value {
+  font-weight: 800;
+  color: #166534;
+  white-space: nowrap;
+}
+
+#budgetInput {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  accent-color: #166534;
+}
+
+.budget-scale {
+  display: flex;
+  justify-content: space-between;
+  color: #6b7280;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
 .family-summary {
   background: #f8fafc;
   border-radius: 12px;
@@ -478,6 +515,40 @@ button .icon {
 
     </div>
 
+    <div class="budget-control">
+
+      <div class="budget-heading">
+        <label for="budgetInput">
+          Maximales Budget pro Aktivität
+        </label>
+
+        <output
+          id="budgetValue"
+          class="budget-value"
+          for="budgetInput"
+        >
+          1.000 €
+        </output>
+
+      </div>
+
+      <input
+        id="budgetInput"
+        type="range"
+        min="0"
+        max="1000"
+        step="10"
+        value="1000"
+        oninput="setBudget(this.value)"
+      >
+
+      <div class="budget-scale">
+        <span>0 €</span>
+        <span>1.000 €</span>
+      </div>
+
+    </div>
+
     <div class="family-summary">
 
       <div class="section-title">
@@ -730,6 +801,7 @@ APP STATE
 let state = {
   weather: "sunny",
   driveTime: 30,
+  maxBudget: 1000,
 
   people: JSON.parse(
     localStorage.getItem("los_people") || "[]"
@@ -820,6 +892,33 @@ function setDrive(
     });
 
   button.classList.add("active");
+
+}
+
+function setBudget(
+  value
+) {
+
+  state.maxBudget = Number(value);
+
+  document
+    .getElementById(
+      "budgetValue"
+    )
+    .textContent =
+      formatBudget(
+        state.maxBudget
+      );
+
+}
+
+function formatBudget(
+  value
+) {
+
+  return new Intl.NumberFormat(
+    "de-DE"
+  ).format(value) + " €";
 
 }
 
@@ -1423,12 +1522,52 @@ ERGEBNISSE VERARBEITEN
 ==================================================
 */
 
+function getOpeningHours(
+  place
+) {
+
+  return place.currentOpeningHours ||
+    place.regularOpeningHours ||
+    null;
+
+}
+
+function isCurrentlyOpen(
+  place
+) {
+
+  if (
+    place.businessStatus ===
+      "CLOSED_PERMANENTLY" ||
+    place.businessStatus ===
+      "CLOSED_TEMPORARILY"
+  ) {
+
+    return false;
+
+  }
+
+  const openingHours =
+    getOpeningHours(
+      place
+    );
+
+  return openingHours?.openNow === true;
+
+}
+
 async function processResults(
   results
 ) {
 
   const candidates =
     results
+      .filter(
+        place =>
+          isCurrentlyOpen(
+            place
+          )
+      )
       .map(place => {
 
         const lat =
@@ -1463,6 +1602,11 @@ async function processResults(
             name
           );
 
+        const estimatedCost =
+          getEstimatedCost(
+            place
+          );
+
         return {
 
           ...place,
@@ -1470,6 +1614,7 @@ async function processResults(
           name,
           category,
           distance,
+          estimatedCost,
 
           driveMinutes: null,
           roadDistance: null,
@@ -1487,6 +1632,13 @@ async function processResults(
         };
 
       })
+      .filter(
+        place =>
+          place.estimatedCost === null
+            ? state.maxBudget >= 1000
+            : place.estimatedCost <=
+              state.maxBudget
+      )
 
       .filter(
         place =>
@@ -1575,12 +1727,18 @@ async function processResults(
             place.rating
           );
 
+        const budgetScore =
+          getBudgetScore(
+            place.estimatedCost
+          );
+
         const totalScore =
           place.weatherScore * 3 +
           place.ageScore * 4 +
           distanceScore * 5 +
           relevanceScore * 3 +
-          ratingScore * 2;
+          ratingScore * 2 +
+          budgetScore * 2;
 
         return {
 
@@ -2282,6 +2440,131 @@ function getRatingScore(
 
 }
 
+function getMoneyValue(
+  money
+) {
+
+  if (!money) {
+    return null;
+  }
+
+  const units =
+    Number(
+      money.units || 0
+    );
+
+  const nanos =
+    Number(
+      money.nanos || 0
+    );
+
+  const value =
+    units + nanos / 1000000000;
+
+  return Number.isFinite(value)
+    ? value
+    : null;
+
+}
+
+function getEstimatedCost(
+  place
+) {
+
+  const priceRange =
+    place.priceRange;
+
+  const rangeEnd =
+    getMoneyValue(
+      priceRange?.endPrice
+    );
+
+  if (
+    rangeEnd !== null
+  ) {
+
+    return rangeEnd;
+
+  }
+
+  const rangeStart =
+    getMoneyValue(
+      priceRange?.startPrice
+    );
+
+  if (
+    rangeStart !== null
+  ) {
+
+    return rangeStart;
+
+  }
+
+  const priceLevelCosts = {
+    PRICE_LEVEL_FREE: 0,
+    PRICE_LEVEL_INEXPENSIVE: 15,
+    PRICE_LEVEL_MODERATE: 40,
+    PRICE_LEVEL_EXPENSIVE: 100,
+    PRICE_LEVEL_VERY_EXPENSIVE: 250
+  };
+
+  return Object.prototype.hasOwnProperty.call(
+    priceLevelCosts,
+    place.priceLevel
+  )
+    ? priceLevelCosts[place.priceLevel]
+    : null;
+
+}
+
+function getBudgetScore(
+  estimatedCost
+) {
+
+  if (
+    estimatedCost === null
+  ) {
+
+    return 2;
+
+  }
+
+  if (
+    estimatedCost === 0
+  ) {
+
+    return 5;
+
+  }
+
+  if (
+    state.maxBudget === 0
+  ) {
+
+    return 1;
+
+  }
+
+  const ratio =
+    estimatedCost /
+    state.maxBudget;
+
+  if (ratio <= 0.25) {
+    return 5;
+  }
+
+  if (ratio <= 0.5) {
+    return 4;
+  }
+
+  if (ratio <= 0.75) {
+    return 3;
+  }
+
+  return 2;
+
+}
+
 /*
 ==================================================
 ERGEBNISSE ANZEIGEN
@@ -2314,8 +2597,8 @@ function renderRealActivities(
 
         <small>
           Die Google-Suche hat keine passenden
-          Ergebnisse im gewünschten Fahrzeitbereich
-          geliefert.
+          geöffneten Ergebnisse im Budget- und
+          Fahrzeitbereich geliefert.
         </small>
 
       </div>
@@ -2343,10 +2626,53 @@ function renderRealActivities(
             ? activity.rating.toFixed(1)
             : null;
 
+        const budgetText =
+          activity.estimatedCost === null
+            ? "Preis nicht angegeben"
+            : "ca. " +
+              formatBudget(
+                Math.round(
+                  activity.estimatedCost
+                )
+              );
+
         const icon =
           getCategoryIcon(
             activity.category
           );
+
+        const openingHours =
+          getOpeningHours(
+            activity
+          );
+
+        const openingDescriptions =
+          Array.isArray(
+            openingHours?.weekdayDescriptions
+          )
+            ? openingHours.weekdayDescriptions
+            : [];
+
+        const openingHoursMarkup =
+          openingDescriptions.length
+            ? `
+                <div class="opening-hours">
+                  <strong>Jetzt geöffnet</strong>
+                  ${openingDescriptions
+                    .map(
+                      description =>
+                        `<div>${escapeHTML(
+                          description
+                        )}</div>`
+                    )
+                    .join("")}
+                </div>
+              `
+            : `
+                <div class="opening-hours">
+                  <strong>Jetzt geöffnet</strong>
+                </div>
+              `;
 
         const driveMinutes =
           activity.driveMinutes !== null
@@ -2409,11 +2735,18 @@ function renderRealActivities(
                 Familienfreundlich
               </span>
 
+              <span class="badge">
+                💶
+                ${budgetText}
+              </span>
+
             </div>
 
             <p>
               ${escapeHTML(address)}
             </p>
+
+            ${openingHoursMarkup}
 
             <div class="result-actions">
 

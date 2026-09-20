@@ -49,7 +49,7 @@ module.exports = async (req, res) => {
               apiKey,
 
             "X-Goog-FieldMask":
-              "places.id,places.displayName,places.formattedAddress,places.location,places.googleMapsUri,places.rating,places.websiteUri"
+              "places.id,places.displayName,places.formattedAddress,places.location,places.googleMapsUri,places.rating,places.websiteUri,places.businessStatus,places.regularOpeningHours,places.currentOpeningHours,places.priceLevel,places.priceRange"
           },
 
           body: JSON.stringify({
