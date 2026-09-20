@@ -47,9 +47,7 @@ main{
   box-shadow:0 3px 12px rgba(0,0,0,.06);
 }
 
-h2{
-  margin-top:0;
-}
+h2{margin-top:0}
 
 button{
   border:none;
@@ -64,9 +62,7 @@ button{
   color:white;
 }
 
-.secondary{
-  background:#eee;
-}
+.secondary{background:#eee}
 
 .danger{
   background:#ffe5e5;
@@ -127,9 +123,7 @@ input,select{
   margin-bottom:8px;
 }
 
-.person-info{
-  font-size:16px;
-}
+.person-info{font-size:16px}
 
 .chips{
   display:flex;
@@ -199,9 +193,7 @@ input,select{
   gap:8px;
 }
 
-.weather-button{
-  background:#eee;
-}
+.weather-button{background:#eee}
 
 .weather-button.active{
   background:#111;
@@ -214,9 +206,7 @@ input,select{
   gap:8px;
 }
 
-.transport-button{
-  background:#eee;
-}
+.transport-button{background:#eee}
 
 .transport-button.active{
   background:#111;
@@ -238,9 +228,7 @@ input,select{
   margin-bottom:12px;
 }
 
-.hidden{
-  display:none;
-}
+.hidden{display:none}
 
 .activity-card{
   border:1px solid #e2e2e2;
@@ -250,9 +238,7 @@ input,select{
   background:white;
 }
 
-.activity-content{
-  padding:15px;
-}
+.activity-content{padding:15px}
 
 .activity-name{
   font-size:19px;
@@ -432,9 +418,7 @@ input,select{
 
   </div>
 
-  <div
-    id="resultsCard"
-    class="card hidden">
+  <div id="resultsCard" class="card hidden">
 
 ```
 <h2>⭐ Aktivitäten in der Nähe</h2>
@@ -921,11 +905,6 @@ async function searchRealActivities(){
       query =
         "Indoor Familienaktivitäten in Bad Kissingen";
 
-    }else{
-
-      query =
-        "Familienaktivitäten in Bad Kissingen";
-
     }
 
     const apiUrl =
@@ -1070,32 +1049,18 @@ function processGoogleResults(places){
 
     .filter(Boolean)
 
-    .filter(place=>{
+    .filter(place =>
+      place.distance <= getDistanceLimit()
+    )
 
-      return (
-        place.distance <=
-        getDistanceLimit()
-      );
-
-    })
-
-    .filter(place=>{
-
-      return weatherSuitable(
-        place.indoor
-      );
-
-    })
+    .filter(place =>
+      weatherSuitable(place.indoor)
+    )
 
     .sort((a,b)=>{
 
-      if(
-        a.ageMatch !==
-        b.ageMatch
-      ){
-
+      if(a.ageMatch !== b.ageMatch){
         return a.ageMatch ? -1 : 1;
-
       }
 
       return a.distance-b.distance;
@@ -1116,28 +1081,20 @@ function guessGoogleCategory(name){
     value.includes("wasserspielplatz") ||
     value.includes("aktivspielplatz")
   ){
-
     return "Spielplatz";
-
   }
 
   if(
     value.includes("schwimm") ||
-    value.includes("bad") ||
     value.includes("freibad") ||
-    value.includes("hallenbad")
+    value.includes("hallenbad") ||
+    value.includes("therme")
   ){
-
     return "Schwimmbad";
-
   }
 
-  if(
-    value.includes("museum")
-  ){
-
+  if(value.includes("museum")){
     return "Museum";
-
   }
 
   if(
@@ -1145,22 +1102,17 @@ function guessGoogleCategory(name){
     value.includes("tierpark") ||
     value.includes("wildpark")
   ){
-
     return "Tierpark / Zoo";
-
   }
 
   if(
     value.includes("freizeitpark") ||
     value.includes("park")
   ){
-
     return "Freizeitpark / Park";
-
   }
 
   return "Freizeit";
-
 }
 
 
@@ -1180,13 +1132,10 @@ function weatherSuitable(indoor){
     selectedWeather === "rain" ||
     selectedWeather === "cold"
   ){
-
     return indoor;
-
   }
 
   return true;
-
 }
 
 
@@ -1197,31 +1146,21 @@ function getAgeMatch(category){
   }
 
   if(category === "Spielplatz"){
-
     return family.some(
-      p =>
-        p.age >= 1 &&
-        p.age <= 12
+      p => p.age >= 1 && p.age <= 12
     );
-
   }
 
   if(category === "Tierpark / Zoo"){
-
     return family.some(
-      p =>
-        p.age <= 14
+      p => p.age <= 14
     );
-
   }
 
   if(category === "Museum"){
-
     return family.some(
-      p =>
-        p.age >= 3
+      p => p.age >= 3
     );
-
   }
 
   return true;
@@ -1252,23 +1191,15 @@ function calculateDistance(
   const R = 6371;
 
   const dLat =
-    degreesToRadians(
-      lat2-lat1
-    );
+    degreesToRadians(lat2-lat1);
 
   const dLon =
-    degreesToRadians(
-      lon2-lon1
-    );
+    degreesToRadians(lon2-lon1);
 
   const a =
     Math.sin(dLat/2)**2 +
-    Math.cos(
-      degreesToRadians(lat1)
-    ) *
-    Math.cos(
-      degreesToRadians(lat2)
-    ) *
+    Math.cos(degreesToRadians(lat1)) *
+    Math.cos(degreesToRadians(lat2)) *
     Math.sin(dLon/2)**2;
 
   const c =
@@ -1283,9 +1214,7 @@ function calculateDistance(
 
 
 function degreesToRadians(degrees){
-
   return degrees*Math.PI/180;
-
 }
 
 
@@ -1387,31 +1316,23 @@ function renderRealActivities(places){
         <button
           class="primary activity-button"
           onclick='useRealActivity(${JSON.stringify(place.name)})'>
-
           🚀 Diese Aktivität nehmen
-
         </button>
 
         <button
           class="route-button"
           onclick='openGooglePlace(${JSON.stringify(place.mapsUri || "")}, ${place.lat}, ${place.lon})'>
-
           🗺️ Route öffnen
-
         </button>
 
         ${
           place.website
             ? `
-
               <button
                 class="route-button"
                 onclick='openWebsite(${JSON.stringify(place.website)})'>
-
                 🌐 Website
-
               </button>
-
             `
             : ""
         }
@@ -1441,14 +1362,9 @@ function openGooglePlace(
     );
 
     return;
-
   }
 
-  openRoute(
-    lat,
-    lon
-  );
-
+  openRoute(lat,lon);
 }
 
 
@@ -1456,15 +1372,12 @@ function openRoute(lat,lon){
 
   const url =
     "https://www.google.com/maps/dir/?api=1&destination=" +
-    encodeURIComponent(
-      lat + "," + lon
-    );
+    encodeURIComponent(lat + "," + lon);
 
   window.open(
     url,
     "_blank"
   );
-
 }
 
 
@@ -1472,28 +1385,20 @@ function openWebsite(url){
 
   let target = url;
 
-  if(
-    !/^https?:\/\//i.test(target)
-  ){
-
-    target =
-      "https://" + target;
-
+  if(!/^https?:\/\//i.test(target)){
+    target = "https://" + target;
   }
 
   window.open(
     target,
     "_blank"
   );
-
 }
 
 
 function useRealActivity(name){
 
-  currentActivity =
-    name;
-
+  currentActivity = name;
   selectedPeople = [];
 
   hideAll();
@@ -1504,11 +1409,9 @@ function useRealActivity(name){
 
   document
     .getElementById("selectedActivityTitle")
-    .textContent =
-      name;
+    .textContent = name;
 
   renderPeopleSelector();
-
 }
 
 
@@ -1533,7 +1436,6 @@ function renderPeopleSelector(){
     `;
 
     return;
-
   }
 
   family.forEach(person=>{
@@ -1543,25 +1445,19 @@ function renderPeopleSelector(){
 
     button.className = "chip";
 
-    if(
-      selectedPeople.includes(person.id)
-    ){
-
+    if(selectedPeople.includes(person.id)){
       button.classList.add("active");
-
     }
 
     button.textContent =
       `${person.name} (${person.age})`;
 
     button.onclick =
-      () =>
-        togglePerson(person.id);
+      () => togglePerson(person.id);
 
     container.appendChild(button);
 
   });
-
 }
 
 
@@ -1571,20 +1467,12 @@ function togglePerson(id){
     selectedPeople.indexOf(id);
 
   if(index === -1){
-
     selectedPeople.push(id);
-
   }else{
-
-    selectedPeople.splice(
-      index,
-      1
-    );
-
+    selectedPeople.splice(index,1);
   }
 
   renderPeopleSelector();
-
 }
 
 
@@ -1597,7 +1485,6 @@ function createFamilyChecklist(){
     );
 
     return;
-
   }
 
   buildChecklist();
@@ -1610,8 +1497,7 @@ function createFamilyChecklist(){
 
   document
     .getElementById("listTitle")
-    .textContent =
-      currentActivity;
+    .textContent = currentActivity;
 
   document
     .getElementById("listSubtitle")
@@ -1619,7 +1505,6 @@ function createFamilyChecklist(){
       "LOS! hat eure persönliche Liste zusammengestellt";
 
   renderChecklist();
-
 }
 
 
@@ -1640,9 +1525,7 @@ function buildChecklist(){
       "Wechselkleidung"
     ];
 
-  }else if(
-    category.includes("spielplatz")
-  ){
+  }else if(category.includes("spielplatz")){
 
     common = [
       "Trinkflaschen",
@@ -1650,18 +1533,14 @@ function buildChecklist(){
       "Sonnencreme"
     ];
 
-  }else if(
-    category.includes("museum")
-  ){
+  }else if(category.includes("museum")){
 
     common = [
       "Trinkflaschen",
       "Snacks"
     ];
 
-  }else if(
-    category.includes("tier")
-  ){
+  }else if(category.includes("tier")){
 
     common = [
       "Trinkflaschen",
@@ -1679,56 +1558,39 @@ function buildChecklist(){
 
   }
 
-  common.forEach(
-    item =>
-      addItem(
-        item,
-        "Für alle",
-        null
-      )
+  common.forEach(item =>
+    addItem(item,"Für alle",null)
   );
 
-  selectedPeople.forEach(
-    personId=>{
+  selectedPeople.forEach(personId=>{
 
-      const person =
-        family.find(
-          p => p.id === personId
-        );
+    const person =
+      family.find(p => p.id === personId);
 
-      if(!person){
-        return;
-      }
+    if(!person) return;
 
-      let items = [];
+    let items = [];
 
-      if(person.age <= 6){
+    if(person.age <= 6){
 
-        items = [
-          "Wechselkleidung",
-          "Snack"
-        ];
+      items = [
+        "Wechselkleidung",
+        "Snack"
+      ];
 
-      }else{
+    }else{
 
-        items = [
-          "Trinkflasche"
-        ];
-
-      }
-
-      items.forEach(
-        item =>
-          addItem(
-            item,
-            person.name,
-            person.id
-          )
-      );
+      items = [
+        "Trinkflasche"
+      ];
 
     }
-  );
 
+    items.forEach(item =>
+      addItem(item,person.name,person.id)
+    );
+
+  });
 }
 
 
@@ -1745,25 +1607,16 @@ function addItem(
       personId
     );
 
-  if(
-    currentItems.some(
-      x => x.id === id
-    )
-  ){
-
+  if(currentItems.some(x => x.id === id)){
     return;
-
   }
 
   currentItems.push({
-
     id:id,
     item:item,
     personName:personName,
     personId:personId
-
   });
-
 }
 
 
@@ -1775,79 +1628,53 @@ function renderChecklist(){
   container.innerHTML = "";
 
   const common =
-    currentItems.filter(
-      x => !x.personId
-    );
+    currentItems.filter(x => !x.personId);
 
   if(common.length){
 
     const title =
       document.createElement("div");
 
-    title.className =
-      "section-title";
-
-    title.textContent =
-      "👨‍👩‍👧‍👦 Für alle";
+    title.className = "section-title";
+    title.textContent = "👨‍👩‍👧‍👦 Für alle";
 
     container.appendChild(title);
 
-    common.forEach(
-      item =>
-        renderItem(
-          item,
-          container
-        )
+    common.forEach(item =>
+      renderItem(item,container)
     );
-
   }
 
-  selectedPeople.forEach(
-    personId=>{
+  selectedPeople.forEach(personId=>{
 
-      const person =
-        family.find(
-          p => p.id === personId
-        );
+    const person =
+      family.find(p => p.id === personId);
 
-      if(!person){
-        return;
-      }
+    if(!person) return;
 
-      const items =
-        currentItems.filter(
-          x =>
-            x.personId === person.id
-        );
-
-      if(!items.length){
-        return;
-      }
-
-      const title =
-        document.createElement("div");
-
-      title.className =
-        "section-title";
-
-      title.textContent =
-        `👤 ${person.name} (${person.age})`;
-
-      container.appendChild(title);
-
-      items.forEach(
-        item =>
-          renderItem(
-            item,
-            container
-          )
+    const items =
+      currentItems.filter(
+        x => x.personId === person.id
       );
 
-    }
-  );
+    if(!items.length) return;
+
+    const title =
+      document.createElement("div");
+
+    title.className = "section-title";
+    title.textContent =
+      `👤 ${person.name} (${person.age})`;
+
+    container.appendChild(title);
+
+    items.forEach(item =>
+      renderItem(item,container)
+    );
+
+  });
 
   updateProgress();
-
 }
 
 
@@ -1859,14 +1686,12 @@ function renderItem(
   const wrapper =
     document.createElement("label");
 
-  wrapper.className =
-    "check-item";
+  wrapper.className = "check-item";
 
   const checkbox =
     document.createElement("input");
 
-  checkbox.type =
-    "checkbox";
+  checkbox.type = "checkbox";
 
   checkbox.checked =
     checkedItems[item.id] === true;
@@ -1874,37 +1699,31 @@ function renderItem(
   const text =
     document.createElement("span");
 
-  text.textContent =
-    item.item;
+  text.textContent = item.item;
 
   if(checkbox.checked){
-
     text.classList.add("checked");
-
   }
 
-  checkbox.onchange =
-    ()=>{
+  checkbox.onchange = ()=>{
 
-      checkedItems[item.id] =
-        checkbox.checked;
+    checkedItems[item.id] =
+      checkbox.checked;
 
-      text.classList.toggle(
-        "checked",
-        checkbox.checked
-      );
+    text.classList.toggle(
+      "checked",
+      checkbox.checked
+    );
 
-      saveAll();
+    saveAll();
+    updateProgress();
 
-      updateProgress();
-
-    };
+  };
 
   wrapper.appendChild(checkbox);
   wrapper.appendChild(text);
 
   container.appendChild(wrapper);
-
 }
 
 
@@ -1920,25 +1739,20 @@ function updateProgress(){
       .style.width = "0%";
 
     return;
-
   }
 
   const done =
     currentItems.filter(
-      item =>
-        checkedItems[item.id]
+      item => checkedItems[item.id]
     ).length;
 
   const percent =
-    Math.round(
-      done / total * 100
-    );
+    Math.round(done / total * 100);
 
   document
     .getElementById("progressBar")
     .style.width =
       percent + "%";
-
 }
 
 
@@ -1957,22 +1771,17 @@ function createList(){
     );
 
     return;
-
   }
 
   customLists.push({
-
     name:name,
     items:[]
-
   });
 
   input.value = "";
 
   saveAll();
-
   renderHome();
-
 }
 
 
@@ -1994,33 +1803,31 @@ function renderCustomLists(){
     button.textContent =
       "📌 " + list.name;
 
-    button.onclick =
-      ()=>{
+    button.onclick = ()=>{
 
-        currentActivity =
-          list.name;
+      currentActivity =
+        list.name;
 
-        selectedPeople = [];
+      selectedPeople = [];
 
-        hideAll();
+      hideAll();
 
-        document
-          .getElementById("peopleScreen")
-          .classList.remove("hidden");
+      document
+        .getElementById("peopleScreen")
+        .classList.remove("hidden");
 
-        document
-          .getElementById("selectedActivityTitle")
-          .textContent =
-            "📌 " + list.name;
+      document
+        .getElementById("selectedActivityTitle")
+        .textContent =
+          "📌 " + list.name;
 
-        renderPeopleSelector();
+      renderPeopleSelector();
 
-      };
+    };
 
     container.appendChild(button);
 
   });
-
 }
 
 
@@ -2031,13 +1838,8 @@ function addCustomItem(){
       "Was soll noch auf die Liste?"
     );
 
-  if(
-    !item ||
-    !item.trim()
-  ){
-
+  if(!item || !item.trim()){
     return;
-
   }
 
   addItem(
@@ -2047,7 +1849,6 @@ function addCustomItem(){
   );
 
   renderChecklist();
-
 }
 
 
@@ -2058,21 +1859,15 @@ function resetChecklist(){
       "Alle erledigten Punkte zurücksetzen?"
     )
   ){
-
     return;
-
   }
 
-  currentItems.forEach(
-    item=>{
-      delete checkedItems[item.id];
-    }
-  );
+  currentItems.forEach(item=>{
+    delete checkedItems[item.id];
+  });
 
   saveAll();
-
   renderChecklist();
-
 }
 
 
@@ -2085,7 +1880,6 @@ function backToPeople(){
     .classList.remove("hidden");
 
   renderPeopleSelector();
-
 }
 
 
@@ -2095,7 +1889,6 @@ function goHome(){
   selectedPeople = [];
 
   renderHome();
-
 }
 
 
@@ -2112,7 +1905,6 @@ function createItemId(
     "|" +
     (personId || "all")
   );
-
 }
 
 
@@ -2124,7 +1916,6 @@ function escapeHTML(text){
     .replace(/>/g,"&gt;")
     .replace(/"/g,"&quot;")
     .replace(/'/g,"&#039;");
-
 }
 
 
