@@ -5,378 +5,382 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LOS! – Familien-Starthelfer</title>
 <script src="https://unpkg.com/lucide@latest"></script>
+
 <style>
 * {
   box-sizing: border-box;
 }
 
 body {
-margin: 0;
-font-family: -apple-system, BlinkMacSystemFont, “Segoe UI”, Roboto, Arial, sans-serif;
-background: #f5f7fa;
-color: #1f2937;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  background: #f5f7fa;
+  color: #1f2937;
 }
 
 header {
-background: #ffffff;
-padding: 18px 20px;
-text-align: center;
-box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-position: sticky;
-top: 0;
-z-index: 20;
+  background: #ffffff;
+  padding: 18px 20px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  position: sticky;
+  top: 0;
+  z-index: 20;
 }
 
 header h1 {
-margin: 0;
-font-size: 28px;
-font-weight: 800;
+  margin: 0;
+  font-size: 28px;
+  font-weight: 800;
 }
 
 header p {
-margin: 5px 0 0;
-color: #6b7280;
-font-size: 14px;
+  margin: 5px 0 0;
+  color: #6b7280;
+  font-size: 14px;
 }
 
 main {
-max-width: 700px;
-margin: 0 auto;
-padding: 16px;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 16px;
 }
 
 .card {
-background: #ffffff;
-border-radius: 16px;
-box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-padding: 20px;
-margin-bottom: 16px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  padding: 20px;
+  margin-bottom: 16px;
 }
 
 h2 {
-margin-top: 0;
-font-size: 21px;
+  margin-top: 0;
+  font-size: 21px;
 }
 
 h3 {
-margin-bottom: 8px;
+  margin-bottom: 8px;
 }
 
 .section-title {
-display: flex;
-align-items: center;
-gap: 7px;
-margin-bottom: 14px;
-white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 14px;
+  white-space: nowrap;
 }
 
 .section-title h2,
 .section-title h3,
 .section-title strong {
-margin: 0;
-padding: 0;
-line-height: 1.2;
+  margin: 0;
+  padding: 0;
+  line-height: 1.2;
 }
 
 .section-title .icon {
-flex: 0 0 auto;
-margin: 0;
-vertical-align: middle;
+  flex: 0 0 auto;
+  margin: 0;
+  vertical-align: middle;
 }
 
 label {
-display: block;
-font-weight: 600;
-margin-bottom: 7px;
+  display: block;
+  font-weight: 600;
+  margin-bottom: 7px;
 }
 
 input {
-width: 100%;
-padding: 13px;
-border: 1px solid #d1d5db;
-border-radius: 11px;
-font-size: 16px;
-margin-bottom: 14px;
-background: #fff;
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #d1d5db;
+  border-radius: 11px;
+  font-size: 16px;
+  margin-bottom: 14px;
+  background: #fff;
 }
 
 button {
-border: none;
-border-radius: 11px;
-padding: 12px 15px;
-font-size: 15px;
-font-weight: 700;
-cursor: pointer;
+  border: none;
+  border-radius: 11px;
+  padding: 12px 15px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
 }
 
 button:active {
-transform: scale(0.98);
+  transform: scale(0.98);
 }
 
 .primary {
-background: #111827;
-color: white;
-width: 100%;
+  background: #111827;
+  color: white;
+  width: 100%;
 }
 
 .secondary {
-background: #eef2f7;
-color: #1f2937;
+  background: #eef2f7;
+  color: #1f2937;
 }
 
 .success {
-background: #166534;
-color: white;
+  background: #166534;
+  color: white;
 }
 
 .danger {
-background: #dc2626;
-color: white;
+  background: #dc2626;
+  color: white;
 }
 
 .icon {
-width: 18px;
-height: 18px;
-vertical-align: middle;
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
 }
 
 .icon-lg {
-width: 28px;
-height: 28px;
-vertical-align: middle;
+  width: 28px;
+  height: 28px;
+  vertical-align: middle;
 }
 
 button .icon {
-margin-right: 7px;
+  margin-right: 7px;
 }
 
 .weather-grid {
-display: grid;
-grid-template-columns: repeat(4, 1fr);
-gap: 8px;
-margin-bottom: 18px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 18px;
 }
 
 .weather-btn {
-background: #f3f4f6;
-color: #374151;
-padding: 11px 5px;
-font-size: 13px;
+  background: #f3f4f6;
+  color: #374151;
+  padding: 11px 5px;
+  font-size: 13px;
 }
 
 .weather-btn.active {
-background: #111827;
-color: white;
+  background: #111827;
+  color: white;
 }
 
 .drive-grid {
-display: grid;
-grid-template-columns: repeat(3, 1fr);
-gap: 8px;
-margin-bottom: 18px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 18px;
 }
 
 .drive-btn {
-background: #f3f4f6;
-color: #374151;
+  background: #f3f4f6;
+  color: #374151;
 }
 
 .drive-btn.active {
-background: #111827;
-color: white;
+  background: #111827;
+  color: white;
 }
 
 .family-summary {
-background: #f8fafc;
-border-radius: 12px;
-padding: 13px;
-margin-bottom: 16px;
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 13px;
+  margin-bottom: 16px;
 }
 
 .family-member {
-display: flex;
-justify-content: space-between;
-align-items: center;
-padding: 8px 0;
-border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .family-member:last-child {
-border-bottom: none;
+  border-bottom: none;
 }
 
 .person-age {
-color: #6b7280;
-font-size: 14px;
+  color: #6b7280;
+  font-size: 14px;
 }
 
 .result-card {
-border: 1px solid #e5e7eb;
-border-radius: 14px;
-padding: 15px;
-margin-bottom: 12px;
-background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 15px;
+  margin-bottom: 12px;
+  background: #fff;
 }
 
 .result-card h3 {
-margin: 0 0 8px;
-font-size: 18px;
-display: flex;
-align-items: center;
-gap: 7px;
+  margin: 0 0 8px;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
 }
 
 .result-card h3 .icon {
-flex: 0 0 auto;
+  flex: 0 0 auto;
 }
 
 .result-meta {
-display: flex;
-flex-wrap: wrap;
-gap: 7px;
-margin: 9px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 9px 0;
 }
 
 .badge {
-background: #f3f4f6;
-border-radius: 20px;
-padding: 6px 9px;
-font-size: 12px;
-display: inline-flex;
-align-items: center;
-gap: 4px;
+  background: #f3f4f6;
+  border-radius: 20px;
+  padding: 6px 9px;
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .badge .icon {
-width: 14px;
-height: 14px;
+  width: 14px;
+  height: 14px;
 }
 
 .result-actions {
-display: grid;
-grid-template-columns: 1fr 1fr;
-gap: 8px;
-margin-top: 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 12px;
 }
 
 .result-actions button {
-width: 100%;
+  width: 100%;
 }
 
 .hidden {
-display: none !important;
+  display: none !important;
 }
 
 .person-row {
-display: flex;
-align-items: center;
-justify-content: space-between;
-padding: 12px;
-background: #f8fafc;
-border-radius: 11px;
-margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  background: #f8fafc;
+  border-radius: 11px;
+  margin-bottom: 8px;
 }
 
 .person-info strong {
-display: block;
+  display: block;
 }
 
 .person-info span {
-color: #6b7280;
-font-size: 13px;
+  color: #6b7280;
+  font-size: 13px;
 }
 
 .small-actions {
-display: flex;
-gap: 6px;
+  display: flex;
+  gap: 6px;
 }
 
 .small-btn {
-padding: 8px 10px;
-font-size: 13px;
+  padding: 8px 10px;
+  font-size: 13px;
 }
 
 .list-item {
-display: flex;
-align-items: center;
-justify-content: space-between;
-padding: 11px 0;
-border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 0;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .list-item:last-child {
-border-bottom: none;
+  border-bottom: none;
 }
 
 .check-item {
-display: flex;
-align-items: center;
-gap: 10px;
-padding: 12px;
-background: #f8fafc;
-border-radius: 11px;
-margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: #f8fafc;
+  border-radius: 11px;
+  margin-bottom: 8px;
 }
 
 .check-item input {
-width: 20px;
-height: 20px;
-margin: 0;
+  width: 20px;
+  height: 20px;
+  margin: 0;
 }
 
 .progress {
-height: 9px;
-background: #e5e7eb;
-border-radius: 10px;
-overflow: hidden;
-margin: 12px 0 16px;
+  height: 9px;
+  background: #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 12px 0 16px;
 }
 
 .progress-bar {
-height: 100%;
-background: #166534;
-width: 0%;
-transition: 0.2s;
+  height: 100%;
+  background: #166534;
+  width: 0%;
+  transition: 0.2s;
 }
 
 .empty,
 .loading {
-text-align: center;
-color: #6b7280;
-padding: 20px 5px;
+  text-align: center;
+  color: #6b7280;
+  padding: 20px 5px;
 }
 
 .footer-note {
-font-size: 11px;
-color: #9ca3af;
-text-align: center;
-margin-top: 10px;
-line-height: 1.5;
+  font-size: 11px;
+  color: #9ca3af;
+  text-align: center;
+  margin-top: 10px;
+  line-height: 1.5;
 }
 
 @media (max-width: 480px) {
-main {
-padding: 12px;
-}
+  main {
+    padding: 12px;
+  }
 
-.card {
-padding: 16px;
-}
+  .card {
+    padding: 16px;
+  }
 
-.weather-grid {
-grid-template-columns: repeat(2, 1fr);
-}
+  .weather-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
-.result-actions {
-grid-template-columns: 1fr;
-}
+  .result-actions {
+    grid-template-columns: 1fr;
+  }
 
-.section-title {
-gap: 6px;
+  .section-title {
+    gap: 6px;
+  }
 }
-}
+</style>
 </head>
+
 <body>
+
 <header>
   <h1>
     <i data-lucide="rocket" class="icon-lg"></i>
@@ -384,524 +388,716 @@ gap: 6px;
   </h1>
   <p>Familien-Starthelfer</p>
 </header>
+
 <main>
+
 <section id="homeScreen">
+
   <div class="card">
-<div class="section-title">
-  <i data-lucide="map-pin" class="icon"></i>
-  <h2>Was machen wir?</h2>
-</div>
-<label for="locationInput">
-  Standort
-</label>
-<input
-  id="locationInput"
-  type="text"
-  value="Bad Kissingen"
-  placeholder="z. B. Bad Kissingen"
->
-<div class="section-title">
-  <i data-lucide="cloud-sun" class="icon"></i>
-  <h3>Wie ist das Wetter?</h3>
-</div>
-<div class="weather-grid">
-  <button
-    class="weather-btn active"
-    onclick="setWeather('sunny', this)"
-  >
-    ☀️ Sonnig
-  </button>
-  <button
-    class="weather-btn"
-    onclick="setWeather('cloudy', this)"
-  >
-    ☁️ Bewölkt
-  </button>
-  <button
-    class="weather-btn"
-    onclick="setWeather('rain', this)"
-  >
-    🌧️ Regen
-  </button>
-  <button
-    class="weather-btn"
-    onclick="setWeather('cold', this)"
-  >
-    ❄️ Kalt
-  </button>
-</div>
-<div class="section-title">
-  <i data-lucide="car" class="icon"></i>
-  <h3>Wie lange möchten wir fahren?</h3>
-</div>
-<div class="drive-grid">
-  <button
-    class="drive-btn"
-    onclick="setDrive(15, this)"
-  >
-    15 Min.
-  </button>
-  <button
-    class="drive-btn active"
-    onclick="setDrive(30, this)"
-  >
-    30 Min.
-  </button>
-  <button
-    class="drive-btn"
-    onclick="setDrive(60, this)"
-  >
-    60 Min.
-  </button>
-</div>
-<div class="family-summary">
-  <div class="section-title">
-    <i data-lucide="users" class="icon"></i>
-    <strong>Unsere Familie</strong>
+
+    <div class="section-title">
+      <i data-lucide="map-pin" class="icon"></i>
+      <h2>Was machen wir?</h2>
+    </div>
+
+    <label for="locationInput">
+      Standort
+    </label>
+
+    <input
+      id="locationInput"
+      type="text"
+      value="Bad Kissingen"
+      placeholder="z. B. Bad Kissingen"
+    >
+
+    <div class="section-title">
+      <i data-lucide="cloud-sun" class="icon"></i>
+      <h3>Wie ist das Wetter?</h3>
+    </div>
+
+    <div class="weather-grid">
+
+      <button
+        class="weather-btn active"
+        onclick="setWeather('sunny', this)"
+      >
+        ☀️ Sonnig
+      </button>
+
+      <button
+        class="weather-btn"
+        onclick="setWeather('cloudy', this)"
+      >
+        ☁️ Bewölkt
+      </button>
+
+      <button
+        class="weather-btn"
+        onclick="setWeather('rain', this)"
+      >
+        🌧️ Regen
+      </button>
+
+      <button
+        class="weather-btn"
+        onclick="setWeather('cold', this)"
+      >
+        ❄️ Kalt
+      </button>
+
+    </div>
+
+    <div class="section-title">
+      <i data-lucide="car" class="icon"></i>
+      <h3>Wie lange möchten wir fahren?</h3>
+    </div>
+
+    <div class="drive-grid">
+
+      <button
+        class="drive-btn"
+        onclick="setDrive(15, this)"
+      >
+        15 Min.
+      </button>
+
+      <button
+        class="drive-btn active"
+        onclick="setDrive(30, this)"
+      >
+        30 Min.
+      </button>
+
+      <button
+        class="drive-btn"
+        onclick="setDrive(60, this)"
+      >
+        60 Min.
+      </button>
+
+    </div>
+
+    <div class="family-summary">
+
+      <div class="section-title">
+        <i data-lucide="users" class="icon"></i>
+        <strong>Unsere Familie</strong>
+      </div>
+
+      <div id="homeFamilySummary"></div>
+
+    </div>
+
+    <button
+      class="primary"
+      onclick="searchActivities()"
+    >
+      <i data-lucide="search" class="icon"></i>
+      Aktivitäten finden
+    </button>
+
   </div>
-  <div id="homeFamilySummary"></div>
-</div>
-<button
-  class="primary"
-  onclick="searchActivities()"
->
-  <i data-lucide="search" class="icon"></i>
-  Aktivitäten finden
-</button>
-  </div>
+
   <div
     class="card hidden"
     id="resultsCard"
   >
-<div class="section-title">
-  <i data-lucide="star" class="icon"></i>
-  <h2>Unsere Vorschläge</h2>
-</div>
-<div id="resultsContainer"></div>
-<div class="footer-note">
-  Orte und Kartendaten bereitgestellt von Google.
-</div>
+
+    <div class="section-title">
+      <i data-lucide="star" class="icon"></i>
+      <h2>Unsere Vorschläge</h2>
+    </div>
+
+    <div id="resultsContainer"></div>
+
+    <div class="footer-note">
+      Orte und Kartendaten bereitgestellt von Google.
+    </div>
+
   </div>
+
   <div class="card">
-<div class="section-title">
-  <i data-lucide="users" class="icon"></i>
-  <h2>Familie</h2>
-</div>
-<p>
-  Lege die Familienmitglieder und deren Alter fest.
-</p>
-<button
-  class="secondary"
-  onclick="showPeopleScreen()"
->
-  <i data-lucide="user-plus" class="icon"></i>
-  Familie verwalten
-</button>
+
+    <div class="section-title">
+      <i data-lucide="users" class="icon"></i>
+      <h2>Familie</h2>
+    </div>
+
+    <p>
+      Lege die Familienmitglieder und deren Alter fest.
+    </p>
+
+    <button
+      class="secondary"
+      onclick="showPeopleScreen()"
+    >
+      <i data-lucide="user-plus" class="icon"></i>
+      Familie verwalten
+    </button>
+
   </div>
+
   <div class="card">
-<div class="section-title">
-  <i data-lucide="list" class="icon"></i>
-  <h2>Meine Listen</h2>
-</div>
-<p>
-  Eigene Checklisten und Listen für die Familie.
-</p>
-<button
-  class="secondary"
-  onclick="showListsScreen()"
->
-  <i data-lucide="list-plus" class="icon"></i>
-  Listen verwalten
-</button>
+
+    <div class="section-title">
+      <i data-lucide="list" class="icon"></i>
+      <h2>Meine Listen</h2>
+    </div>
+
+    <p>
+      Eigene Checklisten und Listen für die Familie.
+    </p>
+
+    <button
+      class="secondary"
+      onclick="showListsScreen()"
+    >
+      <i data-lucide="list-plus" class="icon"></i>
+      Listen verwalten
+    </button>
+
   </div>
+
 </section>
+
 <section
   id="peopleScreen"
   class="hidden"
 >
+
   <div class="card">
-<div class="section-title">
-  <i data-lucide="users" class="icon"></i>
-  <h2>Familie verwalten</h2>
-</div>
-<div id="peopleContainer"></div>
-<h3>Familienmitglied hinzufügen</h3>
-<input
-  id="personName"
-  type="text"
-  placeholder="Name"
->
-<input
-  id="personAge"
-  type="number"
-  min="0"
-  max="100"
-  placeholder="Alter"
->
-<button
-  class="success"
-  onclick="addPerson()"
->
-  <i data-lucide="plus" class="icon"></i>
-  Hinzufügen
-</button>
-<br><br>
-<button
-  class="secondary"
-  onclick="showHome()"
->
-  <i data-lucide="arrow-left" class="icon"></i>
-  Zurück
-</button>
+
+    <div class="section-title">
+      <i data-lucide="users" class="icon"></i>
+      <h2>Familie verwalten</h2>
+    </div>
+
+    <div id="peopleContainer"></div>
+
+    <h3>Familienmitglied hinzufügen</h3>
+
+    <input
+      id="personName"
+      type="text"
+      placeholder="Name"
+    >
+
+    <input
+      id="personAge"
+      type="number"
+      min="0"
+      max="100"
+      placeholder="Alter"
+    >
+
+    <button
+      class="success"
+      onclick="addPerson()"
+    >
+      <i data-lucide="plus" class="icon"></i>
+      Hinzufügen
+    </button>
+
+    <br><br>
+
+    <button
+      class="secondary"
+      onclick="showHome()"
+    >
+      <i data-lucide="arrow-left" class="icon"></i>
+      Zurück
+    </button>
+
   </div>
+
 </section>
+
 <section
   id="listScreen"
   class="hidden"
 >
+
   <div class="card">
-<div class="section-title">
-  <i data-lucide="list" class="icon"></i>
-  <h2>Meine Listen</h2>
-</div>
-<div id="customListsContainer"></div>
-<h3>Neue Liste erstellen</h3>
-<input
-  id="listName"
-  type="text"
-  placeholder="z. B. Schwimmbad"
->
-<button
-  class="success"
-  onclick="addCustomList()"
->
-  <i data-lucide="plus" class="icon"></i>
-  Liste erstellen
-</button>
-<br><br>
-<button
-  class="secondary"
-  onclick="showHome()"
->
-  <i data-lucide="arrow-left" class="icon"></i>
-  Zurück
-</button>
+
+    <div class="section-title">
+      <i data-lucide="list" class="icon"></i>
+      <h2>Meine Listen</h2>
+    </div>
+
+    <div id="customListsContainer"></div>
+
+    <h3>Neue Liste erstellen</h3>
+
+    <input
+      id="listName"
+      type="text"
+      placeholder="z. B. Schwimmbad"
+    >
+
+    <button
+      class="success"
+      onclick="addCustomList()"
+    >
+      <i data-lucide="plus" class="icon"></i>
+      Liste erstellen
+    </button>
+
+    <br><br>
+
+    <button
+      class="secondary"
+      onclick="showHome()"
+    >
+      <i data-lucide="arrow-left" class="icon"></i>
+      Zurück
+    </button>
+
   </div>
+
 </section>
+
 <section
   id="checklistScreen"
   class="hidden"
 >
+
   <div class="card">
-<div class="section-title">
-  <i data-lucide="clipboard-check" class="icon"></i>
-  <h2 id="checklistTitle">
-    Checkliste
-  </h2>
-</div>
-<div class="progress">
-  <div
-    id="progressBar"
-    class="progress-bar"
-  ></div>
-</div>
-<div id="checklistContainer"></div>
-<br>
-<button
-  class="secondary"
-  onclick="showHome()"
->
-  <i data-lucide="arrow-left" class="icon"></i>
-  Zurück
-</button>
-<button
-  class="danger"
-  onclick="resetChecklist()"
->
-  <i data-lucide="rotate-ccw" class="icon"></i>
-  Zurücksetzen
-</button>
+
+    <div class="section-title">
+      <i data-lucide="clipboard-check" class="icon"></i>
+      <h2 id="checklistTitle">
+        Checkliste
+      </h2>
+    </div>
+
+    <div class="progress">
+      <div
+        id="progressBar"
+        class="progress-bar"
+      ></div>
+    </div>
+
+    <div id="checklistContainer"></div>
+
+    <br>
+
+    <button
+      class="secondary"
+      onclick="showHome()"
+    >
+      <i data-lucide="arrow-left" class="icon"></i>
+      Zurück
+    </button>
+
+    <button
+      class="danger"
+      onclick="resetChecklist()"
+    >
+      <i data-lucide="rotate-ccw" class="icon"></i>
+      Zurücksetzen
+    </button>
+
   </div>
+
 </section>
+
 </main>
+
 <script>
+
 const GOOGLE_API_URL =
   "https://los-familien-app.vercel.app/api/places";
+
 /*
 ==================================================
 AKTUELLER SUCHSTARTPUNKT
 ==================================================
 */
+
 let searchOrigin = {
   lat: 50.2020,
   lon: 10.0770,
   name: "Bad Kissingen"
 };
+
 /*
 ==================================================
 APP STATE
 ==================================================
 */
+
 let state = {
   weather: "sunny",
   driveTime: 30,
+
   people: JSON.parse(
     localStorage.getItem("los_people") || "[]"
   ),
+
   lists: JSON.parse(
     localStorage.getItem("los_lists") || "[]"
   ),
+
   checklist: [],
   currentList: null
 };
+
 /*
 ==================================================
 ICONS
 ==================================================
 */
+
 function refreshIcons() {
+
   if (window.lucide) {
     lucide.createIcons();
   }
+
 }
+
 /*
 ==================================================
 STATE SPEICHERN
 ==================================================
 */
+
 function saveState() {
+
   localStorage.setItem(
     "los_people",
     JSON.stringify(state.people)
   );
+
   localStorage.setItem(
     "los_lists",
     JSON.stringify(state.lists)
   );
+
 }
+
 /*
 ==================================================
 WETTER
 ==================================================
 */
+
 function setWeather(
   weather,
   button
 ) {
+
   state.weather = weather;
+
   document
     .querySelectorAll(".weather-btn")
     .forEach(btn => {
       btn.classList.remove("active");
     });
+
   button.classList.add("active");
+
 }
+
 /*
 ==================================================
 FAHRZEIT AUSWAHL
 ==================================================
 */
+
 function setDrive(
   minutes,
   button
 ) {
+
   state.driveTime = minutes;
+
   document
     .querySelectorAll(".drive-btn")
     .forEach(btn => {
       btn.classList.remove("active");
     });
+
   button.classList.add("active");
+
 }
+
 /*
 ==================================================
 SCREENS
 ==================================================
 */
+
 function showScreen(id) {
+
   const screens = [
     "homeScreen",
     "peopleScreen",
     "listScreen",
     "checklistScreen"
   ];
+
   screens.forEach(screen => {
+
     document
       .getElementById(screen)
       .classList.add("hidden");
+
   });
+
   document
     .getElementById(id)
     .classList.remove("hidden");
+
   refreshIcons();
+
 }
+
 function showHome() {
+
   showScreen("homeScreen");
   renderHome();
+
 }
+
 function showPeopleScreen() {
+
   showScreen("peopleScreen");
   renderPeople();
+
 }
+
 function showListsScreen() {
+
   showScreen("listScreen");
   renderCustomLists();
+
 }
+
 /*
 ==================================================
 HOME
 ==================================================
 */
+
 function renderHome() {
+
   const container =
     document.getElementById(
       "homeFamilySummary"
     );
+
   if (!state.people.length) {
+
     container.innerHTML = `
       <div class="empty">
         Noch keine Familienmitglieder angelegt.
       </div>
     `;
+
     refreshIcons();
     return;
+
   }
+
   container.innerHTML =
     state.people
       .map(person => `
+
         <div class="family-member">
+
           <div>
+
             <strong>
               ${escapeHTML(person.name)}
             </strong>
+
             <span class="person-age">
               ${person.age} Jahre
             </span>
+
           </div>
+
           <i
             data-lucide="user"
             class="icon"
           ></i>
+
         </div>
+
       `)
       .join("");
+
   refreshIcons();
+
 }
+
 /*
 ==================================================
 FAMILIENMITGLIEDER
 ==================================================
 */
+
 function renderPeople() {
+
   const container =
     document.getElementById(
       "peopleContainer"
     );
+
   if (!state.people.length) {
+
     container.innerHTML = `
       <div class="empty">
         Noch keine Familienmitglieder vorhanden.
       </div>
     `;
+
     refreshIcons();
     return;
+
   }
+
   container.innerHTML =
     state.people.map(
       (person, index) => `
+
         <div class="person-row">
+
           <div class="person-info">
+
             <strong>
               ${escapeHTML(person.name)}
             </strong>
+
             <span>
               ${person.age} Jahre
             </span>
+
           </div>
+
           <div class="small-actions">
+
             <button
               class="danger small-btn"
               onclick="deletePerson(${index})"
             >
+
               <i
                 data-lucide="trash-2"
                 class="icon"
               ></i>
+
               Löschen
+
             </button>
+
           </div>
+
         </div>
+
       `
     ).join("");
+
   refreshIcons();
+
 }
+
 function addPerson() {
+
   const name =
     document
       .getElementById("personName")
       .value
       .trim();
+
   const age =
     parseInt(
       document
         .getElementById("personAge")
         .value
     );
+
   if (!name) {
+
     alert(
       "Bitte einen Namen eingeben."
     );
+
     return;
+
   }
+
   if (
     Number.isNaN(age) ||
     age < 0 ||
     age > 100
   ) {
+
     alert(
       "Bitte ein gültiges Alter eingeben."
     );
+
     return;
+
   }
+
   state.people.push({
     name: name,
     age: age
   });
+
   saveState();
+
   document.getElementById(
     "personName"
   ).value = "";
+
   document.getElementById(
     "personAge"
   ).value = "";
+
   renderPeople();
   renderHome();
+
 }
+
 function deletePerson(index) {
+
   if (
     !confirm(
       "Dieses Familienmitglied wirklich löschen?"
     )
   ) {
+
     return;
+
   }
+
   state.people.splice(
     index,
     1
   );
+
   saveState();
+
   renderPeople();
   renderHome();
+
 }
+
 /*
 ==================================================
 STANDORT SUCHEN
 NOMINATIM / OPENSTREETMAP
 ==================================================
 */
+
 async function geocodeLocation(
   location
 ) {
+
   const url =
     "https://nominatim.openstreetmap.org/search" +
     "?format=jsonv2" +
@@ -909,6 +1105,7 @@ async function geocodeLocation(
     "&countrycodes=de" +
     "&q=" +
     encodeURIComponent(location);
+
   const response =
     await fetch(
       url,
@@ -918,42 +1115,58 @@ async function geocodeLocation(
         }
       }
     );
+
   if (!response.ok) {
+
     throw new Error(
       "Standort konnte nicht gesucht werden."
     );
+
   }
+
   const data =
     await response.json();
+
   if (
     !Array.isArray(data) ||
     !data.length
   ) {
+
     throw new Error(
       "Standort wurde nicht gefunden."
     );
+
   }
+
   return {
+
     lat:
       parseFloat(
         data[0].lat
       ),
+
     lon:
       parseFloat(
         data[0].lon
       ),
+
     name:
       data[0].display_name ||
       location
+
   };
+
 }
+
 /*
 ==================================================
 HAUPTSUCHE
 NUR EINE GOOGLE-PLACES-SUCHE
 ==================================================
 */
+
 async function searchActivities() {
+
   const location =
     document
       .getElementById(
@@ -961,114 +1174,164 @@ async function searchActivities() {
       )
       .value
       .trim();
+
   if (!location) {
+
     alert(
       "Bitte einen Standort eingeben."
     );
+
     return;
+
   }
+
   const card =
     document.getElementById(
       "resultsCard"
     );
+
   const container =
     document.getElementById(
       "resultsContainer"
     );
+
   card.classList.remove(
     "hidden"
   );
+
   container.innerHTML = `
+
     <div class="loading">
+
       <i
         data-lucide="loader-circle"
         class="icon"
       ></i>
+
       Standort wird gesucht...
+
     </div>
+
   `;
+
   refreshIcons();
+
   try {
+
     /*
     ================================================
     EINGEGEBENEN ORT GEOCODIEREN
     ================================================
     */
+
     searchOrigin =
       await geocodeLocation(
         location
       );
+
     container.innerHTML = `
+
       <div class="loading">
+
         <i
           data-lucide="loader-circle"
           class="icon"
         ></i>
+
         Aktivitäten in der Umgebung werden gesucht...
+
       </div>
+
     `;
+
     refreshIcons();
+
     /*
     ================================================
     NUR EINE GOOGLE-SUCHE
     ================================================
     */
+
     const query =
       "Familienaktivitäten in " +
       location;
+
     const response =
       await fetch(
         GOOGLE_API_URL +
         "?query=" +
         encodeURIComponent(query)
       );
+
     /*
     ================================================
     GOOGLE TAGESLIMIT
     ================================================
     */
+
     if (
       response.status === 429
     ) {
+
       container.innerHTML = `
+
         <div class="empty">
+
           <i
             data-lucide="triangle-alert"
             class="icon-lg"
           ></i>
+
           <p>
             Google-Suche momentan nicht verfügbar.
           </p>
+
           <small>
             Das tägliche Google-Suchlimit wurde
             erreicht. Bitte später erneut versuchen.
           </small>
+
         </div>
+
       `;
+
       refreshIcons();
       return;
+
     }
+
     if (!response.ok) {
+
       container.innerHTML = `
+
         <div class="empty">
+
           <i
             data-lucide="circle-alert"
             class="icon-lg"
           ></i>
+
           <p>
             Die Google-Suche konnte nicht
             durchgeführt werden.
           </p>
+
           <small>
             Fehler ${response.status}
           </small>
+
         </div>
+
       `;
+
       refreshIcons();
       return;
+
     }
+
     const data =
       await response.json();
+
     const results =
       data.places &&
       Array.isArray(
@@ -1076,43 +1339,63 @@ async function searchActivities() {
       )
         ? data.places
         : [];
+
     if (!results.length) {
+
       renderRealActivities([]);
       return;
+
     }
+
     /*
     ================================================
     ECHTE FAHRZEITEN BERECHNEN
     ================================================
     */
+
     container.innerHTML = `
+
       <div class="loading">
+
         <i
           data-lucide="car"
           class="icon"
         ></i>
+
         Echte Fahrzeiten werden berechnet...
+
       </div>
+
     `;
+
     refreshIcons();
+
     const processed =
       await processResults(
         results
       );
+
     renderRealActivities(
       processed
     );
+
   } catch (error) {
+
     console.error(error);
+
     container.innerHTML = `
+
       <div class="empty">
+
         <i
           data-lucide="circle-alert"
           class="icon-lg"
         ></i>
+
         <p>
           Bei der Suche ist ein Fehler aufgetreten.
         </p>
+
         <small>
           ${
             error &&
@@ -1123,34 +1406,44 @@ async function searchActivities() {
               : "Bitte später erneut versuchen."
           }
         </small>
+
       </div>
+
     `;
+
     refreshIcons();
+
   }
+
 }
+
 /*
 ==================================================
 ERGEBNISSE VERARBEITEN
 ==================================================
 */
+
 async function processResults(
   results
 ) {
-  /*
-  Zuerst die Google-Ergebnisse vorbereiten.
-  */
+
   const candidates =
     results
       .map(place => {
+
         const lat =
           place.location?.latitude;
+
         const lon =
           place.location?.longitude;
+
         let distance = 999;
+
         if (
           typeof lat === "number" &&
           typeof lon === "number"
         ) {
+
           distance =
             calculateDistance(
               searchOrigin.lat,
@@ -1158,74 +1451,91 @@ async function processResults(
               lat,
               lon
             );
+
         }
+
         const name =
           place.displayName?.text ||
           "Unbekannter Ort";
+
         const category =
           guessCategory(
             name
           );
+
         return {
+
           ...place,
+
           name,
           category,
           distance,
+
           driveMinutes: null,
           roadDistance: null,
+
           weatherScore:
             getWeatherScore(
               category
             ),
+
           ageScore:
             getAgeScore(
               category
             )
+
         };
+
       })
-      /*
-      Extrem weit entfernte Orte werden
-      vor der Routing-Anfrage aussortiert.
-      */
+
       .filter(
         place =>
           place.distance <=
           100
       );
+
   if (!candidates.length) {
     return [];
   }
+
   /*
   ================================================
   ECHTE FAHRZEITEN MIT OSRM
   ================================================
   */
+
   try {
+
     const routed =
       await getDrivingTimes(
         candidates
       );
+
     routed.forEach(
       item => {
+
         if (
           item.driveMinutes !== null
         ) {
+
           item.distance =
             item.roadDistance;
+
         }
+
       }
     );
+
   } catch (error) {
+
     console.warn(
       "OSRM Routing nicht verfügbar:",
       error
     );
-    /*
-    Falls der Routingdienst ausfällt,
-    bleiben die Ergebnisse trotzdem sichtbar.
-    */
+
     candidates.forEach(
       place => {
+
         place.driveMinutes =
           Math.max(
             5,
@@ -1233,52 +1543,67 @@ async function processResults(
               place.distance * 2
             )
           );
+
       }
     );
+
   }
+
   /*
   ================================================
   INTELLIGENTE BEWERTUNG
   ================================================
   */
+
   const scored =
     candidates
       .map(place => {
+
         const distanceScore =
           getDriveTimeScore(
             place.driveMinutes
           );
+
         const relevanceScore =
           getRelevanceScore(
             place.name,
             place.category
           );
+
         const ratingScore =
           getRatingScore(
             place.rating
           );
+
         const totalScore =
           place.weatherScore * 3 +
           place.ageScore * 4 +
           distanceScore * 5 +
           relevanceScore * 3 +
           ratingScore * 2;
+
         return {
+
           ...place,
           totalScore
+
         };
+
       });
+
   /*
   ================================================
   FAHRZEIT-LIMIT
   ================================================
   */
+
   const maximumDriveTime =
     state.driveTime === 15
       ? 25
       : state.driveTime === 30
         ? 45
         : 75;
+
   const withinRange =
     scored.filter(
       place =>
@@ -1286,86 +1611,101 @@ async function processResults(
         place.driveMinutes <=
         maximumDriveTime
     );
+
   const pool =
     withinRange.length
       ? withinRange
       : scored;
+
   /*
   ================================================
   SORTIERUNG
   ================================================
   */
+
   pool.sort(
     (a, b) =>
       b.totalScore -
       a.totalScore
   );
+
   /*
   ================================================
   MAXIMAL 3 VORSCHLÄGE
   ================================================
   */
+
   const selected = [];
   const categories = new Set();
-  /*
-  Zuerst möglichst unterschiedliche
-  Aktivitätstypen.
-  */
+
   for (
     const place of pool
   ) {
+
     if (
       selected.length >= 3
     ) {
       break;
     }
+
     if (
       !categories.has(
         place.category
       )
     ) {
+
       selected.push(
         place
       );
+
       categories.add(
         place.category
       );
+
     }
+
   }
-  /*
-  Falls weniger als 3 unterschiedliche
-  Kategorien vorhanden sind.
-  */
+
   for (
     const place of pool
   ) {
+
     if (
       selected.length >= 3
     ) {
       break;
     }
+
     if (
       !selected.includes(
         place
       )
     ) {
+
       selected.push(
         place
       );
+
     }
+
   }
+
   return selected
     .slice(0, 3);
+
 }
+
 /*
 ==================================================
 ECHTE FAHRZEITEN
 OSRM / OPENSTREETMAP
 ==================================================
 */
+
 async function getDrivingTimes(
   places
 ) {
+
   const validPlaces =
     places.filter(
       place =>
@@ -1374,19 +1714,22 @@ async function getDrivingTimes(
         typeof place.location?.longitude ===
           "number"
     );
+
   if (!validPlaces.length) {
     return places;
   }
-  /*
-  Startpunkt ist Index 0.
-  */
+
   const coordinates = [
+
     `${searchOrigin.lon},${searchOrigin.lat}`,
+
     ...validPlaces.map(
       place =>
         `${place.location.longitude},${place.location.latitude}`
     )
+
   ];
+
   const url =
     "https://router.project-osrm.org/table/v1/driving/" +
     coordinates.join(";") +
@@ -1399,40 +1742,55 @@ async function getDrivingTimes(
       )
       .join(";") +
     "&annotations=duration,distance";
+
   const response =
     await fetch(url);
+
   if (!response.ok) {
+
     throw new Error(
       "Routingdienst nicht erreichbar."
     );
+
   }
+
   const data =
     await response.json();
+
   if (
     data.code !== "Ok" ||
     !Array.isArray(
       data.durations
     )
   ) {
+
     throw new Error(
       "Keine Fahrzeiten verfügbar."
     );
+
   }
+
   const durations =
     data.durations[0] || [];
+
   const distances =
     data.distances
       ? data.distances[0] || []
       : [];
+
   validPlaces.forEach(
     (place, index) => {
+
       const seconds =
         durations[index];
+
       const meters =
         distances[index];
+
       if (
         typeof seconds === "number"
       ) {
+
         place.driveMinutes =
           Math.max(
             1,
@@ -1440,298 +1798,403 @@ async function getDrivingTimes(
               seconds / 60
             )
           );
+
       }
+
       if (
         typeof meters === "number"
       ) {
+
         place.roadDistance =
           meters / 1000;
+
       }
+
     }
   );
+
   return places;
+
 }
+
 /*
 ==================================================
 LUFTLINIEN-ENTFERNUNG
-WIRD NUR NOCH FÜR VORFILTERUNG VERWENDET
 ==================================================
 */
+
 function calculateDistance(
   lat1,
   lon1,
   lat2,
   lon2
 ) {
+
   const R = 6371;
+
   const dLat =
     degreesToRadians(
       lat2 - lat1
     );
+
   const dLon =
     degreesToRadians(
       lon2 - lon1
     );
+
   const a =
     Math.sin(dLat / 2) *
     Math.sin(dLat / 2) +
+
     Math.cos(
       degreesToRadians(lat1)
     ) *
+
     Math.cos(
       degreesToRadians(lat2)
     ) *
+
     Math.sin(dLon / 2) *
     Math.sin(dLon / 2);
+
   const c =
     2 *
     Math.atan2(
       Math.sqrt(a),
       Math.sqrt(1 - a)
     );
+
   return R * c;
+
 }
+
 function degreesToRadians(
   degrees
 ) {
+
   return degrees *
     Math.PI /
     180;
+
 }
+
 /*
 ==================================================
 KATEGORIE
 ==================================================
 */
+
 function guessCategory(
   name
 ) {
+
   const n =
     name.toLowerCase();
+
   if (
     n.includes("spielplatz") ||
     n.includes("spiel")
   ) {
     return "Spielplatz";
   }
+
   if (
     n.includes("schwimm") ||
     n.includes("bad")
   ) {
     return "Schwimmbad";
   }
+
   if (
     n.includes("museum")
   ) {
     return "Museum";
   }
+
   if (
     n.includes("zoo") ||
     n.includes("tierpark")
   ) {
     return "Zoo";
   }
+
   if (
     n.includes("park") ||
     n.includes("garten")
   ) {
     return "Park";
   }
+
   if (
     n.includes("freizeit") ||
     n.includes("erlebnis")
   ) {
     return "Freizeit";
   }
+
   return "Ausflugsziel";
+
 }
+
 /*
 ==================================================
 WETTER SCORE
 ==================================================
 */
+
 function getWeatherScore(
   category
 ) {
+
   if (
     state.weather === "rain" ||
     state.weather === "cold"
   ) {
+
     if (
       category === "Schwimmbad" ||
       category === "Museum"
     ) {
+
       return 5;
+
     }
+
     if (
       category === "Spielplatz" ||
       category === "Park" ||
       category === "Zoo"
     ) {
+
       return 1;
+
     }
+
   }
+
   if (
     state.weather === "sunny"
   ) {
+
     if (
       category === "Spielplatz" ||
       category === "Park" ||
       category === "Zoo"
     ) {
+
       return 5;
+
     }
+
     if (
       category === "Freizeit"
     ) {
+
       return 4;
+
     }
+
   }
+
   if (
     state.weather === "cloudy"
   ) {
+
     if (
       category === "Spielplatz" ||
       category === "Park" ||
       category === "Zoo" ||
       category === "Museum"
     ) {
+
       return 4;
+
     }
+
   }
+
   return 3;
+
 }
+
 /*
 ==================================================
 ALTER SCORE
 ==================================================
 */
+
 function getAgeScore(
   category
 ) {
+
   if (
     !state.people.length
   ) {
+
     return 3;
+
   }
+
   const ages =
     state.people.map(
       person =>
         person.age
     );
+
   const youngest =
     Math.min(...ages);
+
   const oldest =
     Math.max(...ages);
+
   let score = 3;
+
   if (
     youngest <= 5
   ) {
+
     if (
       category === "Spielplatz" ||
       category === "Zoo" ||
       category === "Schwimmbad"
     ) {
+
       score += 2;
+
     }
+
   }
+
   if (
     youngest >= 6 &&
     youngest <= 12
   ) {
+
     if (
       category === "Freizeit" ||
       category === "Zoo" ||
       category === "Schwimmbad"
     ) {
+
       score += 2;
+
     }
+
   }
+
   if (
     oldest >= 13
   ) {
+
     if (
       category === "Freizeit" ||
       category === "Museum" ||
       category === "Ausflugsziel"
     ) {
+
       score += 1;
+
     }
+
   }
+
   return Math.min(
     5,
     score
   );
+
 }
+
 /*
 ==================================================
 ECHTE FAHRZEIT SCORE
 ==================================================
 */
+
 function getDriveTimeScore(
   driveMinutes
 ) {
+
   if (
     typeof driveMinutes !== "number"
   ) {
+
     return 1;
+
   }
+
   const target =
     state.driveTime;
-  /*
-  Innerhalb des gewünschten
-  Zeitrahmens = besonders gut.
-  */
+
   if (
     driveMinutes <= target
   ) {
+
     const difference =
       target - driveMinutes;
+
     if (
       difference <= 5
     ) {
+
       return 5;
+
     }
+
     if (
       difference <= 15
     ) {
+
       return 4;
+
     }
+
     return 5;
+
   }
-  /*
-  Etwas über dem Wunschwert
-  */
+
   if (
     driveMinutes <=
     target + 10
   ) {
+
     return 3;
+
   }
+
   if (
     driveMinutes <=
     target + 20
   ) {
+
     return 2;
+
   }
+
   return 1;
+
 }
+
 /*
 ==================================================
 RELEVANZ SCORE
 ==================================================
 */
+
 function getRelevanceScore(
   name,
   category
 ) {
+
   const text =
     (
       name +
       " " +
       category
     ).toLowerCase();
+
   let score = 2;
+
   const positiveWords = [
     "familie",
     "familien",
@@ -1743,103 +2206,148 @@ function getRelevanceScore(
     "aktiv",
     "spiel"
   ];
+
   positiveWords.forEach(
     word => {
+
       if (
         text.includes(word)
       ) {
+
         score += 1;
+
       }
+
     }
   );
+
   return Math.min(
     5,
     score
   );
+
 }
+
 /*
 ==================================================
 BEWERTUNG
 ==================================================
 */
+
 function getRatingScore(
   rating
 ) {
+
   if (
     typeof rating !== "number"
   ) {
+
     return 2;
+
   }
+
   if (
     rating >= 4.7
   ) {
+
     return 5;
+
   }
+
   if (
     rating >= 4.3
   ) {
+
     return 4;
+
   }
+
   if (
     rating >= 3.8
   ) {
+
     return 3;
+
   }
+
   if (
     rating >= 3
   ) {
+
     return 2;
+
   }
+
   return 1;
+
 }
+
 /*
 ==================================================
 ERGEBNISSE ANZEIGEN
 ==================================================
 */
+
 function renderRealActivities(
   activities
 ) {
+
   const container =
     document.getElementById(
       "resultsContainer"
     );
+
   if (!activities.length) {
+
     container.innerHTML = `
+
       <div class="empty">
+
         <i
           data-lucide="search-x"
           class="icon-lg"
         ></i>
+
         <p>
           Keine passenden Aktivitäten gefunden.
         </p>
+
         <small>
           Die Google-Suche hat keine passenden
           Ergebnisse im gewünschten Fahrzeitbereich
           geliefert.
         </small>
+
       </div>
+
     `;
+
     refreshIcons();
     return;
+
   }
+
   window.currentActivities =
     activities;
+
   container.innerHTML =
     activities.map(
       activity => {
+
         const address =
           activity.formattedAddress ||
           "Adresse nicht verfügbar";
+
         const rating =
           activity.rating
             ? activity.rating.toFixed(1)
             : null;
+
         const icon =
           getCategoryIcon(
             activity.category
           );
+
         const driveMinutes =
           activity.driveMinutes !== null
             ? activity.driveMinutes
@@ -1849,31 +2357,42 @@ function renderRealActivities(
                   activity.distance * 2
                 )
               );
+
         const distance =
           typeof activity.roadDistance ===
             "number"
             ? activity.roadDistance
             : activity.distance;
+
         return `
+
           <div class="result-card">
+
             <h3>
+
               <i
                 data-lucide="${icon}"
                 class="icon"
               ></i>
+
               ${escapeHTML(
                 activity.name
               )}
+
             </h3>
+
             <div class="result-meta">
+
               <span class="badge">
                 📍
                 ${distance.toFixed(1)} km
               </span>
+
               <span class="badge">
                 🚗
                 ca. ${driveMinutes} Min.
               </span>
+
               ${
                 rating
                   ? `
@@ -1884,15 +2403,20 @@ function renderRealActivities(
                   `
                   : ""
               }
+
               <span class="badge">
                 👨‍👩‍👧
                 Familienfreundlich
               </span>
+
             </div>
+
             <p>
               ${escapeHTML(address)}
             </p>
+
             <div class="result-actions">
+
               ${
                 activity.googleMapsUri
                   ? `
@@ -1902,15 +2426,19 @@ function renderRealActivities(
                         activity.googleMapsUri
                       )}')"
                     >
+
                       <i
                         data-lucide="navigation"
                         class="icon"
                       ></i>
+
                       Route
+
                     </button>
                   `
                   : ""
               }
+
               ${
                 activity.websiteUri
                   ? `
@@ -1920,207 +2448,302 @@ function renderRealActivities(
                         activity.websiteUri
                       )}')"
                     >
+
                       <i
                         data-lucide="globe"
                         class="icon"
                       ></i>
+
                       Website
+
                     </button>
                   `
                   : ""
               }
+
             </div>
+
           </div>
+
         `;
+
       }
     ).join("");
+
   refreshIcons();
+
 }
+
 /*
 ==================================================
 KATEGORIE ICONS
 ==================================================
 */
+
 function getCategoryIcon(
   category
 ) {
+
   const icons = {
+
     "Spielplatz":
       "trees",
+
     "Schwimmbad":
       "waves",
+
     "Museum":
       "landmark",
+
     "Zoo":
       "paw-print",
+
     "Park":
       "trees",
+
     "Freizeit":
       "ferris-wheel",
+
     "Ausflugsziel":
       "map"
+
   };
+
   return (
     icons[category] ||
     "map-pin"
   );
+
 }
+
 /*
 ==================================================
 ROUTE
 ==================================================
 */
+
 function openRoute(
   url
 ) {
+
   window.open(
     url,
     "_blank"
   );
+
 }
+
 function openWebsite(
   url
 ) {
+
   window.open(
     url,
     "_blank"
   );
+
 }
+
 /*
 ==================================================
 LISTEN
 ==================================================
 */
+
 function renderCustomLists() {
+
   const container =
     document.getElementById(
       "customListsContainer"
     );
+
   if (!state.lists.length) {
+
     container.innerHTML = `
+
       <div class="empty">
+
         <i
           data-lucide="list-x"
           class="icon-lg"
         ></i>
+
         <p>
           Noch keine eigenen Listen.
         </p>
+
       </div>
+
     `;
+
     refreshIcons();
     return;
+
   }
+
   container.innerHTML =
     state.lists.map(
       (list, index) => `
+
         <div class="list-item">
+
           <span>
             📌
             ${escapeHTML(
               list.name
             )}
           </span>
+
           <div class="small-actions">
+
             <button
               class="secondary small-btn"
               onclick="openList(${index})"
             >
               Öffnen
             </button>
+
             <button
               class="danger small-btn"
               onclick="deleteList(${index})"
             >
               🗑️
             </button>
+
           </div>
+
         </div>
+
       `
     ).join("");
+
   refreshIcons();
+
 }
+
 function addCustomList() {
+
   const input =
     document.getElementById(
       "listName"
     );
+
   const name =
     input.value.trim();
+
   if (!name) {
+
     alert(
       "Bitte einen Namen für die Liste eingeben."
     );
+
     return;
+
   }
+
   state.lists.push({
+
     name: name,
     items: []
+
   });
+
   saveState();
+
   input.value = "";
+
   renderCustomLists();
+
 }
+
 function deleteList(
   index
 ) {
+
   if (
     !confirm(
       "Diese Liste wirklich löschen?"
     )
   ) {
+
     return;
+
   }
+
   state.lists.splice(
     index,
     1
   );
+
   saveState();
+
   renderCustomLists();
+
 }
+
 function openList(
   index
 ) {
+
   const list =
     state.lists[index];
+
   if (!list) {
     return;
   }
+
   state.currentList =
     list;
+
   state.checklist =
     list.items.map(
       item => ({
+
         text: item,
         done: false
+
       })
     );
+
   if (
     !state.checklist.length
   ) {
+
     state.checklist = [
+
       {
+
         text:
           "Ersten Punkt hinzufügen",
+
         done: false
+
       }
+
     ];
+
   }
+
   renderChecklist(
     list.name
   );
+
   showScreen(
     "checklistScreen"
   );
+
 }
+
 /*
 ==================================================
 CHECKLISTE
 ==================================================
 */
+
 function renderChecklist(
   title
 ) {
+
   document
     .getElementById(
       "checklistTitle"
@@ -2128,14 +2751,18 @@ function renderChecklist(
     .textContent =
     title ||
     "Checkliste";
+
   const container =
     document.getElementById(
       "checklistContainer"
     );
+
   container.innerHTML =
     state.checklist.map(
       (item, index) => `
+
         <label class="check-item">
+
           <input
             type="checkbox"
             ${
@@ -2148,37 +2775,53 @@ function renderChecklist(
               this.checked
             )"
           >
+
           <span>
             ${escapeHTML(
               item.text
             )}
           </span>
+
         </label>
+
       `
     ).join("");
+
   updateProgress();
+
   refreshIcons();
+
 }
+
 function toggleChecklist(
   index,
   checked
 ) {
+
   if (
     state.checklist[index]
   ) {
+
     state.checklist[index].done =
       checked;
+
   }
+
   updateProgress();
+
 }
+
 function updateProgress() {
+
   const total =
     state.checklist.length;
+
   const done =
     state.checklist.filter(
       item =>
         item.done
     ).length;
+
   const percentage =
     total
       ? (
@@ -2186,21 +2829,28 @@ function updateProgress() {
           total
         ) * 100
       : 0;
+
   document
     .getElementById(
       "progressBar"
     )
     .style.width =
     percentage + "%";
+
 }
+
 function resetChecklist() {
+
   state.checklist =
     state.checklist.map(
       item => ({
+
         ...item,
         done: false
+
       })
     );
+
   renderChecklist(
     document
       .getElementById(
@@ -2208,63 +2858,85 @@ function resetChecklist() {
       )
       .textContent
   );
+
 }
+
 /*
 ==================================================
 SICHERHEIT
 ==================================================
 */
+
 function escapeHTML(
   value
 ) {
+
   return String(value)
+
     .replaceAll(
       "&",
       "&amp;"
     )
+
     .replaceAll(
       "<",
       "&lt;"
     )
+
     .replaceAll(
       ">",
       "&gt;"
     )
+
     .replaceAll(
       '"',
       "&quot;"
     )
+
     .replaceAll(
       "'",
       "&#039;"
     );
+
 }
+
 function escapeAttribute(
   value
 ) {
+
   return String(value)
+
     .replaceAll(
       "\\",
       "\\\\"
     )
+
     .replaceAll(
       "'",
       "\\'"
     );
+
 }
+
 /*
 ==================================================
 START
 ==================================================
 */
+
 window.currentActivities = [];
+
 document.addEventListener(
   "DOMContentLoaded",
   function() {
+
     renderHome();
     refreshIcons();
+
   }
 );
+
 </script>
+
 </body>
 </html>
