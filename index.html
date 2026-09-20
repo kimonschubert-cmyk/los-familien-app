@@ -527,7 +527,7 @@ button .icon {
           class="budget-value"
           for="budgetInput"
         >
-          1.000 €
+          250 €
         </output>
 
       </div>
@@ -536,15 +536,15 @@ button .icon {
         id="budgetInput"
         type="range"
         min="0"
-        max="1000"
+        max="250"
         step="10"
-        value="1000"
+        value="250"
         oninput="setBudget(this.value)"
       >
 
       <div class="budget-scale">
         <span>0 €</span>
-        <span>1.000 €</span>
+        <span>250 €</span>
       </div>
 
     </div>
@@ -801,7 +801,7 @@ APP STATE
 let state = {
   weather: "sunny",
   driveTime: 30,
-  maxBudget: 1000,
+  maxBudget: 250,
 
   people: JSON.parse(
     localStorage.getItem("los_people") || "[]"
@@ -1635,7 +1635,7 @@ async function processResults(
       .filter(
         place =>
           place.estimatedCost === null
-            ? state.maxBudget >= 1000
+            ? state.maxBudget >= 250
             : place.estimatedCost <=
               state.maxBudget
       )
