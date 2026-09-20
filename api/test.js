@@ -9,7 +9,7 @@ if (!apiKey) {
 }
 const query =
   req.query?.query ||
-  "Spielplätze in Bad Kissingen";
+  "Spielplaetze in Bad Kissingen";
 const response = await fetch(
   "https://places.googleapis.com/v1/places:searchText",
   {
