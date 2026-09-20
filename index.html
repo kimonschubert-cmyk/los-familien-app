@@ -333,99 +333,101 @@ button .icon{
   <p>Familien-Starthelfer</p>
 </header>
 <main>
-  <!-- HOME -->
-  <section id="homeScreen">
-<!-- CARD 1 -->
+<!-- HOME -->
+<section id="homeScreen">
 <div class="card">
   <div class="section-title">
     <i data-lucide="map-pin" class="icon"></i>
     <h2>Was machen wir?</h2>
   </div>
-  <label for="locationInput">Standort</label>
-  <input
-    id="locationInput"
-    type="text"
-    value="Bad Kissingen"
-    placeholder="z. B. Bad Kissingen"
-  >
+
+Standort
+
+<input
+id=“locationInput”
+type=“text”
+value=“Bad Kissingen”
+placeholder=“z. B. Bad Kissingen”
+
   <div class="section-title">
     <i data-lucide="cloud-sun" class="icon"></i>
     <h3>Wie ist das Wetter?</h3>
   </div>
   <div class="weather-grid">
-    <button
-      class="weather-btn active"
-      data-weather="sunny"
-      onclick="setWeather('sunny',this)"
-    >
-      <i data-lucide="sun" class="icon"></i>
-      Sonnig
-    </button>
-    <button
-      class="weather-btn"
-      data-weather="cloudy"
-      onclick="setWeather('cloudy',this)"
-    >
-      <i data-lucide="cloud" class="icon"></i>
-      Bewölkt
-    </button>
-    <button
-      class="weather-btn"
-      data-weather="rain"
-      onclick="setWeather('rain',this)"
-    >
-      <i data-lucide="cloud-rain" class="icon"></i>
-      Regen
-    </button>
-    <button
-      class="weather-btn"
-      data-weather="cold"
-      onclick="setWeather('cold',this)"
-    >
-      <i data-lucide="snowflake" class="icon"></i>
-      Kalt
-    </button>
+<button
+  class="weather-btn active"
+  data-weather="sunny"
+  onclick="setWeather('sunny',this)"
+>
+  <i data-lucide="sun" class="icon"></i>
+  Sonnig
+</button>
+<button
+  class="weather-btn"
+  data-weather="cloudy"
+  onclick="setWeather('cloudy',this)"
+>
+  <i data-lucide="cloud" class="icon"></i>
+  Bewölkt
+</button>
+<button
+  class="weather-btn"
+  data-weather="rain"
+  onclick="setWeather('rain',this)"
+>
+  <i data-lucide="cloud-rain" class="icon"></i>
+  Regen
+</button>
+<button
+  class="weather-btn"
+  data-weather="cold"
+  onclick="setWeather('cold',this)"
+>
+  <i data-lucide="snowflake" class="icon"></i>
+  Kalt
+</button>
   </div>
   <div class="section-title">
     <i data-lucide="car" class="icon"></i>
     <h3>Wie weit möchten wir fahren?</h3>
   </div>
   <div class="drive-grid">
-    <button
-      class="drive-btn"
-      onclick="setDrive(15,this)"
-    >
-      15 Min.
-    </button>
-    <button
-      class="drive-btn active"
-      onclick="setDrive(30,this)"
-    >
-      30 Min.
-    </button>
-    <button
-      class="drive-btn"
-      onclick="setDrive(60,this)"
-    >
-      60 Min.
-    </button>
+<button
+  class="drive-btn"
+  onclick="setDrive(15,this)"
+>
+  15 Min.
+</button>
+<button
+  class="drive-btn active"
+  onclick="setDrive(30,this)"
+>
+  30 Min.
+</button>
+<button
+  class="drive-btn"
+  onclick="setDrive(60,this)"
+>
+  60 Min.
+</button>
   </div>
   <div class="family-summary">
-    <div class="section-title">
-      <i data-lucide="users" class="icon"></i>
-      <strong>Unsere Familie</strong>
-    </div>
-    <div id="homeFamilySummary"></div>
+<div class="section-title">
+  <i data-lucide="users" class="icon"></i>
+  <strong>Unsere Familie</strong>
+</div>
+<div id="homeFamilySummary"></div>
   </div>
-  <button
-    class="primary"
-    onclick="searchActivities()"
-  >
-    <i data-lucide="search" class="icon"></i>
-    Aktivitäten finden
+
+<button
+class=“primary”
+onclick=“searchActivities()”
+
+<i data-lucide="search" class="icon"></i>
+Aktivitäten finden
   </button>
 </div>
-<!-- CARD 2 -->
+<!-- RESULTS -->
 <div
   class="card hidden"
   id="resultsCard"
@@ -439,7 +441,7 @@ button .icon{
     Orte und Kartendaten bereitgestellt von Google.
   </div>
 </div>
-<!-- CARD 3 -->
+<!-- FAMILY -->
 <div class="card">
   <div class="section-title">
     <i data-lucide="users" class="icon"></i>
@@ -448,15 +450,16 @@ button .icon{
   <p>
     Lege die Familienmitglieder und deren Alter fest.
   </p>
-  <button
-    class="secondary"
-    onclick="showPeopleScreen()"
-  >
-    <i data-lucide="user-plus" class="icon"></i>
-    Familie verwalten
+
+<button
+class=“secondary”
+onclick=“showPeopleScreen()”
+
+<i data-lucide="user-plus" class="icon"></i>
+Familie verwalten
   </button>
 </div>
-<!-- CARD 4 -->
+<!-- LISTS -->
 <div class="card">
   <div class="section-title">
     <i data-lucide="list" class="icon"></i>
@@ -465,20 +468,21 @@ button .icon{
   <p>
     Eigene Checklisten und Listen für die Familie.
   </p>
-  <button
-    class="secondary"
-    onclick="showListsScreen()"
-  >
-    <i data-lucide="list-plus" class="icon"></i>
-    Listen verwalten
+
+<button
+class=“secondary”
+onclick=“showListsScreen()”
+
+<i data-lucide="list-plus" class="icon"></i>
+Listen verwalten
   </button>
 </div>
-  </section>
-  <!-- PEOPLE SCREEN -->
-  <section
-    id="peopleScreen"
-    class="hidden"
-  >
+</section>
+<!-- PEOPLE SCREEN -->
+<section
+  id="peopleScreen"
+  class="hidden"
+>
 <div class="card">
   <div class="section-title">
     <i data-lucide="users" class="icon"></i>
@@ -486,40 +490,41 @@ button .icon{
   </div>
   <div id="peopleContainer"></div>
   <h3>Familienmitglied hinzufügen</h3>
-  <input
-    id="personName"
-    type="text"
-    placeholder="Name"
-  >
-  <input
-    id="personAge"
-    type="number"
-    min="0"
-    max="100"
-    placeholder="Alter"
-  >
-  <button
-    class="success"
-    onclick="addPerson()"
-  >
-    <i data-lucide="plus" class="icon"></i>
-    Hinzufügen
+
+<input
+id=“personName”
+type=“text”
+placeholder=“Name”
+
+<input
+id=“personAge”
+type=“number”
+min=“0”
+max=“100”
+placeholder=“Alter”
+
+<button
+class=“success”
+onclick=“addPerson()”
+
+<i data-lucide="plus" class="icon"></i>
+Hinzufügen
   </button>
-  <br><br>
-  <button
-    class="secondary"
-    onclick="showHome()"
-  >
-    <i data-lucide="arrow-left" class="icon"></i>
-    Zurück
+
+<button
+class=“secondary”
+onclick=“showHome()”
+
+<i data-lucide="arrow-left" class="icon"></i>
+Zurück
   </button>
 </div>
-  </section>
-  <!-- LIST SCREEN -->
-  <section
-    id="listScreen"
-    class="hidden"
-  >
+</section>
+<!-- LIST SCREEN -->
+<section
+  id="listScreen"
+  class="hidden"
+>
 <div class="card">
   <div class="section-title">
     <i data-lucide="list" class="icon"></i>
@@ -527,33 +532,34 @@ button .icon{
   </div>
   <div id="customListsContainer"></div>
   <h3>Neue Liste erstellen</h3>
-  <input
-    id="listName"
-    type="text"
-    placeholder="z. B. Schwimmbad"
-  >
-  <button
-    class="success"
-    onclick="addCustomList()"
-  >
-    <i data-lucide="plus" class="icon"></i>
-    Liste erstellen
+
+<input
+id=“listName”
+type=“text”
+placeholder=“z. B. Schwimmbad”
+
+<button
+class=“success”
+onclick=“addCustomList()”
+
+<i data-lucide="plus" class="icon"></i>
+Liste erstellen
   </button>
-  <br><br>
-  <button
-    class="secondary"
-    onclick="showHome()"
-  >
-    <i data-lucide="arrow-left" class="icon"></i>
-    Zurück
+
+<button
+class=“secondary”
+onclick=“showHome()”
+
+<i data-lucide="arrow-left" class="icon"></i>
+Zurück
   </button>
 </div>
-  </section>
-  <!-- CHECKLIST SCREEN -->
-  <section
-    id="checklistScreen"
-    class="hidden"
-  >
+</section>
+<!-- CHECKLIST SCREEN -->
+<section
+  id="checklistScreen"
+  class="hidden"
+>
 <div class="card">
   <div class="section-title">
     <i data-lucide="clipboard-check" class="icon"></i>
@@ -567,26 +573,28 @@ button .icon{
   </div>
   <div id="checklistContainer"></div>
   <br>
-  <button
-    class="secondary"
-    onclick="showHome()"
-  >
-    <i data-lucide="arrow-left" class="icon"></i>
-    Zurück
+
+<button
+class=“secondary”
+onclick=“showHome()”
+
+<i data-lucide="arrow-left" class="icon"></i>
+Zurück
   </button>
-  <button
-    class="danger"
-    onclick="resetChecklist()"
-  >
-    <i data-lucide="rotate-ccw" class="icon"></i>
-    Zurücksetzen
+
+<button
+class=“danger”
+onclick=“resetChecklist()”
+
+<i data-lucide="rotate-ccw" class="icon"></i>
+Zurücksetzen
   </button>
 </div>
-  </section>
+</section>
 </main>
 <script>
 const GOOGLE_API_URL =
-  "https://los-familien-app.vercel.app/api/test";
+  "/api/places";
 const BAD_KISSINGEN = {
   lat:50.2020,
   lon:10.0770
@@ -688,7 +696,10 @@ function renderHome(){
             ${person.age} Jahre
           </span>
         </div>
-        <i data-lucide="user" class="icon"></i>
+        <i
+          data-lucide="user"
+          class="icon"
+        ></i>
       </div>
     `).join("");
   refreshIcons();
@@ -722,7 +733,10 @@ function renderPeople(){
             class="danger small-btn"
             onclick="deletePerson(${index})"
           >
-            <i data-lucide="trash-2" class="icon"></i>
+            <i
+              data-lucide="trash-2"
+              class="icon"
+            ></i>
             Löschen
           </button>
         </div>
@@ -800,7 +814,10 @@ async function searchActivities(){
   card.classList.remove("hidden");
   container.innerHTML = `
     <div class="loading">
-      <i data-lucide="loader-circle" class="icon"></i>
+      <i
+        data-lucide="loader-circle"
+        class="icon"
+      ></i>
       Aktivitäten werden gesucht...
     </div>
   `;
@@ -855,11 +872,16 @@ async function searchActivities(){
     }
     const processed =
       processResults(results);
-    renderRealActivities(processed);
+    renderRealActivities(
+      processed
+    );
   }catch(error){
     container.innerHTML = `
       <div class="empty">
-        <i data-lucide="circle-alert" class="icon-lg"></i>
+        <i
+          data-lucide="circle-alert"
+          class="icon-lg"
+        ></i>
         <p>
           Bei der Suche ist ein Fehler aufgetreten.
         </p>
@@ -894,17 +916,11 @@ function processResults(results){
       const category =
         guessCategory(name);
       const weatherScore =
-        getWeatherScore(
-          category
-        );
+        getWeatherScore(category);
       const ageScore =
-        getAgeScore(
-          category
-        );
+        getAgeScore(category);
       const distanceScore =
-        getDistanceScore(
-          distance
-        );
+        getDistanceScore(distance);
       const totalScore =
         weatherScore +
         ageScore +
@@ -1020,7 +1036,9 @@ function getWeatherScore(category){
     ){
       return 4;
     }
-    if(category === "Spielplatz"){
+    if(
+      category === "Spielplatz"
+    ){
       return 0;
     }
   }
@@ -1071,7 +1089,9 @@ function getDistanceScore(distance){
   }
   return 1;
 }
-function renderRealActivities(activities){
+function renderRealActivities(
+  activities
+){
   const container =
     document.getElementById(
       "resultsContainer"
@@ -1079,7 +1099,10 @@ function renderRealActivities(activities){
   if(!activities.length){
     container.innerHTML = `
       <div class="empty">
-        <i data-lucide="search-x" class="icon-lg"></i>
+        <i
+          data-lucide="search-x"
+          class="icon-lg"
+        ></i>
         <p>
           Keine passenden Aktivitäten gefunden.
         </p>
@@ -1267,9 +1290,7 @@ function selectActivity(index){
         done:false
       })
     );
-  renderChecklist(
-    title
-  );
+  renderChecklist(title);
   showScreen(
     "checklistScreen"
   );
@@ -1363,7 +1384,10 @@ function renderCustomLists(){
   if(!state.lists.length){
     container.innerHTML = `
       <div class="empty">
-        <i data-lucide="list-x" class="icon-lg"></i>
+        <i
+          data-lucide="list-x"
+          class="icon-lg"
+        ></i>
         <p>
           Noch keine eigenen Listen.
         </p>
