@@ -362,6 +362,15 @@ button .icon {
   margin: 0;
 }
 
+.check-item span {
+  flex: 1;
+  min-width: 0;
+}
+
+.checklist-add button {
+  width: 100%;
+}
+
 .progress {
   height: 9px;
   background: #e5e7eb;
@@ -750,6 +759,24 @@ button .icon {
     </div>
 
     <div id="checklistContainer"></div>
+
+    <div class="checklist-add">
+
+      <input
+        id="checklistItemInput"
+        type="text"
+        placeholder="Punkt benennen"
+      >
+
+      <button
+        class="success"
+        onclick="addChecklistItem()"
+      >
+        <i data-lucide="plus" class="icon"></i>
+        Punkt hinzufügen
+      </button>
+
+    </div>
 
     <br>
 
@@ -3029,32 +3056,17 @@ function openList(
 
   state.checklist =
     list.items.map(
-      item => ({
-
-        text: item,
-        done: false
-
-      })
+      item =>
+        typeof item === "string"
+          ? {
+              text: item,
+              done: false
+            }
+          : {
+              text: item.text,
+              done: Boolean(item.done)
+            }
     );
-
-  if (
-    !state.checklist.length
-  ) {
-
-    state.checklist = [
-
-      {
-
-        text:
-          "Ersten Punkt hinzufügen",
-
-        done: false
-
-      }
-
-    ];
-
-  }
 
   renderChecklist(
     list.name
@@ -3093,7 +3105,7 @@ function renderChecklist(
     state.checklist.map(
       (item, index) => `
 
-        <label class="check-item">
+        <div class="check-item">
 
           <input
             type="checkbox"
@@ -3114,7 +3126,16 @@ function renderChecklist(
             )}
           </span>
 
-        </label>
+          <button
+            class="secondary small-btn"
+            onclick="renameChecklistItem(${index})"
+            title="Punkt umbenennen"
+          >
+            <i data-lucide="pencil" class="icon"></i>
+            Umbenennen
+          </button>
+
+        </div>
 
       `
     ).join("");
@@ -3137,9 +3158,118 @@ function toggleChecklist(
     state.checklist[index].done =
       checked;
 
+    saveChecklist();
+
   }
 
   updateProgress();
+
+}
+
+function saveChecklist() {
+
+  if (!state.currentList) {
+    return;
+  }
+
+  state.currentList.items =
+    state.checklist.map(
+      item => ({
+        text: item.text,
+        done: item.done
+      })
+    );
+
+  saveState();
+
+}
+
+function addChecklistItem() {
+
+  const input =
+    document.getElementById(
+      "checklistItemInput"
+    );
+
+  const text =
+    input.value.trim();
+
+  if (!text) {
+
+    alert(
+      "Bitte einen Punkt benennen."
+    );
+
+    input.focus();
+    return;
+
+  }
+
+  state.checklist.push({
+    text,
+    done: false
+  });
+
+  input.value = "";
+  saveChecklist();
+  renderChecklist(
+    document
+      .getElementById(
+        "checklistTitle"
+      )
+      .textContent
+  );
+  document
+    .getElementById(
+      "checklistItemInput"
+    )
+    .focus();
+
+}
+
+function renameChecklistItem(
+  index
+) {
+
+  const item =
+    state.checklist[index];
+
+  if (!item) {
+    return;
+  }
+
+  const text =
+    prompt(
+      "Wie soll der Punkt heißen?",
+      item.text
+    );
+
+  if (text === null) {
+    return;
+  }
+
+  const name =
+    text.trim();
+
+  if (!name) {
+
+    alert(
+      "Der Punkt darf nicht leer sein."
+    );
+
+    return;
+
+  }
+
+  item.text = name;
+  saveChecklist();
+  renderChecklist(
+    document
+      .getElementById(
+        "checklistTitle"
+      )
+      .textContent
+  );
 
 }
 
@@ -3182,6 +3312,8 @@ function resetChecklist() {
 
       })
     );
+
+  saveChecklist();
 
   renderChecklist(
     document
