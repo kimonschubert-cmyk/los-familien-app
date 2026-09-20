@@ -905,8 +905,13 @@ async function searchActivities() {
     refreshIcons();
   }
 }
+/*
+==================================================
+INTELLIGENTE ERGEBNISBEWERTUNG
+==================================================
+*/
 function processResults(results) {
-  return results
+  const scored = results
     .map(place => {
       const lat =
         place.location?.latitude;
@@ -931,23 +936,42 @@ function processResults(results) {
       const category =
         guessCategory(name);
       const weatherScore =
-        getWeatherScore(category);
+        getWeatherScore(category, name);
       const ageScore =
-        getAgeScore(category);
+        getAgeScore(category, name);
       const distanceScore =
         getDistanceScore(distance);
+      const relevanceScore =
+        getRelevanceScore(
+          category,
+          name
+        );
       const ratingScore =
-        place.rating || 0;
+        getRatingScore(
+          place.rating
+        );
+      /*
+      Die einzelnen Faktoren werden bewusst
+      unterschiedlich stark gewichtet.
+      Familie + Wetter + Entfernung sind
+      wichtiger als die reine Google-Bewertung.
+      */
       const totalScore =
-        weatherScore +
-        ageScore +
-        distanceScore +
-        ratingScore;
+        weatherScore * 3 +
+        ageScore * 4 +
+        distanceScore * 3 +
+        relevanceScore * 3 +
+        ratingScore * 2;
       return {
         ...place,
         name,
         category,
         distance,
+        weatherScore,
+        ageScore,
+        distanceScore,
+        relevanceScore,
+        ratingScore,
         totalScore
       };
     })
@@ -955,14 +979,61 @@ function processResults(results) {
       place =>
         place.distance <=
         state.driveTime * 1.5
-    )
-    .sort(
-      (a, b) =>
-        b.totalScore -
-        a.totalScore
-    )
-    .slice(0, 3);
+    );
+  /*
+  Zuerst nach Gesamtqualität sortieren.
+  */
+  scored.sort(
+    (a, b) =>
+      b.totalScore -
+      a.totalScore
+  );
+  /*
+  Bei den 3 Ergebnissen versuchen wir,
+  nicht dreimal exakt dieselbe Kategorie
+  zu zeigen.
+  Eine Kategorie darf mehrfach vorkommen,
+  wenn Google keine sinnvolle Alternative liefert.
+  */
+  const selected = [];
+  for (const place of scored) {
+    const sameCategory =
+      selected.filter(
+        item =>
+          item.category ===
+          place.category
+      ).length;
+    if (
+      selected.length < 3 &&
+      sameCategory === 0
+    ) {
+      selected.push(place);
+    }
+  }
+  /*
+  Falls nicht genügend unterschiedliche
+  Kategorien vorhanden sind, füllen wir
+  mit den nächstbesten Ergebnissen auf.
+  */
+  for (const place of scored) {
+    if (
+      selected.length >= 3
+    ) {
+      break;
+    }
+    if (
+      !selected.includes(place)
+    ) {
+      selected.push(place);
+    }
+  }
+  return selected.slice(0, 3);
 }
+/*
+==================================================
+ENTFERNUNG
+==================================================
+*/
 function calculateDistance(
   lat1,
   lon1,
@@ -1004,116 +1075,417 @@ function degreesToRadians(
     Math.PI /
     180;
 }
+/*
+==================================================
+KATEGORIE ERKENNEN
+==================================================
+*/
 function guessCategory(name) {
   const n =
     name.toLowerCase();
   if (
     n.includes("spielplatz") ||
-    n.includes("spiel")
+    n.includes("abenteuerspiel") ||
+    n.includes("aktivspiel")
   ) {
     return "Spielplatz";
   }
   if (
     n.includes("schwimm") ||
-    n.includes("bad")
+    n.includes("hallenbad") ||
+    n.includes("freibad") ||
+    n.includes("therme") ||
+    n.includes("bad ")
   ) {
     return "Schwimmbad";
   }
   if (
-    n.includes("museum")
+    n.includes("museum") ||
+    n.includes("ausstellung") ||
+    n.includes("galerie")
   ) {
     return "Museum";
   }
   if (
     n.includes("zoo") ||
-    n.includes("tierpark")
+    n.includes("tierpark") ||
+    n.includes("wildpark") ||
+    n.includes("tiergarten")
   ) {
     return "Zoo";
   }
   if (
     n.includes("park") ||
-    n.includes("garten")
+    n.includes("garten") ||
+    n.includes("wald") ||
+    n.includes("see") ||
+    n.includes("freianlage")
   ) {
     return "Park";
   }
   if (
     n.includes("freizeit") ||
-    n.includes("erlebnis")
+    n.includes("erlebnis") ||
+    n.includes("abenteuer") ||
+    n.includes("kletter") ||
+    n.includes("indoor") ||
+    n.includes("bowling") ||
+    n.includes("minigolf")
   ) {
     return "Freizeit";
   }
   return "Ausflugsziel";
 }
+/*
+==================================================
+WETTERBEWERTUNG
+==================================================
+*/
 function getWeatherScore(
-  category
+  category,
+  name
 ) {
+  const n =
+    name.toLowerCase();
+  const indoor =
+    category === "Schwimmbad" ||
+    category === "Museum" ||
+    category === "Freizeit" ||
+    n.includes("indoor") ||
+    n.includes("halle");
+  const outdoor =
+    category === "Spielplatz" ||
+    category === "Park" ||
+    category === "Zoo";
   if (
-    state.weather === "rain" ||
-    state.weather === "cold"
+    state.weather === "rain"
   ) {
-    if (
-      category === "Schwimmbad" ||
-      category === "Museum"
-    ) {
-      return 4;
+    if (indoor) {
+      return 5;
     }
-    if (
-      category === "Spielplatz"
-    ) {
+    if (outdoor) {
       return 0;
     }
+    return 2;
+  }
+  if (
+    state.weather === "cold"
+  ) {
+    if (indoor) {
+      return 5;
+    }
+    if (outdoor) {
+      return 0;
+    }
+    return 2;
   }
   if (
     state.weather === "sunny"
   ) {
+    if (outdoor) {
+      return 5;
+    }
+    if (indoor) {
+      return 2;
+    }
+    return 3;
+  }
+  if (
+    state.weather === "cloudy"
+  ) {
     if (
-      category === "Spielplatz" ||
-      category === "Park" ||
-      category === "Zoo"
+      outdoor ||
+      indoor
     ) {
       return 4;
     }
+    return 3;
   }
-  return 2;
+  return 3;
 }
+/*
+==================================================
+ALTERSBEWERTUNG
+Wir betrachten alle Familienmitglieder,
+nicht nur das jüngste Kind.
+==================================================
+*/
 function getAgeScore(
-  category
+  category,
+  name
 ) {
   if (!state.people.length) {
-    return 2;
+    return 3;
   }
-  const youngest =
-    Math.min(
-      ...state.people.map(
-        person => person.age
-      )
+  const ages =
+    state.people.map(
+      person => person.age
     );
-  if (
-    youngest <= 5 &&
-    (
+  const youngest =
+    Math.min(...ages);
+  const oldest =
+    Math.max(...ages);
+  const children =
+    ages.filter(
+      age => age < 18
+    );
+  const adults =
+    ages.filter(
+      age => age >= 18
+    );
+  let score = 3;
+  /*
+  Babys / Kleinkinder
+  */
+  if (youngest <= 3) {
+    if (
       category === "Spielplatz" ||
       category === "Zoo" ||
       category === "Schwimmbad"
-    )
-  ) {
-    return 4;
+    ) {
+      score += 2;
+    }
+    if (
+      category === "Museum"
+    ) {
+      score -= 1;
+    }
   }
-  return 2;
+  /*
+  Kindergartenalter
+  */
+  if (
+    youngest >= 4 &&
+    youngest <= 6
+  ) {
+    if (
+      category === "Spielplatz" ||
+      category === "Zoo" ||
+      category === "Schwimmbad" ||
+      category === "Freizeit"
+    ) {
+      score += 2;
+    }
+  }
+  /*
+  Grundschulalter
+  */
+  if (
+    youngest >= 7 &&
+    youngest <= 12
+  ) {
+    if (
+      category === "Freizeit" ||
+      category === "Schwimmbad" ||
+      category === "Zoo" ||
+      category === "Museum"
+    ) {
+      score += 2;
+    }
+  }
+  /*
+  Ältere Kinder / Jugendliche
+  */
+  if (
+    oldest >= 13
+  ) {
+    if (
+      category === "Freizeit" ||
+      category === "Schwimmbad" ||
+      category === "Museum"
+    ) {
+      score += 2;
+    }
+  }
+  /*
+  Familien mit Erwachsenen und Kindern:
+  Aktivitäten mit echtem Familiencharakter
+  bekommen einen zusätzlichen Bonus.
+  */
+  if (
+    children.length > 0 &&
+    adults.length > 0
+  ) {
+    if (
+      category === "Zoo" ||
+      category === "Freizeit" ||
+      category === "Schwimmbad" ||
+      category === "Park"
+    ) {
+      score += 1;
+    }
+  }
+  /*
+  Begrenzung auf 0–6.
+  */
+  return Math.max(
+    0,
+    Math.min(
+      6,
+      score
+    )
+  );
 }
+/*
+==================================================
+ENTFERNUNGSBEWERTUNG
+Die gewünschte Fahrzeit wird stärker
+berücksichtigt als bisher.
+==================================================
+*/
 function getDistanceScore(
   distance
 ) {
-  if (distance <= 5) {
+  /*
+  Die aktuelle Anzeige rechnet grob:
+  Entfernung × 2 = Fahrzeit.
+  Daher vergleichen wir die Entfernung
+  mit dem gewünschten Fahrzeitfenster.
+  */
+  const estimatedMinutes =
+    Math.max(
+      5,
+      distance * 2
+    );
+  const difference =
+    Math.abs(
+      estimatedMinutes -
+      state.driveTime
+    );
+  /*
+  Je näher an der gewünschten Fahrzeit,
+  desto höher der Score.
+  Gleichzeitig werden sehr nahe Ziele
+  besonders positiv bewertet.
+  */
+  if (
+    estimatedMinutes <=
+    state.driveTime * 0.5
+  ) {
+    return 6;
+  }
+  if (
+    estimatedMinutes <=
+    state.driveTime
+  ) {
+    return 5;
+  }
+  if (
+    estimatedMinutes <=
+    state.driveTime * 1.15
+  ) {
     return 4;
   }
-  if (distance <= 15) {
+  if (
+    estimatedMinutes <=
+    state.driveTime * 1.35
+  ) {
+    return 2;
+  }
+  if (
+    difference <= 15
+  ) {
+    return 1;
+  }
+  return 0;
+}
+/*
+==================================================
+RELEVANZBEWERTUNG
+==================================================
+*/
+function getRelevanceScore(
+  category,
+  name
+) {
+  const n =
+    name.toLowerCase();
+  let score = 2;
+  const strongFamilyWords = [
+    "familie",
+    "familien",
+    "kinder",
+    "kind",
+    "abenteuer",
+    "erlebnis",
+    "aktiv",
+    "freizeit"
+  ];
+  strongFamilyWords.forEach(
+    word => {
+      if (
+        n.includes(word)
+      ) {
+        score += 1;
+      }
+    }
+  );
+  if (
+    category === "Spielplatz" ||
+    category === "Zoo" ||
+    category === "Schwimmbad" ||
+    category === "Freizeit"
+  ) {
+    score += 1;
+  }
+  /*
+  Allgemeine Orte ohne erkennbaren
+  Freizeitbezug werden nicht automatisch
+  nach oben gespült.
+  */
+  if (
+    category === "Ausflugsziel"
+  ) {
+    score -= 1;
+  }
+  return Math.max(
+    0,
+    Math.min(
+      6,
+      score
+    )
+  );
+}
+/*
+==================================================
+GOOGLE-BEWERTUNG
+==================================================
+*/
+function getRatingScore(
+  rating
+) {
+  if (
+    typeof rating !== "number"
+  ) {
+    return 2;
+  }
+  if (
+    rating >= 4.7
+  ) {
+    return 5;
+  }
+  if (
+    rating >= 4.4
+  ) {
+    return 4;
+  }
+  if (
+    rating >= 4.0
+  ) {
     return 3;
   }
-  if (distance <= 30) {
+  if (
+    rating >= 3.5
+  ) {
     return 2;
   }
   return 1;
 }
+/*
+==================================================
+ERGEBNISSE ANZEIGEN
+==================================================
+*/
 function renderRealActivities(
   activities
 ) {
@@ -1275,6 +1647,11 @@ function openWebsite(url) {
     "_blank"
   );
 }
+/*
+==================================================
+LISTEN
+==================================================
+*/
 function renderCustomLists() {
   const container =
     document.getElementById(
@@ -1401,7 +1778,8 @@ function renderChecklist(
       "checklistTitle"
     )
     .textContent =
-    title || "Checkliste";
+    title ||
+    "Checkliste";
   const container =
     document.getElementById(
       "checklistContainer"
@@ -1482,6 +1860,11 @@ function resetChecklist() {
       .textContent
   );
 }
+/*
+==================================================
+SICHERHEIT
+==================================================
+*/
 function escapeHTML(
   value
 ) {
