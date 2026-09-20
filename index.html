@@ -101,6 +101,15 @@ input {
   background: #fff;
 }
 
+.location-actions {
+  margin-top: -6px;
+  margin-bottom: 18px;
+}
+
+.location-actions button {
+  width: 100%;
+}
+
 button {
   border: none;
   border-radius: 11px;
@@ -476,6 +485,17 @@ button .icon {
       value=""
       placeholder="Stadt oder PLZ eingeben"
     >
+
+    <div class="location-actions">
+      <button
+        class="secondary"
+        type="button"
+        onclick="useCurrentLocation()"
+      >
+        <i data-lucide="locate-fixed" class="icon"></i>
+        Meinen aktuellen Standort verwenden
+      </button>
+    </div>
 
     <div class="section-title">
       <i data-lucide="cloud-sun" class="icon"></i>
@@ -1306,6 +1326,134 @@ async function geocodeLocation(
       location
 
   };
+
+}
+
+async function reverseGeocodeLocation(
+  latitude,
+  longitude
+) {
+
+  const url =
+    "https://nominatim.openstreetmap.org/reverse" +
+    "?format=jsonv2" +
+    "&lat=" +
+    encodeURIComponent(latitude) +
+    "&lon=" +
+    encodeURIComponent(longitude) +
+    "&zoom=18" +
+    "&addressdetails=1";
+
+  const response =
+    await fetch(
+      url,
+      {
+        headers: {
+          "Accept-Language": "de"
+        }
+      }
+    );
+
+  if (!response.ok) {
+    throw new Error(
+      "Aktueller Standort konnte nicht erkannt werden."
+    );
+  }
+
+  const data =
+    await response.json();
+
+  const address =
+    data.address || {};
+
+  const city =
+    address.city ||
+    address.town ||
+    address.village ||
+    address.municipality ||
+    "";
+
+  const postcode =
+    address.postcode ||
+    "";
+
+  return {
+    name: [
+      city,
+      postcode
+    ]
+      .filter(Boolean)
+      .join(", "),
+    lat: Number(latitude),
+    lon: Number(longitude)
+  };
+
+}
+
+function useCurrentLocation() {
+
+  if (
+    !navigator.geolocation
+  ) {
+    alert(
+      "Dein Browser unterstützt keine Standortermittlung."
+    );
+    return;
+  }
+
+  const input =
+    document.getElementById(
+      "locationInput"
+    );
+
+  input.value =
+    "Standort wird ermittelt...";
+
+  navigator.geolocation.getCurrentPosition(
+    async position => {
+
+      try {
+        const location =
+          await reverseGeocodeLocation(
+            position.coords.latitude,
+            position.coords.longitude
+          );
+
+        if (!location.name) {
+          throw new Error(
+            "Keine Stadt oder PLZ zum Standort gefunden."
+          );
+        }
+
+        input.value =
+          location.name;
+
+        await searchActivities();
+
+      } catch (error) {
+        input.value = "";
+        alert(
+          error.message ||
+          "Standort konnte nicht ermittelt werden."
+        );
+      }
+
+    },
+    error => {
+      input.value = "";
+
+      alert(
+        error.code === 1
+          ? "Bitte erlaube den Standortzugriff im Browser."
+          : "Standort konnte nicht ermittelt werden."
+      );
+    },
+    {
+      enableHighAccuracy: true,
+      timeout: 10000,
+      maximumAge: 300000
+    }
+  );
 
 }
 
