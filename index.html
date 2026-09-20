@@ -6,204 +6,375 @@
 <title>LOS! – Familien-Starthelfer</title>
 <script src="https://unpkg.com/lucide@latest"></script>
 <style>
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-  background:#f5f7fa;
-  color:#1f2937
+* {
+  box-sizing: border-box;
 }
-header{
-  background:#fff;
-  padding:18px 20px;
-  text-align:center;
-  box-shadow:0 2px 8px rgba(0,0,0,.08);
-  position:sticky;
-  top:0;
-  z-index:20
+
+body {
+margin: 0;
+font-family: -apple-system, BlinkMacSystemFont, “Segoe UI”, Roboto, Arial, sans-serif;
+background: #f5f7fa;
+color: #1f2937;
 }
-header h1{margin:0;font-size:28px;font-weight:800}
-header p{margin:5px 0 0;color:#6b7280;font-size:14px}
-main{max-width:700px;margin:0 auto;padding:16px}
-.card{
-  background:#fff;
-  border-radius:16px;
-  box-shadow:0 2px 8px rgba(0,0,0,.08);
-  padding:20px;
-  margin-bottom:16px
+
+header {
+background: #ffffff;
+padding: 18px 20px;
+text-align: center;
+box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+position: sticky;
+top: 0;
+z-index: 20;
 }
-h2{margin-top:0;font-size:21px}
-h3{margin-bottom:8px}
-.section-title{
-  display:flex;
-  align-items:center;
-  gap:7px;
-  margin-bottom:14px;
-  white-space:nowrap
+
+header h1 {
+margin: 0;
+font-size: 28px;
+font-weight: 800;
 }
-.section-title h2,.section-title h3,.section-title strong{
-  margin:0;
-  padding:0;
-  line-height:1.2
+
+header p {
+margin: 5px 0 0;
+color: #6b7280;
+font-size: 14px;
 }
-label{display:block;font-weight:600;margin-bottom:7px}
-input{
-  width:100%;
-  padding:13px;
-  border:1px solid #d1d5db;
-  border-radius:11px;
-  font-size:16px;
-  margin-bottom:14px;
-  background:#fff
+
+main {
+max-width: 700px;
+margin: 0 auto;
+padding: 16px;
 }
-button{
-  border:none;
-  border-radius:11px;
-  padding:12px 15px;
-  font-size:15px;
-  font-weight:700;
-  cursor:pointer
+
+.card {
+background: #ffffff;
+border-radius: 16px;
+box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+padding: 20px;
+margin-bottom: 16px;
 }
-button:active{transform:scale(.98)}
-.primary{background:#111827;color:#fff;width:100%}
-.secondary{background:#eef2f7;color:#1f2937}
-.success{background:#166534;color:#fff}
-.danger{background:#dc2626;color:#fff}
-.icon{width:18px;height:18px;vertical-align:middle}
-.icon-lg{width:28px;height:28px;vertical-align:middle}
-button .icon{margin-right:7px}
-.weather-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:8px;
-  margin-bottom:18px
+
+h2 {
+margin-top: 0;
+font-size: 21px;
 }
-.weather-btn{background:#f3f4f6;color:#374151;padding:11px 5px;font-size:13px}
-.weather-btn.active{background:#111827;color:#fff}
-.drive-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
-  margin-bottom:18px
+
+h3 {
+margin-bottom: 8px;
 }
-.drive-btn{background:#f3f4f6;color:#374151}
-.drive-btn.active{background:#111827;color:#fff}
-.family-summary{
-  background:#f8fafc;
-  border-radius:12px;
-  padding:13px;
-  margin-bottom:16px
+
+.section-title {
+display: flex;
+align-items: center;
+gap: 7px;
+margin-bottom: 14px;
+white-space: nowrap;
 }
-.family-member{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:8px 0;
-  border-bottom:1px solid #e5e7eb
+
+.section-title h2,
+.section-title h3,
+.section-title strong {
+margin: 0;
+padding: 0;
+line-height: 1.2;
 }
-.family-member:last-child{border-bottom:none}
-.person-age{color:#6b7280;font-size:14px}
-.result-card{
-  border:1px solid #e5e7eb;
-  border-radius:14px;
-  padding:15px;
-  margin-bottom:12px;
-  background:#fff
+
+.section-title .icon {
+flex: 0 0 auto;
+margin: 0;
+vertical-align: middle;
 }
-.result-card h3{
-  margin:0 0 8px;
-  font-size:18px;
-  display:flex;
-  align-items:center;
-  gap:7px
+
+label {
+display: block;
+font-weight: 600;
+margin-bottom: 7px;
 }
-.result-meta{
-  display:flex;
-  flex-wrap:wrap;
-  gap:7px;
-  margin:9px 0
+
+input {
+width: 100%;
+padding: 13px;
+border: 1px solid #d1d5db;
+border-radius: 11px;
+font-size: 16px;
+margin-bottom: 14px;
+background: #fff;
 }
-.badge{
-  background:#f3f4f6;
-  border-radius:20px;
-  padding:6px 9px;
-  font-size:12px;
-  display:inline-flex;
-  align-items:center;
-  gap:4px
+
+button {
+border: none;
+border-radius: 11px;
+padding: 12px 15px;
+font-size: 15px;
+font-weight: 700;
+cursor: pointer;
 }
-.result-actions{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-  margin-top:12px
+
+button:active {
+transform: scale(0.98);
 }
-.result-actions button{width:100%}
-.hidden{display:none!important}
-.person-row{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:12px;
-  background:#f8fafc;
-  border-radius:11px;
-  margin-bottom:8px
+
+.primary {
+background: #111827;
+color: white;
+width: 100%;
 }
-.person-info strong{display:block}
-.person-info span{color:#6b7280;font-size:13px}
-.small-actions{display:flex;gap:6px}
-.small-btn{padding:8px 10px;font-size:13px}
-.list-item{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:11px 0;
-  border-bottom:1px solid #e5e7eb
+
+.secondary {
+background: #eef2f7;
+color: #1f2937;
 }
-.list-item:last-child{border-bottom:none}
-.check-item{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:12px;
-  background:#f8fafc;
-  border-radius:11px;
-  margin-bottom:8px
+
+.success {
+background: #166534;
+color: white;
 }
-.check-item input{width:20px;height:20px;margin:0}
-.progress{
-  height:9px;
-  background:#e5e7eb;
-  border-radius:10px;
-  overflow:hidden;
-  margin:12px 0 16px
+
+.danger {
+background: #dc2626;
+color: white;
 }
-.progress-bar{
-  height:100%;
-  background:#166534;
-  width:0%;
-  transition:.2s
+
+.icon {
+width: 18px;
+height: 18px;
+vertical-align: middle;
 }
-.empty,.loading{text-align:center;color:#6b7280;padding:20px 5px}
-.footer-note{
-  font-size:11px;
-  color:#9ca3af;
-  text-align:center;
-  margin-top:10px;
-  line-height:1.5
+
+.icon-lg {
+width: 28px;
+height: 28px;
+vertical-align: middle;
 }
-.location-status{
-  font-size:13px;
-  color:#6b7280;
-  margin:-7px 0 14px
+
+button .icon {
+margin-right: 7px;
 }
-@media(max-width:480px){
-  main{padding:12px}
-  .card{padding:16px}
-  .weather-grid{grid-template-columns:repeat(2,1fr)}
-  .result-actions{grid-template-columns:1fr}
+
+.weather-grid {
+display: grid;
+grid-template-columns: repeat(4, 1fr);
+gap: 8px;
+margin-bottom: 18px;
 }
-</style>
+
+.weather-btn {
+background: #f3f4f6;
+color: #374151;
+padding: 11px 5px;
+font-size: 13px;
+}
+
+.weather-btn.active {
+background: #111827;
+color: white;
+}
+
+.drive-grid {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 8px;
+margin-bottom: 18px;
+}
+
+.drive-btn {
+background: #f3f4f6;
+color: #374151;
+}
+
+.drive-btn.active {
+background: #111827;
+color: white;
+}
+
+.family-summary {
+background: #f8fafc;
+border-radius: 12px;
+padding: 13px;
+margin-bottom: 16px;
+}
+
+.family-member {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 8px 0;
+border-bottom: 1px solid #e5e7eb;
+}
+
+.family-member:last-child {
+border-bottom: none;
+}
+
+.person-age {
+color: #6b7280;
+font-size: 14px;
+}
+
+.result-card {
+border: 1px solid #e5e7eb;
+border-radius: 14px;
+padding: 15px;
+margin-bottom: 12px;
+background: #fff;
+}
+
+.result-card h3 {
+margin: 0 0 8px;
+font-size: 18px;
+display: flex;
+align-items: center;
+gap: 7px;
+}
+
+.result-card h3 .icon {
+flex: 0 0 auto;
+}
+
+.result-meta {
+display: flex;
+flex-wrap: wrap;
+gap: 7px;
+margin: 9px 0;
+}
+
+.badge {
+background: #f3f4f6;
+border-radius: 20px;
+padding: 6px 9px;
+font-size: 12px;
+display: inline-flex;
+align-items: center;
+gap: 4px;
+}
+
+.badge .icon {
+width: 14px;
+height: 14px;
+}
+
+.result-actions {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 8px;
+margin-top: 12px;
+}
+
+.result-actions button {
+width: 100%;
+}
+
+.hidden {
+display: none !important;
+}
+
+.person-row {
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 12px;
+background: #f8fafc;
+border-radius: 11px;
+margin-bottom: 8px;
+}
+
+.person-info strong {
+display: block;
+}
+
+.person-info span {
+color: #6b7280;
+font-size: 13px;
+}
+
+.small-actions {
+display: flex;
+gap: 6px;
+}
+
+.small-btn {
+padding: 8px 10px;
+font-size: 13px;
+}
+
+.list-item {
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 11px 0;
+border-bottom: 1px solid #e5e7eb;
+}
+
+.list-item:last-child {
+border-bottom: none;
+}
+
+.check-item {
+display: flex;
+align-items: center;
+gap: 10px;
+padding: 12px;
+background: #f8fafc;
+border-radius: 11px;
+margin-bottom: 8px;
+}
+
+.check-item input {
+width: 20px;
+height: 20px;
+margin: 0;
+}
+
+.progress {
+height: 9px;
+background: #e5e7eb;
+border-radius: 10px;
+overflow: hidden;
+margin: 12px 0 16px;
+}
+
+.progress-bar {
+height: 100%;
+background: #166534;
+width: 0%;
+transition: 0.2s;
+}
+
+.empty,
+.loading {
+text-align: center;
+color: #6b7280;
+padding: 20px 5px;
+}
+
+.footer-note {
+font-size: 11px;
+color: #9ca3af;
+text-align: center;
+margin-top: 10px;
+line-height: 1.5;
+}
+
+@media (max-width: 480px) {
+main {
+padding: 12px;
+}
+
+.card {
+padding: 16px;
+}
+
+.weather-grid {
+grid-template-columns: repeat(2, 1fr);
+}
+
+.result-actions {
+grid-template-columns: 1fr;
+}
+
+.section-title {
+gap: 6px;
+}
+}
 </head>
 <body>
 <header>
@@ -215,57 +386,93 @@ button .icon{margin-right:7px}
 </header>
 <main>
 <section id="homeScreen">
-<div class="card">
+  <div class="card">
 <div class="section-title">
   <i data-lucide="map-pin" class="icon"></i>
   <h2>Was machen wir?</h2>
 </div>
-
-Standort
-
+<label for="locationInput">
+  Standort
+</label>
 <input
-id=“locationInput”
-type=“text”
-value=“Bad Kissingen”
-placeholder=“z. B. Hannover, Bad Kissingen oder Frankfurt”
-
-<div id="locationStatus" class="location-status">
-  Startpunkt wird für die Entfernung verwendet.
-</div>
+  id="locationInput"
+  type="text"
+  value="Bad Kissingen"
+  placeholder="z. B. Bad Kissingen"
+>
 <div class="section-title">
   <i data-lucide="cloud-sun" class="icon"></i>
   <h3>Wie ist das Wetter?</h3>
 </div>
 <div class="weather-grid">
-
-☀️ Sonnig
-☁️ Bewölkt
-🌧️ Regen
-❄️ Kalt
+  <button
+    class="weather-btn active"
+    onclick="setWeather('sunny', this)"
+  >
+    ☀️ Sonnig
+  </button>
+  <button
+    class="weather-btn"
+    onclick="setWeather('cloudy', this)"
+  >
+    ☁️ Bewölkt
+  </button>
+  <button
+    class="weather-btn"
+    onclick="setWeather('rain', this)"
+  >
+    🌧️ Regen
+  </button>
+  <button
+    class="weather-btn"
+    onclick="setWeather('cold', this)"
+  >
+    ❄️ Kalt
+  </button>
 </div>
 <div class="section-title">
   <i data-lucide="car" class="icon"></i>
   <h3>Wie lange möchten wir fahren?</h3>
 </div>
 <div class="drive-grid">
-
-15 Min.
-30 Min.
-60 Min.
+  <button
+    class="drive-btn"
+    onclick="setDrive(15, this)"
+  >
+    15 Min.
+  </button>
+  <button
+    class="drive-btn active"
+    onclick="setDrive(30, this)"
+  >
+    30 Min.
+  </button>
+  <button
+    class="drive-btn"
+    onclick="setDrive(60, this)"
+  >
+    60 Min.
+  </button>
 </div>
 <div class="family-summary">
-<div class="section-title">
-  <i data-lucide="users" class="icon"></i>
-  <strong>Unsere Familie</strong>
+  <div class="section-title">
+    <i data-lucide="users" class="icon"></i>
+    <strong>Unsere Familie</strong>
+  </div>
+  <div id="homeFamilySummary"></div>
 </div>
-<div id="homeFamilySummary"></div>
-</div>
-<button class="primary" onclick="searchActivities()">
+<button
+  class="primary"
+  onclick="searchActivities()"
+>
   <i data-lucide="search" class="icon"></i>
   Aktivitäten finden
 </button>
-</div>
-<div class="card hidden" id="resultsCard">
+  </div>
+  <div
+    class="card hidden"
+    id="resultsCard"
+  >
 <div class="section-title">
   <i data-lucide="star" class="icon"></i>
   <h2>Unsere Vorschläge</h2>
@@ -274,105 +481,147 @@ placeholder=“z. B. Hannover, Bad Kissingen oder Frankfurt”
 <div class="footer-note">
   Orte und Kartendaten bereitgestellt von Google.
 </div>
-</div>
-<div class="card">
+  </div>
+  <div class="card">
 <div class="section-title">
   <i data-lucide="users" class="icon"></i>
   <h2>Familie</h2>
 </div>
 <p>
-Lege die Familienmitglieder und deren Alter fest.
+  Lege die Familienmitglieder und deren Alter fest.
 </p>
-<button class="secondary" onclick="showPeopleScreen()">
+<button
+  class="secondary"
+  onclick="showPeopleScreen()"
+>
   <i data-lucide="user-plus" class="icon"></i>
   Familie verwalten
 </button>
-</div>
-<div class="card">
+  </div>
+  <div class="card">
 <div class="section-title">
   <i data-lucide="list" class="icon"></i>
   <h2>Meine Listen</h2>
 </div>
 <p>
-Eigene Checklisten und Listen für die Familie.
+  Eigene Checklisten und Listen für die Familie.
 </p>
-<button class="secondary" onclick="showListsScreen()">
+<button
+  class="secondary"
+  onclick="showListsScreen()"
+>
   <i data-lucide="list-plus" class="icon"></i>
   Listen verwalten
 </button>
-</div>
+  </div>
 </section>
-<section id="peopleScreen" class="hidden">
-<div class="card">
+<section
+  id="peopleScreen"
+  class="hidden"
+>
+  <div class="card">
 <div class="section-title">
   <i data-lucide="users" class="icon"></i>
   <h2>Familie verwalten</h2>
 </div>
 <div id="peopleContainer"></div>
 <h3>Familienmitglied hinzufügen</h3>
-<input id="personName" type="text" placeholder="Name">
-
 <input
-id=“personAge”
-type=“number”
-min=“0”
-max=“100”
-placeholder=“Alter”
-
-<button class="success" onclick="addPerson()">
+  id="personName"
+  type="text"
+  placeholder="Name"
+>
+<input
+  id="personAge"
+  type="number"
+  min="0"
+  max="100"
+  placeholder="Alter"
+>
+<button
+  class="success"
+  onclick="addPerson()"
+>
   <i data-lucide="plus" class="icon"></i>
   Hinzufügen
 </button>
-<button class="secondary" onclick="showHome()">
+<br><br>
+<button
+  class="secondary"
+  onclick="showHome()"
+>
   <i data-lucide="arrow-left" class="icon"></i>
   Zurück
 </button>
-</div>
+  </div>
 </section>
-<section id="listScreen" class="hidden">
-<div class="card">
+<section
+  id="listScreen"
+  class="hidden"
+>
+  <div class="card">
 <div class="section-title">
   <i data-lucide="list" class="icon"></i>
   <h2>Meine Listen</h2>
 </div>
 <div id="customListsContainer"></div>
 <h3>Neue Liste erstellen</h3>
-
 <input
-id=“listName”
-type=“text”
-placeholder=“z. B. Schwimmbad”
-
-<button class="success" onclick="addCustomList()">
+  id="listName"
+  type="text"
+  placeholder="z. B. Schwimmbad"
+>
+<button
+  class="success"
+  onclick="addCustomList()"
+>
   <i data-lucide="plus" class="icon"></i>
   Liste erstellen
 </button>
-<button class="secondary" onclick="showHome()">
+<br><br>
+<button
+  class="secondary"
+  onclick="showHome()"
+>
   <i data-lucide="arrow-left" class="icon"></i>
   Zurück
 </button>
-</div>
+  </div>
 </section>
-<section id="checklistScreen" class="hidden">
-<div class="card">
+<section
+  id="checklistScreen"
+  class="hidden"
+>
+  <div class="card">
 <div class="section-title">
   <i data-lucide="clipboard-check" class="icon"></i>
-  <h2 id="checklistTitle">Checkliste</h2>
+  <h2 id="checklistTitle">
+    Checkliste
+  </h2>
 </div>
 <div class="progress">
-  <div id="progressBar" class="progress-bar"></div>
+  <div
+    id="progressBar"
+    class="progress-bar"
+  ></div>
 </div>
 <div id="checklistContainer"></div>
 <br>
-<button class="secondary" onclick="showHome()">
+<button
+  class="secondary"
+  onclick="showHome()"
+>
   <i data-lucide="arrow-left" class="icon"></i>
   Zurück
 </button>
-<button class="danger" onclick="resetChecklist()">
+<button
+  class="danger"
+  onclick="resetChecklist()"
+>
   <i data-lucide="rotate-ccw" class="icon"></i>
   Zurücksetzen
 </button>
-</div>
+  </div>
 </section>
 </main>
 <script>
@@ -380,21 +629,19 @@ const GOOGLE_API_URL =
   "https://los-familien-app.vercel.app/api/places";
 /*
 ==================================================
-AKTUELLER STARTPUNKT
+AKTUELLER SUCHSTARTPUNKT
 ==================================================
-Der Standort wird jetzt nicht mehr fest auf
-Bad Kissingen gesetzt.
-Der eingegebene Ort wird zunächst geocodiert.
-Danach werden die Google-Ergebnisse anhand
-dieses tatsächlichen Startpunktes bewertet.
-Google Places wird weiterhin nur EINMAL
-pro Suchvorgang aufgerufen.
 */
 let searchOrigin = {
   lat: 50.2020,
   lon: 10.0770,
   name: "Bad Kissingen"
 };
+/*
+==================================================
+APP STATE
+==================================================
+*/
 let state = {
   weather: "sunny",
   driveTime: 30,
@@ -407,12 +654,22 @@ let state = {
   checklist: [],
   currentList: null
 };
-function refreshIcons(){
-  if(window.lucide){
+/*
+==================================================
+ICONS
+==================================================
+*/
+function refreshIcons() {
+  if (window.lucide) {
     lucide.createIcons();
   }
 }
-function saveState(){
+/*
+==================================================
+STATE SPEICHERN
+==================================================
+*/
+function saveState() {
   localStorage.setItem(
     "los_people",
     JSON.stringify(state.people)
@@ -422,32 +679,53 @@ function saveState(){
     JSON.stringify(state.lists)
   );
 }
-function setWeather(weather,button){
+/*
+==================================================
+WETTER
+==================================================
+*/
+function setWeather(
+  weather,
+  button
+) {
   state.weather = weather;
   document
     .querySelectorAll(".weather-btn")
-    .forEach(btn=>{
+    .forEach(btn => {
       btn.classList.remove("active");
     });
   button.classList.add("active");
 }
-function setDrive(minutes,button){
+/*
+==================================================
+FAHRZEIT AUSWAHL
+==================================================
+*/
+function setDrive(
+  minutes,
+  button
+) {
   state.driveTime = minutes;
   document
     .querySelectorAll(".drive-btn")
-    .forEach(btn=>{
+    .forEach(btn => {
       btn.classList.remove("active");
     });
   button.classList.add("active");
 }
-function showScreen(id){
+/*
+==================================================
+SCREENS
+==================================================
+*/
+function showScreen(id) {
   const screens = [
     "homeScreen",
     "peopleScreen",
     "listScreen",
     "checklistScreen"
   ];
-  screens.forEach(screen=>{
+  screens.forEach(screen => {
     document
       .getElementById(screen)
       .classList.add("hidden");
@@ -457,24 +735,29 @@ function showScreen(id){
     .classList.remove("hidden");
   refreshIcons();
 }
-function showHome(){
+function showHome() {
   showScreen("homeScreen");
   renderHome();
 }
-function showPeopleScreen(){
+function showPeopleScreen() {
   showScreen("peopleScreen");
   renderPeople();
 }
-function showListsScreen(){
+function showListsScreen() {
   showScreen("listScreen");
   renderCustomLists();
 }
-function renderHome(){
+/*
+==================================================
+HOME
+==================================================
+*/
+function renderHome() {
   const container =
     document.getElementById(
       "homeFamilySummary"
     );
-  if(!state.people.length){
+  if (!state.people.length) {
     container.innerHTML = `
       <div class="empty">
         Noch keine Familienmitglieder angelegt.
@@ -485,7 +768,7 @@ function renderHome(){
   }
   container.innerHTML =
     state.people
-      .map(person=>`
+      .map(person => `
         <div class="family-member">
           <div>
             <strong>
@@ -504,12 +787,17 @@ function renderHome(){
       .join("");
   refreshIcons();
 }
-function renderPeople(){
+/*
+==================================================
+FAMILIENMITGLIEDER
+==================================================
+*/
+function renderPeople() {
   const container =
     document.getElementById(
       "peopleContainer"
     );
-  if(!state.people.length){
+  if (!state.people.length) {
     container.innerHTML = `
       <div class="empty">
         Noch keine Familienmitglieder vorhanden.
@@ -519,9 +807,8 @@ function renderPeople(){
     return;
   }
   container.innerHTML =
-    state.people
-      .map(
-        (person,index)=>`
+    state.people.map(
+      (person, index) => `
         <div class="person-row">
           <div class="person-info">
             <strong>
@@ -545,11 +832,10 @@ function renderPeople(){
           </div>
         </div>
       `
-      )
-      .join("");
+    ).join("");
   refreshIcons();
 }
-function addPerson(){
+function addPerson() {
   const name =
     document
       .getElementById("personName")
@@ -561,25 +847,25 @@ function addPerson(){
         .getElementById("personAge")
         .value
     );
-  if(!name){
+  if (!name) {
     alert(
       "Bitte einen Namen eingeben."
     );
     return;
   }
-  if(
+  if (
     Number.isNaN(age) ||
     age < 0 ||
     age > 100
-  ){
+  ) {
     alert(
       "Bitte ein gültiges Alter eingeben."
     );
     return;
   }
   state.people.push({
-    name:name,
-    age:age
+    name: name,
+    age: age
   });
   saveState();
   document.getElementById(
@@ -591,35 +877,31 @@ function addPerson(){
   renderPeople();
   renderHome();
 }
-function deletePerson(index){
-  if(
+function deletePerson(index) {
+  if (
     !confirm(
       "Dieses Familienmitglied wirklich löschen?"
     )
-  ){
+  ) {
     return;
   }
-  state.people.splice(index,1);
+  state.people.splice(
+    index,
+    1
+  );
   saveState();
   renderPeople();
   renderHome();
 }
 /*
 ==================================================
-STANDORT GEOCODIEREN
+STANDORT SUCHEN
+NOMINATIM / OPENSTREETMAP
 ==================================================
-Für den Prototyp verwenden wir OpenStreetMap
-Nominatim zur Umwandlung des eingegebenen
-Ortes in Koordinaten.
-Dadurch funktioniert z.B.:
-Bad Kissingen
-Hannover
-Frankfurt
-München
-usw.
-Google Places bleibt bei genau EINER Anfrage.
 */
-async function geocodeLocation(location){
+async function geocodeLocation(
+  location
+) {
   const url =
     "https://nominatim.openstreetmap.org/search" +
     "?format=jsonv2" +
@@ -628,48 +910,58 @@ async function geocodeLocation(location){
     "&q=" +
     encodeURIComponent(location);
   const response =
-    await fetch(url,{
-      headers:{
-        "Accept-Language":"de"
+    await fetch(
+      url,
+      {
+        headers: {
+          "Accept-Language": "de"
+        }
       }
-    });
-  if(!response.ok){
+    );
+  if (!response.ok) {
     throw new Error(
       "Standort konnte nicht gesucht werden."
     );
   }
   const data =
     await response.json();
-  if(
+  if (
     !Array.isArray(data) ||
     !data.length
-  ){
+  ) {
     throw new Error(
       "Standort wurde nicht gefunden."
     );
   }
   return {
     lat:
-      parseFloat(data[0].lat),
+      parseFloat(
+        data[0].lat
+      ),
     lon:
-      parseFloat(data[0].lon),
+      parseFloat(
+        data[0].lon
+      ),
     name:
-      data[0].display_name || location
+      data[0].display_name ||
+      location
   };
 }
 /*
 ==================================================
-GOOGLE PLACES SEARCH
-NUR EINE GOOGLE-ANFRAGE
+HAUPTSUCHE
+NUR EINE GOOGLE-PLACES-SUCHE
 ==================================================
 */
-async function searchActivities(){
+async function searchActivities() {
   const location =
     document
-      .getElementById("locationInput")
+      .getElementById(
+        "locationInput"
+      )
       .value
       .trim();
-  if(!location){
+  if (!location) {
     alert(
       "Bitte einen Standort eingeben."
     );
@@ -683,11 +975,9 @@ async function searchActivities(){
     document.getElementById(
       "resultsContainer"
     );
-  const status =
-    document.getElementById(
-      "locationStatus"
-    );
-  card.classList.remove("hidden");
+  card.classList.remove(
+    "hidden"
+  );
   container.innerHTML = `
     <div class="loading">
       <i
@@ -698,35 +988,29 @@ async function searchActivities(){
     </div>
   `;
   refreshIcons();
-  try{
+  try {
     /*
     ================================================
-    SCHRITT 1
-    Eingegebenen Startort bestimmen
+    EINGEGEBENEN ORT GEOCODIEREN
     ================================================
     */
     searchOrigin =
       await geocodeLocation(
         location
       );
-    status.textContent =
-      "Startpunkt: " +
-      location +
-      " · Entfernung wird ab diesem Ort berechnet.";
     container.innerHTML = `
       <div class="loading">
         <i
           data-lucide="loader-circle"
           class="icon"
         ></i>
-        Familienaktivitäten werden gesucht...
+        Aktivitäten in der Umgebung werden gesucht...
       </div>
     `;
     refreshIcons();
     /*
     ================================================
-    SCHRITT 2
-    GENAU EINE GOOGLE-PLACES-ANFRAGE
+    NUR EINE GOOGLE-SUCHE
     ================================================
     */
     const query =
@@ -743,7 +1027,9 @@ async function searchActivities(){
     GOOGLE TAGESLIMIT
     ================================================
     */
-    if(response.status === 429){
+    if (
+      response.status === 429
+    ) {
       container.innerHTML = `
         <div class="empty">
           <i
@@ -762,7 +1048,7 @@ async function searchActivities(){
       refreshIcons();
       return;
     }
-    if(!response.ok){
+    if (!response.ok) {
       container.innerHTML = `
         <div class="empty">
           <i
@@ -785,20 +1071,39 @@ async function searchActivities(){
       await response.json();
     const results =
       data.places &&
-      Array.isArray(data.places)
+      Array.isArray(
+        data.places
+      )
         ? data.places
         : [];
+    if (!results.length) {
+      renderRealActivities([]);
+      return;
+    }
+    /*
+    ================================================
+    ECHTE FAHRZEITEN BERECHNEN
+    ================================================
+    */
+    container.innerHTML = `
+      <div class="loading">
+        <i
+          data-lucide="car"
+          class="icon"
+        ></i>
+        Echte Fahrzeiten werden berechnet...
+      </div>
+    `;
+    refreshIcons();
     const processed =
-      processResults(results);
+      await processResults(
+        results
+      );
     renderRealActivities(
       processed
     );
-  }
-  catch(error){
+  } catch (error) {
     console.error(error);
-    const message =
-      error.message ||
-      "Unbekannter Fehler";
     container.innerHTML = `
       <div class="empty">
         <i
@@ -806,10 +1111,17 @@ async function searchActivities(){
           class="icon-lg"
         ></i>
         <p>
-          ${escapeHTML(message)}
+          Bei der Suche ist ein Fehler aufgetreten.
         </p>
         <small>
-          Bitte Standort prüfen und erneut versuchen.
+          ${
+            error &&
+            error.message
+              ? escapeHTML(
+                  error.message
+                )
+              : "Bitte später erneut versuchen."
+          }
         </small>
       </div>
     `;
@@ -818,174 +1130,331 @@ async function searchActivities(){
 }
 /*
 ==================================================
-ERGEBNISSE BEWERTEN
+ERGEBNISSE VERARBEITEN
 ==================================================
 */
-function processResults(results){
-  return results
-    .map(place=>{
-      const lat =
-        place.location?.latitude;
-      const lon =
-        place.location?.longitude;
-      let distance = 999;
-      if(
-        typeof lat === "number" &&
-        typeof lon === "number"
-      ){
-        distance =
-          calculateDistance(
-            searchOrigin.lat,
-            searchOrigin.lon,
-            lat,
-            lon
+async function processResults(
+  results
+) {
+  /*
+  Zuerst die Google-Ergebnisse vorbereiten.
+  */
+  const candidates =
+    results
+      .map(place => {
+        const lat =
+          place.location?.latitude;
+        const lon =
+          place.location?.longitude;
+        let distance = 999;
+        if (
+          typeof lat === "number" &&
+          typeof lon === "number"
+        ) {
+          distance =
+            calculateDistance(
+              searchOrigin.lat,
+              searchOrigin.lon,
+              lat,
+              lon
+            );
+        }
+        const name =
+          place.displayName?.text ||
+          "Unbekannter Ort";
+        const category =
+          guessCategory(
+            name
+          );
+        return {
+          ...place,
+          name,
+          category,
+          distance,
+          driveMinutes: null,
+          roadDistance: null,
+          weatherScore:
+            getWeatherScore(
+              category
+            ),
+          ageScore:
+            getAgeScore(
+              category
+            )
+        };
+      })
+      /*
+      Extrem weit entfernte Orte werden
+      vor der Routing-Anfrage aussortiert.
+      */
+      .filter(
+        place =>
+          place.distance <=
+          100
+      );
+  if (!candidates.length) {
+    return [];
+  }
+  /*
+  ================================================
+  ECHTE FAHRZEITEN MIT OSRM
+  ================================================
+  */
+  try {
+    const routed =
+      await getDrivingTimes(
+        candidates
+      );
+    routed.forEach(
+      item => {
+        if (
+          item.driveMinutes !== null
+        ) {
+          item.distance =
+            item.roadDistance;
+        }
+      }
+    );
+  } catch (error) {
+    console.warn(
+      "OSRM Routing nicht verfügbar:",
+      error
+    );
+    /*
+    Falls der Routingdienst ausfällt,
+    bleiben die Ergebnisse trotzdem sichtbar.
+    */
+    candidates.forEach(
+      place => {
+        place.driveMinutes =
+          Math.max(
+            5,
+            Math.round(
+              place.distance * 2
+            )
           );
       }
-      const name =
-        place.displayName?.text ||
-        "Unbekannter Ort";
-      const category =
-        guessCategory(name);
-      const weatherScore =
-        getWeatherScore(
-          category
-        );
-      const ageScore =
-        getAgeScore(
-          category
-        );
-      const distanceScore =
-        getDistanceScore(
-          distance
-        );
-      const ratingScore =
-        place.rating
-          ? place.rating * 0.6
-          : 0;
-      const relevanceScore =
-        getRelevanceScore(
-          name,
-          category
-        );
-      const totalScore =
-        weatherScore * 3 +
-        ageScore * 4 +
-        distanceScore * 3 +
-        relevanceScore * 3 +
-        ratingScore * 2;
-      return {
-        ...place,
-        name,
-        category,
-        distance,
-        totalScore
-      };
-    })
-    /*
-    Der Radius wird aus der gewünschten
-    Fahrzeit abgeleitet.
-    15 Min -> ca. 22,5 km
-    30 Min -> ca. 45 km
-    60 Min -> ca. 90 km
-    Das ist weiterhin eine Luftlinien-Näherung.
-    Die echte Fahrzeit bauen wir als nächsten
-    Schritt ein.
-    */
-    .filter(
+    );
+  }
+  /*
+  ================================================
+  INTELLIGENTE BEWERTUNG
+  ================================================
+  */
+  const scored =
+    candidates
+      .map(place => {
+        const distanceScore =
+          getDriveTimeScore(
+            place.driveMinutes
+          );
+        const relevanceScore =
+          getRelevanceScore(
+            place.name,
+            place.category
+          );
+        const ratingScore =
+          getRatingScore(
+            place.rating
+          );
+        const totalScore =
+          place.weatherScore * 3 +
+          place.ageScore * 4 +
+          distanceScore * 5 +
+          relevanceScore * 3 +
+          ratingScore * 2;
+        return {
+          ...place,
+          totalScore
+        };
+      });
+  /*
+  ================================================
+  FAHRZEIT-LIMIT
+  ================================================
+  */
+  const maximumDriveTime =
+    state.driveTime === 15
+      ? 25
+      : state.driveTime === 30
+        ? 45
+        : 75;
+  const withinRange =
+    scored.filter(
       place =>
-        place.distance <=
-        state.driveTime * 1.5
-    )
-    .sort(
-      (a,b)=>
-        b.totalScore -
-        a.totalScore
-    )
-    /*
-    Zuerst unterschiedliche Kategorien
-    bevorzugen.
-    */
-    .reduce(
-      (selected,place)=>{
-        if(
-          selected.length < 3 &&
-          !selected.some(
-            item =>
-              item.category ===
-              place.category
-          )
-        ){
-          selected.push(place);
-        }
-        return selected;
-      },
-      []
-    )
-    .concat(
-      results
-        .map(place=>{
-          const lat =
-            place.location?.latitude;
-          const lon =
-            place.location?.longitude;
-          let distance = 999;
-          if(
-            typeof lat === "number" &&
-            typeof lon === "number"
-          ){
-            distance =
-              calculateDistance(
-                searchOrigin.lat,
-                searchOrigin.lon,
-                lat,
-                lon
-              );
-          }
-          const name =
-            place.displayName?.text ||
-            "Unbekannter Ort";
-          const category =
-            guessCategory(name);
-          const totalScore =
-            getWeatherScore(category) * 3 +
-            getAgeScore(category) * 4 +
-            getDistanceScore(distance) * 3 +
-            getRelevanceScore(
-              name,
-              category
-            ) * 3 +
-            (place.rating || 0) * 0.6 * 2;
-          return {
-            ...place,
-            name,
-            category,
-            distance,
-            totalScore
-          };
-        })
-        .filter(
-          place =>
-            place.distance <=
-            state.driveTime * 1.5
-        )
-        .sort(
-          (a,b)=>
-            b.totalScore -
-            a.totalScore
-        )
-    )
-    .filter(
-      (place,index,array)=>
-        array.findIndex(
-          item =>
-            item.id === place.id
-        ) === index
-    )
-    .slice(0,3);
+        place.driveMinutes !== null &&
+        place.driveMinutes <=
+        maximumDriveTime
+    );
+  const pool =
+    withinRange.length
+      ? withinRange
+      : scored;
+  /*
+  ================================================
+  SORTIERUNG
+  ================================================
+  */
+  pool.sort(
+    (a, b) =>
+      b.totalScore -
+      a.totalScore
+  );
+  /*
+  ================================================
+  MAXIMAL 3 VORSCHLÄGE
+  ================================================
+  */
+  const selected = [];
+  const categories = new Set();
+  /*
+  Zuerst möglichst unterschiedliche
+  Aktivitätstypen.
+  */
+  for (
+    const place of pool
+  ) {
+    if (
+      selected.length >= 3
+    ) {
+      break;
+    }
+    if (
+      !categories.has(
+        place.category
+      )
+    ) {
+      selected.push(
+        place
+      );
+      categories.add(
+        place.category
+      );
+    }
+  }
+  /*
+  Falls weniger als 3 unterschiedliche
+  Kategorien vorhanden sind.
+  */
+  for (
+    const place of pool
+  ) {
+    if (
+      selected.length >= 3
+    ) {
+      break;
+    }
+    if (
+      !selected.includes(
+        place
+      )
+    ) {
+      selected.push(
+        place
+      );
+    }
+  }
+  return selected
+    .slice(0, 3);
 }
 /*
 ==================================================
-ENTFERNUNG
+ECHTE FAHRZEITEN
+OSRM / OPENSTREETMAP
+==================================================
+*/
+async function getDrivingTimes(
+  places
+) {
+  const validPlaces =
+    places.filter(
+      place =>
+        typeof place.location?.latitude ===
+          "number" &&
+        typeof place.location?.longitude ===
+          "number"
+    );
+  if (!validPlaces.length) {
+    return places;
+  }
+  /*
+  Startpunkt ist Index 0.
+  */
+  const coordinates = [
+    `${searchOrigin.lon},${searchOrigin.lat}`,
+    ...validPlaces.map(
+      place =>
+        `${place.location.longitude},${place.location.latitude}`
+    )
+  ];
+  const url =
+    "https://router.project-osrm.org/table/v1/driving/" +
+    coordinates.join(";") +
+    "?sources=0" +
+    "&destinations=" +
+    validPlaces
+      .map(
+        (_, index) =>
+          index + 1
+      )
+      .join(";") +
+    "&annotations=duration,distance";
+  const response =
+    await fetch(url);
+  if (!response.ok) {
+    throw new Error(
+      "Routingdienst nicht erreichbar."
+    );
+  }
+  const data =
+    await response.json();
+  if (
+    data.code !== "Ok" ||
+    !Array.isArray(
+      data.durations
+    )
+  ) {
+    throw new Error(
+      "Keine Fahrzeiten verfügbar."
+    );
+  }
+  const durations =
+    data.durations[0] || [];
+  const distances =
+    data.distances
+      ? data.distances[0] || []
+      : [];
+  validPlaces.forEach(
+    (place, index) => {
+      const seconds =
+        durations[index];
+      const meters =
+        distances[index];
+      if (
+        typeof seconds === "number"
+      ) {
+        place.driveMinutes =
+          Math.max(
+            1,
+            Math.round(
+              seconds / 60
+            )
+          );
+      }
+      if (
+        typeof meters === "number"
+      ) {
+        place.roadDistance =
+          meters / 1000;
+      }
+    }
+  );
+  return places;
+}
+/*
+==================================================
+LUFTLINIEN-ENTFERNUNG
+WIRD NUR NOCH FÜR VORFILTERUNG VERWENDET
 ==================================================
 */
 function calculateDistance(
@@ -993,7 +1462,7 @@ function calculateDistance(
   lon1,
   lat2,
   lon2
-){
+) {
   const R = 6371;
   const dLat =
     degreesToRadians(
@@ -1004,242 +1473,324 @@ function calculateDistance(
       lon2 - lon1
     );
   const a =
-    Math.sin(dLat/2) *
-    Math.sin(dLat/2) +
+    Math.sin(dLat / 2) *
+    Math.sin(dLat / 2) +
     Math.cos(
       degreesToRadians(lat1)
     ) *
     Math.cos(
       degreesToRadians(lat2)
     ) *
-    Math.sin(dLon/2) *
-    Math.sin(dLon/2);
+    Math.sin(dLon / 2) *
+    Math.sin(dLon / 2);
   const c =
     2 *
     Math.atan2(
       Math.sqrt(a),
-      Math.sqrt(1-a)
+      Math.sqrt(1 - a)
     );
   return R * c;
 }
 function degreesToRadians(
   degrees
-){
+) {
   return degrees *
     Math.PI /
     180;
 }
 /*
 ==================================================
-KATEGORIEN
+KATEGORIE
 ==================================================
 */
-function guessCategory(name){
+function guessCategory(
+  name
+) {
   const n =
     name.toLowerCase();
-  if(
+  if (
     n.includes("spielplatz") ||
     n.includes("spiel")
-  ){
+  ) {
     return "Spielplatz";
   }
-  if(
+  if (
     n.includes("schwimm") ||
     n.includes("bad")
-  ){
+  ) {
     return "Schwimmbad";
   }
-  if(
+  if (
     n.includes("museum")
-  ){
+  ) {
     return "Museum";
   }
-  if(
+  if (
     n.includes("zoo") ||
     n.includes("tierpark")
-  ){
+  ) {
     return "Zoo";
   }
-  if(
+  if (
     n.includes("park") ||
     n.includes("garten")
-  ){
+  ) {
     return "Park";
   }
-  if(
+  if (
     n.includes("freizeit") ||
     n.includes("erlebnis")
-  ){
+  ) {
     return "Freizeit";
   }
   return "Ausflugsziel";
 }
 /*
 ==================================================
-WETTER
+WETTER SCORE
 ==================================================
 */
-function getWeatherScore(category){
-  if(
+function getWeatherScore(
+  category
+) {
+  if (
     state.weather === "rain" ||
     state.weather === "cold"
-  ){
-    if(
+  ) {
+    if (
       category === "Schwimmbad" ||
-      category === "Museum" ||
-      category === "Freizeit"
-    ){
-      return 4;
+      category === "Museum"
+    ) {
+      return 5;
     }
-    if(
+    if (
       category === "Spielplatz" ||
       category === "Park" ||
       category === "Zoo"
-    ){
-      return 0;
+    ) {
+      return 1;
     }
   }
-  if(
+  if (
     state.weather === "sunny"
-  ){
-    if(
+  ) {
+    if (
       category === "Spielplatz" ||
       category === "Park" ||
       category === "Zoo"
-    ){
+    ) {
+      return 5;
+    }
+    if (
+      category === "Freizeit"
+    ) {
       return 4;
     }
   }
-  return 2;
+  if (
+    state.weather === "cloudy"
+  ) {
+    if (
+      category === "Spielplatz" ||
+      category === "Park" ||
+      category === "Zoo" ||
+      category === "Museum"
+    ) {
+      return 4;
+    }
+  }
+  return 3;
 }
 /*
 ==================================================
-ALTER
+ALTER SCORE
 ==================================================
 */
-function getAgeScore(category){
-  if(!state.people.length){
-    return 2;
+function getAgeScore(
+  category
+) {
+  if (
+    !state.people.length
+  ) {
+    return 3;
   }
   const ages =
     state.people.map(
-      person => person.age
+      person =>
+        person.age
     );
   const youngest =
     Math.min(...ages);
   const oldest =
     Math.max(...ages);
-  if(
-    youngest <= 5 &&
-    (
+  let score = 3;
+  if (
+    youngest <= 5
+  ) {
+    if (
       category === "Spielplatz" ||
       category === "Zoo" ||
       category === "Schwimmbad"
-    )
-  ){
-    return 5;
+    ) {
+      score += 2;
+    }
   }
-  if(
-    youngest <= 10 &&
-    (
+  if (
+    youngest >= 6 &&
+    youngest <= 12
+  ) {
+    if (
       category === "Freizeit" ||
       category === "Zoo" ||
-      category === "Museum"
-    )
-  ){
-    return 4;
+      category === "Schwimmbad"
+    ) {
+      score += 2;
+    }
   }
-  if(
-    oldest >= 12 &&
-    category === "Museum"
-  ){
-    return 4;
+  if (
+    oldest >= 13
+  ) {
+    if (
+      category === "Freizeit" ||
+      category === "Museum" ||
+      category === "Ausflugsziel"
+    ) {
+      score += 1;
+    }
   }
-  return 2;
+  return Math.min(
+    5,
+    score
+  );
 }
 /*
 ==================================================
-ENTFERNUNG
+ECHTE FAHRZEIT SCORE
 ==================================================
 */
-function getDistanceScore(
-  distance
-){
+function getDriveTimeScore(
+  driveMinutes
+) {
+  if (
+    typeof driveMinutes !== "number"
+  ) {
+    return 1;
+  }
   const target =
     state.driveTime;
-  const estimatedMinutes =
-    distance * 2;
-  const difference =
-    Math.abs(
-      estimatedMinutes -
-      target
-    );
-  if(
-    difference <= 5
-  ){
+  /*
+  Innerhalb des gewünschten
+  Zeitrahmens = besonders gut.
+  */
+  if (
+    driveMinutes <= target
+  ) {
+    const difference =
+      target - driveMinutes;
+    if (
+      difference <= 5
+    ) {
+      return 5;
+    }
+    if (
+      difference <= 15
+    ) {
+      return 4;
+    }
     return 5;
   }
-  if(
-    difference <= 15
-  ){
-    return 4;
-  }
-  if(
-    difference <= 30
-  ){
+  /*
+  Etwas über dem Wunschwert
+  */
+  if (
+    driveMinutes <=
+    target + 10
+  ) {
     return 3;
   }
-  if(
-    difference <= 45
-  ){
+  if (
+    driveMinutes <=
+    target + 20
+  ) {
     return 2;
   }
   return 1;
 }
 /*
 ==================================================
-RELEVANZ
+RELEVANZ SCORE
 ==================================================
 */
 function getRelevanceScore(
   name,
   category
-){
-  const n =
-    name.toLowerCase();
+) {
+  const text =
+    (
+      name +
+      " " +
+      category
+    ).toLowerCase();
   let score = 2;
-  const keywords = [
+  const positiveWords = [
     "familie",
     "familien",
     "kind",
     "kinder",
-    "jugend",
     "abenteuer",
     "erlebnis",
     "freizeit",
     "aktiv",
     "spiel"
   ];
-  keywords.forEach(
-    word=>{
-      if(
-        n.includes(word)
-      ){
+  positiveWords.forEach(
+    word => {
+      if (
+        text.includes(word)
+      ) {
         score += 1;
       }
     }
   );
-  if(
-    category === "Spielplatz" ||
-    category === "Freizeit" ||
-    category === "Zoo"
-  ){
-    score += 1;
-  }
   return Math.min(
-    score,
-    5
+    5,
+    score
   );
+}
+/*
+==================================================
+BEWERTUNG
+==================================================
+*/
+function getRatingScore(
+  rating
+) {
+  if (
+    typeof rating !== "number"
+  ) {
+    return 2;
+  }
+  if (
+    rating >= 4.7
+  ) {
+    return 5;
+  }
+  if (
+    rating >= 4.3
+  ) {
+    return 4;
+  }
+  if (
+    rating >= 3.8
+  ) {
+    return 3;
+  }
+  if (
+    rating >= 3
+  ) {
+    return 2;
+  }
+  return 1;
 }
 /*
 ==================================================
@@ -1248,12 +1799,12 @@ ERGEBNISSE ANZEIGEN
 */
 function renderRealActivities(
   activities
-){
+) {
   const container =
     document.getElementById(
       "resultsContainer"
     );
-  if(!activities.length){
+  if (!activities.length) {
     container.innerHTML = `
       <div class="empty">
         <i
@@ -1264,8 +1815,9 @@ function renderRealActivities(
           Keine passenden Aktivitäten gefunden.
         </p>
         <small>
-          Google hat keine passenden Ergebnisse
-          im gewählten Bereich geliefert.
+          Die Google-Suche hat keine passenden
+          Ergebnisse im gewünschten Fahrzeitbereich
+          geliefert.
         </small>
       </div>
     `;
@@ -1275,8 +1827,8 @@ function renderRealActivities(
   window.currentActivities =
     activities;
   container.innerHTML =
-    activities
-      .map(activity=>{
+    activities.map(
+      activity => {
         const address =
           activity.formattedAddress ||
           "Adresse nicht verfügbar";
@@ -1288,18 +1840,20 @@ function renderRealActivities(
           getCategoryIcon(
             activity.category
           );
-        /*
-        Noch keine echte Fahrzeit.
-        Die wird in einem späteren Schritt
-        durch echte Routenberechnung ersetzt.
-        */
         const driveMinutes =
-          Math.max(
-            5,
-            Math.round(
-              activity.distance * 2
-            )
-          );
+          activity.driveMinutes !== null
+            ? activity.driveMinutes
+            : Math.max(
+                5,
+                Math.round(
+                  activity.distance * 2
+                )
+              );
+        const distance =
+          typeof activity.roadDistance ===
+            "number"
+            ? activity.roadDistance
+            : activity.distance;
         return `
           <div class="result-card">
             <h3>
@@ -1314,13 +1868,11 @@ function renderRealActivities(
             <div class="result-meta">
               <span class="badge">
                 📍
-                ${activity.distance.toFixed(1)}
-                km
+                ${distance.toFixed(1)} km
               </span>
               <span class="badge">
                 🚗
-                ca. ${driveMinutes}
-                Min.
+                ca. ${driveMinutes} Min.
               </span>
               ${
                 rating
@@ -1380,39 +1932,55 @@ function renderRealActivities(
             </div>
           </div>
         `;
-      })
-      .join("");
+      }
+    ).join("");
   refreshIcons();
 }
 /*
 ==================================================
-ICONS
+KATEGORIE ICONS
 ==================================================
 */
 function getCategoryIcon(
   category
-){
+) {
   const icons = {
-    "Spielplatz":"trees",
-    "Schwimmbad":"waves",
-    "Museum":"landmark",
-    "Zoo":"paw-print",
-    "Park":"trees",
-    "Freizeit":"ferris-wheel",
-    "Ausflugsziel":"map"
+    "Spielplatz":
+      "trees",
+    "Schwimmbad":
+      "waves",
+    "Museum":
+      "landmark",
+    "Zoo":
+      "paw-print",
+    "Park":
+      "trees",
+    "Freizeit":
+      "ferris-wheel",
+    "Ausflugsziel":
+      "map"
   };
   return (
     icons[category] ||
     "map-pin"
   );
 }
-function openRoute(url){
+/*
+==================================================
+ROUTE
+==================================================
+*/
+function openRoute(
+  url
+) {
   window.open(
     url,
     "_blank"
   );
 }
-function openWebsite(url){
+function openWebsite(
+  url
+) {
   window.open(
     url,
     "_blank"
@@ -1423,12 +1991,12 @@ function openWebsite(url){
 LISTEN
 ==================================================
 */
-function renderCustomLists(){
+function renderCustomLists() {
   const container =
     document.getElementById(
       "customListsContainer"
     );
-  if(!state.lists.length){
+  if (!state.lists.length) {
     container.innerHTML = `
       <div class="empty">
         <i
@@ -1444,13 +2012,14 @@ function renderCustomLists(){
     return;
   }
   container.innerHTML =
-    state.lists
-      .map(
-        (list,index)=>`
+    state.lists.map(
+      (list, index) => `
         <div class="list-item">
           <span>
             📌
-            ${escapeHTML(list.name)}
+            ${escapeHTML(
+              list.name
+            )}
           </span>
           <div class="small-actions">
             <button
@@ -1468,37 +2037,38 @@ function renderCustomLists(){
           </div>
         </div>
       `
-      )
-      .join("");
+    ).join("");
   refreshIcons();
 }
-function addCustomList(){
+function addCustomList() {
   const input =
     document.getElementById(
       "listName"
     );
   const name =
     input.value.trim();
-  if(!name){
+  if (!name) {
     alert(
       "Bitte einen Namen für die Liste eingeben."
     );
     return;
   }
   state.lists.push({
-    name:name,
-    items:[]
+    name: name,
+    items: []
   });
   saveState();
   input.value = "";
   renderCustomLists();
 }
-function deleteList(index){
-  if(
+function deleteList(
+  index
+) {
+  if (
     !confirm(
       "Diese Liste wirklich löschen?"
     )
-  ){
+  ) {
     return;
   }
   state.lists.splice(
@@ -1508,27 +2078,31 @@ function deleteList(index){
   saveState();
   renderCustomLists();
 }
-function openList(index){
+function openList(
+  index
+) {
   const list =
     state.lists[index];
-  if(!list){
+  if (!list) {
     return;
   }
   state.currentList =
     list;
   state.checklist =
     list.items.map(
-      item=>({
-        text:item,
-        done:false
+      item => ({
+        text: item,
+        done: false
       })
     );
-  if(!state.checklist.length){
+  if (
+    !state.checklist.length
+  ) {
     state.checklist = [
       {
         text:
           "Ersten Punkt hinzufügen",
-        done:false
+        done: false
       }
     ];
   }
@@ -1539,68 +2113,78 @@ function openList(index){
     "checklistScreen"
   );
 }
-function renderChecklist(title){
+/*
+==================================================
+CHECKLISTE
+==================================================
+*/
+function renderChecklist(
+  title
+) {
   document
     .getElementById(
       "checklistTitle"
     )
     .textContent =
-    title || "Checkliste";
+    title ||
+    "Checkliste";
   const container =
     document.getElementById(
       "checklistContainer"
     );
   container.innerHTML =
-    state.checklist
-      .map(
-        (item,index)=>`
-          <label class="check-item">
-            <input
-              type="checkbox"
-              ${
-                item.done
-                  ? "checked"
-                  : ""
-              }
-              onchange="toggleChecklist(
-                ${index},
-                this.checked
-              )"
-            >
-            <span>
-              ${escapeHTML(
-                item.text
-              )}
-            </span>
-          </label>
-        `
-      )
-      .join("");
+    state.checklist.map(
+      (item, index) => `
+        <label class="check-item">
+          <input
+            type="checkbox"
+            ${
+              item.done
+                ? "checked"
+                : ""
+            }
+            onchange="toggleChecklist(
+              ${index},
+              this.checked
+            )"
+          >
+          <span>
+            ${escapeHTML(
+              item.text
+            )}
+          </span>
+        </label>
+      `
+    ).join("");
   updateProgress();
   refreshIcons();
 }
 function toggleChecklist(
   index,
   checked
-){
-  if(
+) {
+  if (
     state.checklist[index]
-  ){
+  ) {
     state.checklist[index].done =
       checked;
   }
   updateProgress();
 }
-function updateProgress(){
+function updateProgress() {
   const total =
     state.checklist.length;
   const done =
     state.checklist.filter(
-      item => item.done
+      item =>
+        item.done
     ).length;
   const percentage =
     total
-      ? done / total * 100
+      ? (
+          done /
+          total
+        ) * 100
       : 0;
   document
     .getElementById(
@@ -1609,12 +2193,12 @@ function updateProgress(){
     .style.width =
     percentage + "%";
 }
-function resetChecklist(){
+function resetChecklist() {
   state.checklist =
     state.checklist.map(
-      item=>({
+      item => ({
         ...item,
-        done:false
+        done: false
       })
     );
   renderChecklist(
@@ -1630,7 +2214,9 @@ function resetChecklist(){
 SICHERHEIT
 ==================================================
 */
-function escapeHTML(value){
+function escapeHTML(
+  value
+) {
   return String(value)
     .replaceAll(
       "&",
@@ -1653,7 +2239,9 @@ function escapeHTML(value){
       "&#039;"
     );
 }
-function escapeAttribute(value){
+function escapeAttribute(
+  value
+) {
   return String(value)
     .replaceAll(
       "\\",
@@ -1664,10 +2252,15 @@ function escapeAttribute(value){
       "\\'"
     );
 }
+/*
+==================================================
+START
+==================================================
+*/
 window.currentActivities = [];
 document.addEventListener(
   "DOMContentLoaded",
-  function(){
+  function() {
     renderHome();
     refreshIcons();
   }
