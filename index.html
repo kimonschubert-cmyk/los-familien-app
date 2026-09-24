@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LOS! – Familien-Starthelfer</title>
 <script src="https://unpkg.com/lucide@latest"></script>
+
 <style>
 * {
   box-sizing: border-box;
@@ -120,8 +121,6 @@ select {
 .location-actions button {
   width: 100%;
 }
-
-button {
 
 button {
   border: none;
@@ -435,23 +434,6 @@ button .icon {
   color: #9ca3af;
   font-size: 12px;
   text-align: center;
-}
-
-.onboarding-inline-next {
-  margin-top: 14px;
-  padding: 13px;
-  border-radius: 11px;
-  background: #f0fdf4;
-}
-
-.onboarding-inline-next p {
-  margin: 0 0 10px;
-  color: #166534;
-  font-size: 14px;
-}
-
-.onboarding-inline-next button {
-  width: 100%;
 }
 
 .weather-grid {
@@ -1042,22 +1024,6 @@ button .icon {
       <i data-lucide="plus" class="icon"></i>
       Hinzufügen
     </button>
-
-    <div
-      id="onboardingFamilyNext"
-      class="onboarding-inline-next hidden"
-    >
-      <p>
-        Du kannst weitere Familienmitglieder hinzufügen oder jetzt fortfahren.
-      </p>
-
-      <button
-        class="primary"
-        onclick="continueOnboarding()"
-      >
-        Weiter zu Schritt 2 von 3
-      </button>
-    </div>
 
     <br><br>
 
@@ -2157,7 +2123,6 @@ function renderHome() {
       </div>
     `;
 
-    updateOnboardingFamilyAction();
     refreshIcons();
     return;
 
@@ -2230,7 +2195,6 @@ function renderPeople() {
       </div>
     `;
 
-    updateOnboardingFamilyAction();
     refreshIcons();
     return;
 
@@ -2239,50 +2203,45 @@ function renderPeople() {
   container.innerHTML =
     state.people.map(
       (person, index) => `
+
         <div class="person-row">
+
           <div class="person-info">
-            <strong>${escapeHTML(person.name)}</strong>
-            <span>${person.age} Jahre</span>
+
+            <strong>
+              ${escapeHTML(person.name)}
+            </strong>
+
+            <span>
+              ${person.age} Jahre
+            </span>
+
           </div>
+
           <div class="small-actions">
+
             <button
               class="danger small-btn"
               onclick="deletePerson(${index})"
             >
-              <i data-lucide="trash-2" class="icon"></i>
+
+              <i
+                data-lucide="trash-2"
+                class="icon"
+              ></i>
+
               Löschen
+
             </button>
+
           </div>
+
         </div>
+
       `
     ).join("");
 
-  updateOnboardingFamilyAction();
   refreshIcons();
-
-}
-
-function updateOnboardingFamilyAction() {
-
-  const action =
-    document.getElementById(
-      "onboardingFamilyNext"
-    );
-
-  if (!action) {
-    return;
-  }
-
-  const onboardingActive =
-    onboardingStep === 1 &&
-    !localStorage.getItem(
-      ONBOARDING_STORAGE_KEY
-    );
-
-  action.classList.toggle(
-    "hidden",
-    !onboardingActive || !state.people.length
-  );
 
 }
 
@@ -2367,6 +2326,7 @@ function addPerson() {
 
   renderPeople();
   renderHome();
+  resumeOnboardingAfterFamily();
 
 }
 
