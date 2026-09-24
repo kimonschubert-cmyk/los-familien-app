@@ -1614,7 +1614,8 @@ function renderOnboarding() {
       <div class="onboarding-progress">Schritt 2 von 3</div>
       <h2 id="onboardingTitle">Ort und Budget festlegen</h2>
       <p>
-        Gib auf der Startseite eine Stadt oder PLZ ein und stelle dein maximales Budget ein.
+        Gib auf der Startseite eine Stadt oder PLZ ein und wähle anschließend,
+        wie lange du fahren möchtest und wie hoch dein maximales Budget ist.
         Die markierten Familienmitglieder werden für die Empfehlung verwendet.
       </p>
       <div class="onboarding-check">
@@ -1638,11 +1639,11 @@ function renderOnboarding() {
         Dort kannst du die Punkte abhaken und eigene Punkte ergänzen.
       </p>
       <div class="onboarding-check">
-        Wähle danach auf der Startseite Fahrzeit und Budget. Du erhältst bis zu 3 Ergebnisse aus einem Pool von 5 Aktivitäten.
+        Damit ist die Anleitung abgeschlossen.
       </div>
       <div class="onboarding-actions">
         <button class="text-button" onclick="finishOnboarding()">Später</button>
-        <button class="primary" onclick="startOnboardingSettings()">Startseite öffnen</button>
+        <button class="primary" onclick="finishOnboarding()">Anleitung abschließen</button>
       </div>
     `;
   }
