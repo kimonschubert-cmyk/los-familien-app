@@ -4710,6 +4710,66 @@ ERGEBNISSE ANZEIGEN
 const ACTIVITY_LIST_LIFETIME_MS =
   24 * 60 * 60 * 1000;
 
+const listExpiryTimers =
+  new WeakMap();
+
+function scheduleListExpiry(
+  list
+) {
+
+  if (!list?.expiresAt) {
+    return;
+  }
+
+  const previousTimer =
+    listExpiryTimers.get(list);
+
+  if (previousTimer) {
+    clearTimeout(previousTimer);
+  }
+
+  const delay =
+    Math.max(
+      0,
+      Number(list.expiresAt) - Date.now()
+    );
+
+  const timer =
+    setTimeout(
+      () => {
+        state.lists = state.lists.filter(
+          currentList => currentList !== list
+        );
+
+        if (state.currentList === list) {
+          state.currentList = null;
+          state.checklist = [];
+          showHome();
+        }
+
+        saveState();
+        renderHomeLists();
+        renderCustomLists();
+        listExpiryTimers.delete(list);
+      },
+      delay
+    );
+
+  listExpiryTimers.set(
+    list,
+    timer
+  );
+
+}
+
+function scheduleAllListExpiries() {
+
+  state.lists.forEach(
+    scheduleListExpiry
+  );
+
+}
+
 function cleanupExpiredActivityLists() {
 
   const now = Date.now();
@@ -4745,6 +4805,8 @@ function cleanupExpiredActivityLists() {
   ) {
     saveState();
   }
+
+  scheduleAllListExpiries();
 
 }
 
@@ -4888,6 +4950,9 @@ function selectActivityForChecklist(
   });
 
   saveState();
+  scheduleListExpiry(
+    state.lists[0]
+  );
   renderHomeLists();
   renderCustomLists();
   renderRealActivities(
@@ -5417,6 +5482,9 @@ function addCustomList() {
   });
 
   saveState();
+  scheduleListExpiry(
+    state.lists[0]
+  );
 
   input.value = "";
 
