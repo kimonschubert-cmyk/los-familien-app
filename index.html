@@ -439,8 +439,12 @@ button .icon {
     padding: 16px;
   }
 
-  .weather-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .weather-widget {
+    min-height: 170px;
+  }
+
+  .weather-temp strong {
+    font-size: 42px;
   }
 
   .result-actions {
@@ -499,39 +503,27 @@ button .icon {
 
     <div class="section-title">
       <i data-lucide="cloud-sun" class="icon"></i>
-      <h3>Wie ist das Wetter?</h3>
+      <h3>Wetter am Standort</h3>
     </div>
 
-    <div class="weather-grid">
-
-      <button
-        class="weather-btn active"
-        onclick="setWeather('sunny', this)"
-      >
-        ☀️ Sonnig
-      </button>
-
-      <button
-        class="weather-btn"
-        onclick="setWeather('cloudy', this)"
-      >
-        ☁️ Bewölkt
-      </button>
-
-      <button
-        class="weather-btn"
-        onclick="setWeather('rain', this)"
-      >
-        🌧️ Regen
-      </button>
-
-      <button
-        class="weather-btn"
-        onclick="setWeather('cold', this)"
-      >
-        ❄️ Kalt
-      </button>
-
+    <div id="weatherWidget" class="weather-widget sunny" aria-live="polite">
+      <div class="weather-sky">
+        <div class="weather-sun"></div>
+        <div class="weather-cloud"></div>
+        <div class="weather-rain"></div>
+        <div class="weather-snow"></div>
+      </div>
+      <div class="weather-content">
+        <div class="weather-temp">
+          <div class="weather-meta">Live</div>
+          <strong>--°</strong>
+          <div class="weather-location">Standort wird geladen…</div>
+        </div>
+        <div class="weather-small">
+          <div class="weather-pill">--</div>
+          <div>Wind -- km/h</div>
+        </div>
+      </div>
     </div>
 
     <div class="section-title">
@@ -929,18 +921,227 @@ WETTER
 
 function setWeather(
   weather,
-  button
+  button = null
 ) {
 
   state.weather = weather;
 
-  document
-    .querySelectorAll(".weather-btn")
-    .forEach(btn => {
-      btn.classList.remove("active");
-    });
+  const widget =
+    document.getElementById(
+      "weatherWidget"
+    );
 
-  button.classList.add("active");
+  if (widget) {
+    widget.classList.remove(
+      "sunny",
+      "cloudy",
+      "rain",
+      "snow",
+      "storm"
+    );
+    widget.classList.add(
+      weather
+    );
+  }
+
+  if (button) {
+    document
+      .querySelectorAll(".weather-btn")
+      .forEach(btn => {
+        btn.classList.remove("active");
+      });
+
+    button.classList.add("active");
+  }
+
+}
+
+async function fetchLiveWeather(
+  latitude,
+  longitude,
+  locationLabel
+) {
+
+  const widget =
+    document.getElementById(
+      "weatherWidget"
+    );
+
+  if (!widget) {
+    return;
+  }
+
+  try {
+    const url =
+      "https://api.open-meteo.com/v1/forecast" +
+      "?latitude=" +
+      encodeURIComponent(latitude) +
+      "&longitude=" +
+      encodeURIComponent(longitude) +
+      "&current=temperature_2m,apparent_temperature,weather_code,relative_humidity_2m,wind_speed_10m" +
+      "&timezone=auto" +
+      "&forecast_days=1";
+
+    const response =
+      await fetch(url);
+
+    if (!response.ok) {
+      throw new Error(
+        "Wetterdaten konnten nicht geladen werden."
+      );
+    }
+
+    const data =
+      await response.json();
+
+    const current =
+      data.current || {};
+
+    const code =
+      Number(current.weather_code || 0);
+    const temp =
+      Math.round(
+        Number(current.temperature_2m || 0)
+      );
+    const feelsLike =
+      Math.round(
+        Number(current.apparent_temperature || 0)
+      );
+    const wind =
+      Math.round(
+        Number(current.wind_speed_10m || 0)
+      );
+
+    const weatherState =
+      getWeatherStateFromCode(code);
+
+    setWeather(weatherState);
+
+    const conditionLabel =
+      getWeatherLabel(code);
+
+    widget.innerHTML = `
+      <div class="weather-sky">
+        <div class="weather-sun"></div>
+        <div class="weather-cloud"></div>
+        <div class="weather-rain"></div>
+        <div class="weather-snow"></div>
+      </div>
+      <div class="weather-content">
+        <div class="weather-temp">
+          <div class="weather-meta">Live</div>
+          <strong>${temp}°</strong>
+          <div class="weather-location">${escapeHTML(locationLabel || "Standort")}</div>
+        </div>
+        <div class="weather-small">
+          <div class="weather-pill">${conditionLabel}</div>
+          <div>Gefühlt ${feelsLike}°</div>
+          <div>Wind ${wind} km/h</div>
+        </div>
+      </div>
+    `;
+
+    widget.classList.remove(
+      "sunny",
+      "cloudy",
+      "rain",
+      "snow",
+      "storm"
+    );
+    widget.classList.add(
+      weatherState
+    );
+
+  } catch (error) {
+    widget.innerHTML = `
+      <div class="weather-content">
+        <div class="weather-temp">
+          <div class="weather-meta">Live</div>
+          <strong>--°</strong>
+          <div class="weather-location">Wetter nicht verfügbar</div>
+        </div>
+        <div class="weather-small">
+          <div class="weather-pill">--</div>
+          <div>Bitte später erneut versuchen</div>
+        </div>
+      </div>
+    `;
+    widget.classList.remove(
+      "sunny",
+      "cloudy",
+      "rain",
+      "snow",
+      "storm"
+    );
+    widget.classList.add("cloudy");
+  }
+
+}
+
+function getWeatherStateFromCode(
+  code
+) {
+
+  if ([0].includes(code)) {
+    return "sunny";
+  }
+
+  if ([1, 2, 3].includes(code)) {
+    return "cloudy";
+  }
+
+  if ([45, 48, 51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82].includes(code)) {
+    return "rain";
+  }
+
+  if ([71, 73, 75, 77, 85, 86].includes(code)) {
+    return "snow";
+  }
+
+  if ([95, 96, 99].includes(code)) {
+    return "storm";
+  }
+
+  return "cloudy";
+
+}
+
+function getWeatherLabel(
+  code
+) {
+
+  const map = {
+    0: "Klar",
+    1: "Heiter",
+    2: "Bewölkt",
+    3: "Trüb",
+    45: "Nebel",
+    48: "Raureif",
+    51: "Nieselregen",
+    53: "Nieselregen",
+    55: "Nieselregen",
+    56: "Frostiger Regen",
+    57: "Frostiger Regen",
+    61: "Regen",
+    63: "Regen",
+    65: "Regen",
+    66: "Frostregen",
+    67: "Frostregen",
+    71: "Schnee",
+    73: "Schnee",
+    75: "Schnee",
+    77: "Schneekörner",
+    80: "Regenschauer",
+    81: "Regenschauer",
+    82: "Starker Regen",
+    85: "Schneeschauer",
+    86: "Schneeschauer",
+    95: "Gewitter",
+    96: "Gewitter",
+    99: "Gewitter"
+  };
+
+  return map[code] || "Wetter";
 
 }
 
@@ -1528,6 +1729,12 @@ async function searchActivities() {
         location
       );
 
+    await fetchLiveWeather(
+      searchOrigin.lat,
+      searchOrigin.lon,
+      searchOrigin.name
+    );
+
     container.innerHTML = `
 
       <div class="loading">
@@ -2039,7 +2246,7 @@ async function processResults(
       .slice(
         0,
         Math.min(
-          20,
+          5,
           pool.length
         )
       )
@@ -2056,10 +2263,28 @@ async function processResults(
         )
     );
 
-  const selectionPool =
+  const candidatePool =
     freshPool.length >= 3
       ? freshPool
-      : rotatingPool;
+      : pool
+          .filter(
+            place =>
+              !lastActivityIds.includes(
+                place.id
+              )
+          )
+          .slice(
+            0,
+            5
+          );
+
+  const finalCandidates =
+    candidatePool.length >= 3
+      ? candidatePool
+      : pool.slice(
+          0,
+          5
+        );
 
   /*
   ================================================
@@ -2068,10 +2293,10 @@ async function processResults(
   */
 
   const selected = [];
-  const categories = new Set();
+  const seenIds = new Set();
 
   for (
-    const place of selectionPool
+    const place of finalCandidates
   ) {
 
     if (
@@ -2081,55 +2306,34 @@ async function processResults(
     }
 
     if (
-      !categories.has(
-        place.category
+      seenIds.has(
+        place.id
       )
     ) {
-
-      selected.push(
-        place
-      );
-
-      categories.add(
-        place.category
-      );
-
+      continue;
     }
 
-  }
-
-  for (
-    const place of selectionPool
-  ) {
-
-    if (
-      selected.length >= 3
-    ) {
-      break;
-    }
-
-    if (
-      !selected.includes(
-        place
-      )
-    ) {
-
-      selected.push(
-        place
-      );
-
-    }
+    selected.push(
+      place
+    );
+    seenIds.add(
+      place.id
+    );
 
   }
 
   const finalSelection =
     selected.slice(0, 3);
 
-  lastActivityIds =
-    finalSelection.map(
-      place =>
-        place.id
-    );
+  lastActivityIds = [
+    ...new Set([
+      ...lastActivityIds,
+      ...finalSelection.map(
+        place =>
+          place.id
+      )
+    ])
+  ];
 
   return finalSelection;
 
