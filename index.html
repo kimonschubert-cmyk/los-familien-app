@@ -1482,7 +1482,7 @@ function resumeOnboardingAfterLocation() {
     modal.classList.contains("hidden")
   ) {
     onboardingStep = 3;
-    startOnboardingSettings();
+    renderOnboarding();
   }
 
 }
@@ -1632,13 +1632,13 @@ function renderOnboarding() {
   ) {
     markup = `
       <div class="onboarding-progress">Schritt 3 von 3</div>
-      <h2 id="onboardingTitle">Fahrzeit und Budget auswählen</h2>
+      <h2 id="onboardingTitle">Aktivität auswählen und vorbereiten</h2>
       <p>
-        Wähle auf der Startseite zuerst, wie lange du fahren möchtest, und stelle danach dein maximales Budget ein.
-        LOS! berücksichtigt diese Angaben zusammen mit Öffnungszeiten, Alter und Geschlecht.
+        Wenn du bei einer Aktivität das Kästchen anklickst, erstellt LOS! automatisch eine passende Checkliste unter „Meine Listen“.
+        Dort kannst du die Punkte abhaken und eigene Punkte ergänzen.
       </p>
       <div class="onboarding-check">
-        Danach kannst du unten auf „Aktivitäten finden“ klicken und erhältst bis zu 3 Ergebnisse aus einem Pool von 5 Aktivitäten.
+        Wähle danach auf der Startseite Fahrzeit und Budget. Du erhältst bis zu 3 Ergebnisse aus einem Pool von 5 Aktivitäten.
       </div>
       <div class="onboarding-actions">
         <button class="text-button" onclick="finishOnboarding()">Später</button>
