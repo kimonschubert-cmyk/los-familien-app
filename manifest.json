@@ -1,9 +1,20 @@
 {
   "name": "LOS! – Familien-App für Freizeit & Aktivitäten",
   "short_name": "LOS!",
+  "id": "/",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone"],
   "background_color": "#f5f7fa",
   "theme_color": "#ffffff",
-  "lang": "de"
+  "lang": "de",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
 }
