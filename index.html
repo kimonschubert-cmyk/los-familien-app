@@ -876,8 +876,9 @@ button .icon {
     >
 
     <select id="personGender" aria-label="Geschlecht">
-      <option value="m">♂️ Junge</option>
-      <option value="w">♀️ Mädchen</option>
+      <option value="" selected disabled>Geschlecht</option>
+      <option value="m">🚹 Junge</option>
+      <option value="w">🚺 Mädchen</option>
       <option value="d">⚧️ Divers</option>
     </select>
 
@@ -1762,6 +1763,14 @@ function addPerson() {
       .getElementById("personGender")
       .value;
 
+  if (!gender) {
+    alert(
+      "Bitte ein Geschlecht auswählen."
+    );
+
+    return;
+  }
+
   if (!name) {
 
     alert(
@@ -1811,7 +1820,7 @@ function addPerson() {
 
   document.getElementById(
     "personGender"
-  ).value = "m";
+  ).value = "";
 
   renderPeople();
   renderHome();
