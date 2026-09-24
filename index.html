@@ -4708,21 +4708,41 @@ ERGEBNISSE ANZEIGEN
 */
 
 const ACTIVITY_LIST_LIFETIME_MS =
-  48 * 60 * 60 * 1000;
+  24 * 60 * 60 * 1000;
 
 function cleanupExpiredActivityLists() {
 
   const now = Date.now();
-  const originalLength = state.lists.length;
+  let changed = false;
 
-  state.lists = state.lists.filter(
+  const normalizedLists =
+    state.lists.map(list => {
+      if (list.expiresAt) {
+        return list;
+      }
+
+      changed = true;
+
+      const createdAt =
+        Number(list.createdAt) ||
+        now;
+
+      return {
+        ...list,
+        createdAt,
+        expiresAt: createdAt + ACTIVITY_LIST_LIFETIME_MS
+      };
+    });
+
+  state.lists = normalizedLists.filter(
     list =>
-      !list.generated ||
-      !list.expiresAt ||
       Number(list.expiresAt) > now
   );
 
-  if (state.lists.length !== originalLength) {
+  if (
+    changed ||
+    state.lists.length !== normalizedLists.length
+  ) {
     saveState();
   }
 
@@ -5390,7 +5410,9 @@ function addCustomList() {
   state.lists.push({
 
     name: name,
-    items: []
+    items: [],
+    createdAt: Date.now(),
+    expiresAt: Date.now() + ACTIVITY_LIST_LIFETIME_MS
 
   });
 
