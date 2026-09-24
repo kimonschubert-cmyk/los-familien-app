@@ -160,6 +160,10 @@ button .icon {
   margin-right: 7px;
 }
 
+.hidden {
+  display: none !important;
+}
+
 .weather-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -488,6 +492,7 @@ button .icon {
       type="text"
       value=""
       placeholder="Stadt oder PLZ eingeben"
+      oninput="toggleWeatherSection()"
     >
 
     <div class="location-actions">
@@ -501,27 +506,29 @@ button .icon {
       </button>
     </div>
 
-    <div class="section-title">
-      <i data-lucide="cloud-sun" class="icon"></i>
-      <h3>Wetter am Standort</h3>
-    </div>
-
-    <div id="weatherWidget" class="weather-widget sunny" aria-live="polite">
-      <div class="weather-sky">
-        <div class="weather-sun"></div>
-        <div class="weather-cloud"></div>
-        <div class="weather-rain"></div>
-        <div class="weather-snow"></div>
+    <div id="weatherSection" class="hidden">
+      <div class="section-title">
+        <i data-lucide="cloud-sun" class="icon"></i>
+        <h3>Wetter am Standort</h3>
       </div>
-      <div class="weather-content">
-        <div class="weather-temp">
-          <div class="weather-meta">Live</div>
-          <strong>--°</strong>
-          <div class="weather-location">Standort wird geladen…</div>
+
+      <div id="weatherWidget" class="weather-widget sunny" aria-live="polite">
+        <div class="weather-sky">
+          <div class="weather-sun"></div>
+          <div class="weather-cloud"></div>
+          <div class="weather-rain"></div>
+          <div class="weather-snow"></div>
         </div>
-        <div class="weather-small">
-          <div class="weather-pill">--</div>
-          <div>Wind -- km/h</div>
+        <div class="weather-content">
+          <div class="weather-temp">
+            <div class="weather-meta">Live</div>
+            <strong>--°</strong>
+            <div class="weather-location">Standort wird geladen…</div>
+          </div>
+          <div class="weather-small">
+            <div class="weather-pill">--</div>
+            <div>Wind -- km/h</div>
+          </div>
         </div>
       </div>
     </div>
@@ -918,6 +925,72 @@ function saveState() {
 WETTER
 ==================================================
 */
+
+function toggleWeatherSection() {
+
+  const locationInput =
+    document.getElementById(
+      "locationInput"
+    );
+
+  const weatherSection =
+    document.getElementById(
+      "weatherSection"
+    );
+
+  if (!locationInput || !weatherSection) {
+    return;
+  }
+
+  const hasLocation =
+    locationInput.value.trim().length > 0;
+
+  weatherSection.classList.toggle(
+    "hidden",
+    !hasLocation
+  );
+
+  if (hasLocation) {
+    const locationName =
+      locationInput.value.trim();
+
+    const widget =
+      document.getElementById(
+        "weatherWidget"
+      );
+
+    if (widget) {
+      widget.innerHTML = `
+        <div class="weather-sky">
+          <div class="weather-sun"></div>
+          <div class="weather-cloud"></div>
+          <div class="weather-rain"></div>
+          <div class="weather-snow"></div>
+        </div>
+        <div class="weather-content">
+          <div class="weather-temp">
+            <div class="weather-meta">Live</div>
+            <strong>--°</strong>
+            <div class="weather-location">${escapeHTML(locationName)}</div>
+          </div>
+          <div class="weather-small">
+            <div class="weather-pill">Wird geladen…</div>
+            <div>Standort wird geprüft</div>
+          </div>
+        </div>
+      `;
+      widget.classList.remove(
+        "sunny",
+        "cloudy",
+        "rain",
+        "snow",
+        "storm"
+      );
+      widget.classList.add("cloudy");
+    }
+  }
+
+}
 
 function setWeather(
   weather,
@@ -1728,6 +1801,17 @@ async function searchActivities() {
       await geocodeLocation(
         location
       );
+
+    const weatherSection =
+      document.getElementById(
+        "weatherSection"
+      );
+
+    if (weatherSection) {
+      weatherSection.classList.remove(
+        "hidden"
+      );
+    }
 
     await fetchLiveWeather(
       searchOrigin.lat,
