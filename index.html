@@ -2501,6 +2501,30 @@ function isCurrentlyOpen(
 
 }
 
+function isAvailableForSearch(
+  place
+) {
+
+  if (
+    place.businessStatus ===
+      "CLOSED_PERMANENTLY" ||
+    place.businessStatus ===
+      "CLOSED_TEMPORARILY"
+  ) {
+
+    return false;
+
+  }
+
+  const openingHours =
+    getOpeningHours(
+      place
+    );
+
+  return openingHours?.openNow !== false;
+
+}
+
 async function processResults(
   results
 ) {
@@ -2509,7 +2533,7 @@ async function processResults(
     results
       .filter(
         place =>
-          isCurrentlyOpen(
+          isAvailableForSearch(
             place
           )
       )
