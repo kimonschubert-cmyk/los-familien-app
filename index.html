@@ -392,10 +392,26 @@ button .icon {
   align-items: center;
   padding: 8px 0;
   border-bottom: 1px solid #e5e7eb;
+  gap: 10px;
 }
 
 .family-member:last-child {
   border-bottom: none;
+}
+
+.family-member-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.family-member-checkbox {
+  width: 16px;
+  height: 16px;
+  accent-color: #166534;
+  margin: 0;
 }
 
 .person-age {
@@ -1014,6 +1030,13 @@ let state = {
 
   people: JSON.parse(
     localStorage.getItem("los_people") || "[]"
+  ).map((person, index) => ({
+    ...person,
+    id: person.id || `person-${index}-${Date.now()}-${Math.random().toString(16).slice(2)}`
+  })),
+
+  selectedPeople: JSON.parse(
+    localStorage.getItem("los_selected_people") || "[]"
   ),
 
   lists: JSON.parse(
@@ -1023,6 +1046,41 @@ let state = {
   checklist: [],
   currentList: null
 };
+
+function getPersonId(person, index) {
+  return person.id || `person-${index}-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+}
+
+function getSelectedPeople() {
+  const selected = new Set(state.selectedPeople || []);
+
+  if (!state.people.length) {
+    return [];
+  }
+
+  const activePeople = state.people.filter((person, index) => {
+    const id = getPersonId(person, index);
+    return selected.size === 0 || selected.has(id);
+  });
+
+  if (!activePeople.length && state.people.length) {
+    return [...state.people];
+  }
+
+  return activePeople;
+}
+
+function syncSelectedPeople() {
+  const validIds = new Set(
+    state.people.map((person, index) => getPersonId(person, index))
+  );
+
+  state.selectedPeople = (state.selectedPeople || []).filter(id => validIds.has(id));
+
+  if (!state.selectedPeople.length && state.people.length) {
+    state.selectedPeople = state.people.map((person, index) => getPersonId(person, index));
+  }
+}
 
 /*
 ==================================================
@@ -1046,9 +1104,16 @@ STATE SPEICHERN
 
 function saveState() {
 
+  syncSelectedPeople();
+
   localStorage.setItem(
     "los_people",
     JSON.stringify(state.people)
+  );
+
+  localStorage.setItem(
+    "los_selected_people",
+    JSON.stringify(state.selectedPeople)
   );
 
   localStorage.setItem(
@@ -1504,6 +1569,24 @@ HOME
 ==================================================
 */
 
+function toggleSelectedPerson(personId, isChecked) {
+  if (!Array.isArray(state.selectedPeople)) {
+    state.selectedPeople = [];
+  }
+
+  const selected = new Set(state.selectedPeople);
+
+  if (isChecked) {
+    selected.add(personId);
+  } else {
+    selected.delete(personId);
+  }
+
+  state.selectedPeople = [...selected];
+  saveState();
+  renderHome();
+}
+
 function renderHome() {
 
   const container =
@@ -1524,32 +1607,46 @@ function renderHome() {
 
   }
 
+  syncSelectedPeople();
+
   container.innerHTML =
     state.people
-      .map(person => `
+      .map((person, index) => {
+        const personId = getPersonId(person, index);
+        const checked = (state.selectedPeople || []).includes(personId) ? "checked" : "";
 
-        <div class="family-member">
+        return `
 
-          <div>
+          <div class="family-member">
 
-            <strong>
-              ${escapeHTML(person.name)}
-            </strong>
+            <label class="family-member-label">
+              <input
+                class="family-member-checkbox"
+                type="checkbox"
+                ${checked}
+                onchange="toggleSelectedPerson('${personId}', this.checked)"
+              >
 
-            <span class="person-age">
-              ${person.age} Jahre
-            </span>
+              <div>
+                <strong>
+                  ${escapeHTML(person.name)}
+                </strong>
+
+                <span class="person-age">
+                  ${person.age} Jahre
+                </span>
+              </div>
+            </label>
+
+            <i
+              data-lucide="user"
+              class="icon"
+            ></i>
 
           </div>
 
-          <i
-            data-lucide="user"
-            class="icon"
-          ></i>
-
-        </div>
-
-      `)
+        `;
+      })
       .join("");
 
   refreshIcons();
@@ -1666,10 +1763,17 @@ function addPerson() {
 
   }
 
-  state.people.push({
+  const person = {
+    id: `person-${Date.now()}-${Math.random().toString(16).slice(2)}`,
     name: name,
     age: age
-  });
+  };
+
+  state.people.push(person);
+
+  if (!state.selectedPeople.length) {
+    state.selectedPeople = state.people.map((currentPerson, index) => getPersonId(currentPerson, index));
+  }
 
   saveState();
 
@@ -1703,6 +1807,7 @@ function deletePerson(index) {
     1
   );
 
+  syncSelectedPeople();
   saveState();
 
   renderPeople();
@@ -2938,8 +3043,11 @@ function getAgeScore(
   category
 ) {
 
+  const activePeople =
+    getSelectedPeople();
+
   if (
-    !state.people.length
+    !activePeople.length
   ) {
 
     return 3;
@@ -2947,7 +3055,7 @@ function getAgeScore(
   }
 
   const ages =
-    state.people.map(
+    activePeople.map(
       person =>
         person.age
     );
