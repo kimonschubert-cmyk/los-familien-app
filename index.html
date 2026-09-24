@@ -942,53 +942,106 @@ function toggleWeatherSection() {
     return;
   }
 
+  const trimmedLocation =
+    locationInput.value.trim();
   const hasLocation =
-    locationInput.value.trim().length > 0;
+    trimmedLocation.length > 0;
 
   weatherSection.classList.toggle(
     "hidden",
     !hasLocation
   );
 
-  if (hasLocation) {
-    const locationName =
-      locationInput.value.trim();
-
-    const widget =
-      document.getElementById(
-        "weatherWidget"
-      );
-
-    if (widget) {
-      widget.innerHTML = `
-        <div class="weather-sky">
-          <div class="weather-sun"></div>
-          <div class="weather-cloud"></div>
-          <div class="weather-rain"></div>
-          <div class="weather-snow"></div>
-        </div>
-        <div class="weather-content">
-          <div class="weather-temp">
-            <div class="weather-meta">Live</div>
-            <strong>--°</strong>
-            <div class="weather-location">${escapeHTML(locationName)}</div>
-          </div>
-          <div class="weather-small">
-            <div class="weather-pill">Wird geladen…</div>
-            <div>Standort wird geprüft</div>
-          </div>
-        </div>
-      `;
-      widget.classList.remove(
-        "sunny",
-        "cloudy",
-        "rain",
-        "snow",
-        "storm"
-      );
-      widget.classList.add("cloudy");
-    }
+  if (!hasLocation) {
+    return;
   }
+
+  const widget =
+    document.getElementById(
+      "weatherWidget"
+    );
+
+  if (!widget) {
+    return;
+  }
+
+  widget.innerHTML = `
+    <div class="weather-sky">
+      <div class="weather-sun"></div>
+      <div class="weather-cloud"></div>
+      <div class="weather-rain"></div>
+      <div class="weather-snow"></div>
+    </div>
+    <div class="weather-content">
+      <div class="weather-temp">
+        <div class="weather-meta">Live</div>
+        <strong>--°</strong>
+      </div>
+      <div class="weather-small">
+        <div>${escapeHTML(trimmedLocation)}</div>
+        <div class="weather-pill">Wird geladen…</div>
+      </div>
+    </div>
+  `;
+
+  widget.classList.remove(
+    "sunny",
+    "cloudy",
+    "rain",
+    "snow",
+    "storm"
+  );
+  widget.classList.add("cloudy");
+
+  if (window.weatherLookupTimer) {
+    clearTimeout(
+      window.weatherLookupTimer
+    );
+  }
+
+  window.weatherLookupTimer =
+    setTimeout(async () => {
+      try {
+        const geocoded =
+          await geocodeLocation(
+            trimmedLocation
+          );
+
+        searchOrigin =
+          geocoded;
+
+        weatherSection.classList.remove(
+          "hidden"
+        );
+
+        await fetchLiveWeather(
+          geocoded.lat,
+          geocoded.lon,
+          geocoded.name
+        );
+
+      } catch (error) {
+        widget.innerHTML = `
+          <div class="weather-sky">
+            <div class="weather-sun"></div>
+            <div class="weather-cloud"></div>
+            <div class="weather-rain"></div>
+            <div class="weather-snow"></div>
+          </div>
+          <div class="weather-content">
+            <div class="weather-temp">
+              <div class="weather-meta">Live</div>
+              <strong>--°</strong>
+            </div>
+            <div class="weather-small">
+              <div>${escapeHTML(trimmedLocation)}</div>
+              <div class="weather-pill">Wetter nicht verfügbar</div>
+            </div>
+          </div>
+        `;
+        widget.classList.add("cloudy");
+      }
+    }, 350);
 
 }
 
@@ -1104,12 +1157,10 @@ async function fetchLiveWeather(
         <div class="weather-temp">
           <div class="weather-meta">Live</div>
           <strong>${temp}°</strong>
-          <div class="weather-location">${escapeHTML(locationLabel || "Standort")}</div>
         </div>
         <div class="weather-small">
+          <div>${escapeHTML(locationLabel || "Standort")}</div>
           <div class="weather-pill">${conditionLabel}</div>
-          <div>Gefühlt ${feelsLike}°</div>
-          <div>Wind ${wind} km/h</div>
         </div>
       </div>
     `;
@@ -1131,11 +1182,10 @@ async function fetchLiveWeather(
         <div class="weather-temp">
           <div class="weather-meta">Live</div>
           <strong>--°</strong>
-          <div class="weather-location">Wetter nicht verfügbar</div>
         </div>
         <div class="weather-small">
-          <div class="weather-pill">--</div>
-          <div>Bitte später erneut versuchen</div>
+          <div>${escapeHTML(locationLabel || "Standort")}</div>
+          <div class="weather-pill">Wetter nicht verfügbar</div>
         </div>
       </div>
     `;
