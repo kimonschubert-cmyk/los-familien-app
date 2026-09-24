@@ -1442,6 +1442,25 @@ function startOnboardingLocation() {
 
 }
 
+function startOnboardingSettings() {
+
+  pauseOnboarding();
+  showHome();
+
+  const driveSettings =
+    document.querySelector(
+      ".drive-grid"
+    );
+
+  if (driveSettings) {
+    driveSettings.scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
+  }
+
+}
+
 function resumeOnboardingAfterLocation() {
 
   const location =
@@ -1612,17 +1631,17 @@ function renderOnboarding() {
   ) {
     markup = `
       <div class="onboarding-progress">Schritt 3 von 3</div>
-      <h2 id="onboardingTitle">Finde deine Unternehmung</h2>
+      <h2 id="onboardingTitle">Fahrzeit und Budget auswählen</h2>
       <p>
-        Klicke jetzt auf „Aktivitäten finden“. LOS! berücksichtigt Öffnungszeiten,
-        Fahrzeit, Budget, Alter und Geschlecht bei den Vorschlägen.
+        Wähle auf der Startseite zuerst, wie lange du fahren möchtest, und stelle danach dein maximales Budget ein.
+        LOS! berücksichtigt diese Angaben zusammen mit Öffnungszeiten, Alter und Geschlecht.
       </p>
       <div class="onboarding-check">
-        Du erhältst bis zu 3 passende Ergebnisse aus einem Pool von 5 Aktivitäten.
+        Danach kannst du unten auf „Aktivitäten finden“ klicken und erhältst bis zu 3 Ergebnisse aus einem Pool von 5 Aktivitäten.
       </div>
       <div class="onboarding-actions">
         <button class="text-button" onclick="finishOnboarding()">Später</button>
-        <button class="primary" onclick="continueOnboarding()">Aktivitäten finden</button>
+        <button class="primary" onclick="startOnboardingSettings()">Startseite öffnen</button>
       </div>
     `;
   }
