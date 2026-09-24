@@ -977,7 +977,6 @@ function toggleWeatherSection() {
       <div class="weather-temp">
         <strong>--°</strong>
         <div class="weather-location">${escapeHTML(trimmedLocation)}</div>
-        <div class="weather-pill">Wird geladen…</div>
       </div>
     </div>
   `;
@@ -1030,7 +1029,6 @@ function toggleWeatherSection() {
             <div class="weather-temp">
               <strong>--°</strong>
               <div class="weather-location">${escapeHTML(trimmedLocation)}</div>
-              <div class="weather-pill">Wetter nicht verfügbar</div>
             </div>
           </div>
         `;
@@ -1138,9 +1136,6 @@ async function fetchLiveWeather(
 
     setWeather(weatherState);
 
-    const conditionLabel =
-      getWeatherLabel(code);
-
     widget.innerHTML = `
       <div class="weather-sky">
         <div class="weather-sun"></div>
@@ -1152,7 +1147,6 @@ async function fetchLiveWeather(
         <div class="weather-temp">
           <strong>${temp}°</strong>
           <div class="weather-location">${escapeHTML(locationLabel || "Standort")}</div>
-          <div class="weather-pill">${conditionLabel}</div>
         </div>
       </div>
     `;
@@ -1174,7 +1168,6 @@ async function fetchLiveWeather(
         <div class="weather-temp">
           <strong>--°</strong>
           <div class="weather-location">${escapeHTML(locationLabel || "Standort")}</div>
-          <div class="weather-pill">Wetter nicht verfügbar</div>
         </div>
       </div>
     `;
