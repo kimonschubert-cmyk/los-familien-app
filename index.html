@@ -746,6 +746,48 @@ button .icon {
   color: #1f2937;
 }
 
+.app-rating {
+  margin-bottom: 16px;
+  padding: 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.app-rating-title {
+  display: block;
+  margin-bottom: 6px;
+  color: #1f2937;
+  font-weight: 800;
+}
+
+.rating-stars {
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+}
+
+.rating-star {
+  padding: 2px 5px;
+  background: transparent;
+  color: #d1d5db;
+  font-size: 28px;
+  line-height: 1;
+}
+
+.rating-star.active,
+.rating-star:hover,
+.rating-star:focus-visible {
+  color: #f59e0b;
+}
+
+.rating-average {
+  margin-top: 7px;
+  color: #166534;
+  font-size: 13px;
+  font-weight: 700;
+}
+
 .discount-box {
   margin-top: 12px;
   padding: 12px;
@@ -1194,11 +1236,39 @@ button .icon {
 </main>
 
 <footer
-  id="deviceUsage"
   class="device-usage"
-  aria-live="polite"
 >
-  Verschiedene Endgeräte: wird geladen ...
+  <div
+    id="appRating"
+    class="app-rating"
+  >
+    <strong class="app-rating-title">Bewertung der App</strong>
+
+    <div
+      class="rating-stars"
+      role="group"
+      aria-label="App bewerten"
+    >
+      <button class="rating-star" type="button" data-rating="1" onclick="submitAppRating(1)" aria-label="1 Stern">★</button>
+      <button class="rating-star" type="button" data-rating="2" onclick="submitAppRating(2)" aria-label="2 Sterne">★</button>
+      <button class="rating-star" type="button" data-rating="3" onclick="submitAppRating(3)" aria-label="3 Sterne">★</button>
+      <button class="rating-star" type="button" data-rating="4" onclick="submitAppRating(4)" aria-label="4 Sterne">★</button>
+      <button class="rating-star" type="button" data-rating="5" onclick="submitAppRating(5)" aria-label="5 Sterne">★</button>
+    </div>
+
+    <div
+      id="appRatingAverage"
+      class="rating-average"
+      aria-live="polite"
+    >
+      Noch keine Bewertungen vorhanden.
+    </div>
+  </div>
+
+  <div id="deviceUsageCount" aria-live="polite">
+    Verschiedene Endgeräte: wird geladen ...
+  </div>
+
   <div class="onboarding-credit">
     Konzeption &amp; Entwicklung: Kimon
   </div>
@@ -1226,6 +1296,8 @@ const DISCOUNT_API_URL =
 
 const USAGE_API_URL =
   "/api/usage";
+
+let currentDeviceRating = null;
 
 /*
 ==================================================
@@ -1368,7 +1440,7 @@ async function loadDeviceUsage() {
 
   const display =
     document.getElementById(
-      "deviceUsage"
+      "deviceUsageCount"
     );
 
   if (!display) {
@@ -1402,11 +1474,123 @@ async function loadDeviceUsage() {
       );
     }
 
+    currentDeviceRating =
+      Number.isInteger(data.rating) &&
+      data.rating >= 1 &&
+      data.rating <= 5
+        ? data.rating
+        : null;
+
+    renderRatingStars();
+    renderRatingAverage(data.average);
+
     display.innerHTML =
       `Verschiedene Endgeräte: <strong>${data.count}</strong>`;
   } catch (error) {
     display.textContent =
       "Verschiedene Endgeräte: derzeit nicht verfügbar";
+  }
+
+}
+
+function renderRatingStars() {
+
+  document
+    .querySelectorAll(".rating-star")
+    .forEach(star => {
+      const rating =
+        Number(star.dataset.rating);
+
+      star.classList.toggle(
+        "active",
+        currentDeviceRating !== null &&
+          rating <= currentDeviceRating
+      );
+    });
+
+}
+
+function renderRatingAverage(
+  average
+) {
+
+  const display =
+    document.getElementById(
+      "appRatingAverage"
+    );
+
+  if (!display) {
+    return;
+  }
+
+  display.textContent =
+    typeof average === "number"
+      ? `Durchschnitt: ${average.toFixed(2).replace(".", ",")} von 5`
+      : "Noch keine Bewertungen vorhanden.";
+
+}
+
+async function submitAppRating(
+  rating
+) {
+
+  if (
+    !Number.isInteger(rating) ||
+    rating < 1 ||
+    rating > 5
+  ) {
+    return;
+  }
+
+  currentDeviceRating = rating;
+  renderRatingStars();
+
+  try {
+    const response =
+      await fetch(
+        USAGE_API_URL,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            deviceId: getDeviceId(),
+            rating
+          })
+        }
+      );
+
+    const data =
+      await response.json();
+
+    if (
+      !response.ok ||
+      typeof data.average !== "number"
+    ) {
+      throw new Error(
+        "Bewertung konnte nicht gespeichert werden"
+      );
+    }
+
+    renderRatingAverage(
+      data.average
+    );
+
+    const usageDisplay =
+      document.getElementById(
+        "deviceUsageCount"
+      );
+
+    if (
+      usageDisplay &&
+      typeof data.count === "number"
+    ) {
+      usageDisplay.innerHTML =
+        `Verschiedene Endgeräte: <strong>${data.count}</strong>`;
+    }
+  } catch (error) {
+    renderRatingAverage(null);
   }
 
 }
