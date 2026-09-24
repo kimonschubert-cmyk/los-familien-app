@@ -1025,6 +1025,18 @@ button .icon {
       Hinzufügen
     </button>
 
+    <div
+      id="onboardingFamilyNext"
+      class="hidden"
+    >
+      <button
+        class="primary"
+        onclick="continueOnboarding()"
+      >
+        Weiter zu Schritt 2 von 3
+      </button>
+    </div>
+
     <br><br>
 
     <button
@@ -2123,6 +2135,7 @@ function renderHome() {
       </div>
     `;
 
+    updateOnboardingFamilyAction();
     refreshIcons();
     return;
 
@@ -2195,6 +2208,7 @@ function renderPeople() {
       </div>
     `;
 
+    updateOnboardingFamilyAction();
     refreshIcons();
     return;
 
@@ -2241,7 +2255,26 @@ function renderPeople() {
       `
     ).join("");
 
+  updateOnboardingFamilyAction();
   refreshIcons();
+
+}
+
+function updateOnboardingFamilyAction() {
+
+  const action =
+    document.getElementById(
+      "onboardingFamilyNext"
+    );
+
+  if (!action) {
+    return;
+  }
+
+  action.classList.toggle(
+    "hidden",
+    onboardingStep !== 1 || !state.people.length
+  );
 
 }
 
@@ -2326,7 +2359,6 @@ function addPerson() {
 
   renderPeople();
   renderHome();
-  resumeOnboardingAfterFamily();
 
 }
 
