@@ -974,11 +974,8 @@ function toggleWeatherSection() {
     </div>
     <div class="weather-content">
       <div class="weather-temp">
-        <div class="weather-meta">Live</div>
         <strong>--°</strong>
-      </div>
-      <div class="weather-small">
-        <div>${escapeHTML(trimmedLocation)}</div>
+        <div class="weather-location">${escapeHTML(trimmedLocation)}</div>
         <div class="weather-pill">Wird geladen…</div>
       </div>
     </div>
@@ -1030,11 +1027,8 @@ function toggleWeatherSection() {
           </div>
           <div class="weather-content">
             <div class="weather-temp">
-              <div class="weather-meta">Live</div>
               <strong>--°</strong>
-            </div>
-            <div class="weather-small">
-              <div>${escapeHTML(trimmedLocation)}</div>
+              <div class="weather-location">${escapeHTML(trimmedLocation)}</div>
               <div class="weather-pill">Wetter nicht verfügbar</div>
             </div>
           </div>
@@ -1155,11 +1149,8 @@ async function fetchLiveWeather(
       </div>
       <div class="weather-content">
         <div class="weather-temp">
-          <div class="weather-meta">Live</div>
           <strong>${temp}°</strong>
-        </div>
-        <div class="weather-small">
-          <div>${escapeHTML(locationLabel || "Standort")}</div>
+          <div class="weather-location">${escapeHTML(locationLabel || "Standort")}</div>
           <div class="weather-pill">${conditionLabel}</div>
         </div>
       </div>
@@ -1180,11 +1171,8 @@ async function fetchLiveWeather(
     widget.innerHTML = `
       <div class="weather-content">
         <div class="weather-temp">
-          <div class="weather-meta">Live</div>
           <strong>--°</strong>
-        </div>
-        <div class="weather-small">
-          <div>${escapeHTML(locationLabel || "Standort")}</div>
+          <div class="weather-location">${escapeHTML(locationLabel || "Standort")}</div>
           <div class="weather-pill">Wetter nicht verfügbar</div>
         </div>
       </div>
