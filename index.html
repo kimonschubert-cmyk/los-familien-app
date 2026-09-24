@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LOS! – Familien-App für Freizeit &amp; Aktivitäten</title>
+<meta name="theme-color" content="#ffffff">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="LOS!">
+<link rel="manifest" href="/manifest.json">
 <script src="https://unpkg.com/lucide@latest"></script>
 
 <style>
@@ -5866,6 +5871,34 @@ START
 */
 
 window.currentActivities = [];
+
+if (
+  "serviceWorker" in navigator
+) {
+  window.addEventListener(
+    "load",
+    () => {
+      navigator.serviceWorker
+        .register(
+          "/sw.js",
+          {
+            updateViaCache: "none"
+          }
+        )
+        .then(
+          registration =>
+            registration.update()
+        )
+        .catch(
+          error =>
+            console.warn(
+              "App-Update nicht verfügbar:",
+              error
+            )
+        );
+    }
+  );
+}
 
 document.addEventListener(
   "DOMContentLoaded",
