@@ -2250,7 +2250,8 @@ async function searchActivities() {
       "Schwimmbäder Thermen Freizeitparks Funparks " +
       "Erlebnisparks Kletterparks Spielplätze Parks " +
       "Eisdielen Schlittschuhbahnen Kinos Reiterhöfe " +
-      "Familienattraktionen in " +
+      "Reithallen Reitvereine Spas Wellness " +
+      "Familienaktivitäten in " +
       location;
 
     const response =
@@ -2525,12 +2526,97 @@ function isAvailableForSearch(
 
 }
 
+function isAllowedActivityPlace(
+  place
+) {
+
+  const name =
+    place.displayName?.text ||
+    "";
+
+  const normalizedName =
+    name.toLowerCase();
+
+  const blockedTerms = [
+    "restaurant",
+    "gaststätte",
+    "gasthof",
+    "hotel",
+    "hostel",
+    "pension",
+    "motel",
+    "ferienwohnung",
+    "ferienhaus",
+    "unterkunft",
+    "imbiss"
+  ];
+
+  if (
+    blockedTerms.some(
+      term => normalizedName.includes(term)
+    )
+  ) {
+    return false;
+  }
+
+  const category =
+    guessCategory(
+      name
+    );
+
+  const allowedCategories = [
+    "Eisdiele",
+    "Schwimmbad",
+    "Reiten",
+    "Freizeit",
+    "Park",
+    "Spielplatz",
+    "Klettergarten",
+    "Schlittschuhbahn",
+    "Kino",
+    "Zoo",
+    "Museum",
+    "Spa"
+  ];
+
+  if (!allowedCategories.includes(category)) {
+    return false;
+  }
+
+  if (category === "Reiten") {
+    const publicRidingTerms = [
+      "reithalle",
+      "reitverein",
+      "reithof",
+      "reitzentrum",
+      "reitbetrieb",
+      "reitunterricht",
+      "reitangebot",
+      "ponyhof",
+      "ponyreiten"
+    ];
+
+    return publicRidingTerms.some(
+      term => normalizedName.includes(term)
+    );
+  }
+
+  return true;
+
+}
+
 async function processResults(
   results
 ) {
 
   const candidates =
     results
+      .filter(
+        place =>
+          isAllowedActivityPlace(
+            place
+          )
+      )
       .filter(
         place =>
           isAvailableForSearch(
@@ -3147,6 +3233,13 @@ function guessCategory(
     n.includes("therme")
   ) {
     return "Schwimmbad";
+  }
+
+  if (
+    n.includes("spa") ||
+    n.includes("wellness")
+  ) {
+    return "Spa";
   }
 
   if (
@@ -4063,6 +4156,9 @@ function getCategoryIcon(
 
     "Eisdiele":
       "ice-cream",
+
+    "Spa":
+      "sparkles",
 
     "Schwimmbad":
       "waves",
