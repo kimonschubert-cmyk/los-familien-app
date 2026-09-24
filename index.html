@@ -4123,7 +4123,26 @@ function isKidFriendlyCategory(category) {
   ].includes(category);
 }
 
+function isAgeIndependentCategory(category) {
+  return [
+    "Spielplatz",
+    "Park",
+    "Freizeit",
+    "Zoo",
+    "Schwimmbad",
+    "Kino",
+    "Eisdiele",
+    "Schlittschuhbahn",
+    "Museum",
+    "Spa"
+  ].includes(category);
+}
+
 function getGenderFitScore(category, selectedPeople) {
+  if (isAgeIndependentCategory(category)) {
+    return 0;
+  }
+
   if (!Array.isArray(selectedPeople) || !selectedPeople.length) {
     return 0;
   }
@@ -4277,6 +4296,10 @@ ALTER SCORE
 function getAgeScore(
   category
 ) {
+
+  if (isAgeIndependentCategory(category)) {
+    return 4;
+  }
 
   const activePeople =
     getSelectedPeople();
