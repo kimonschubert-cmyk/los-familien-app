@@ -246,7 +246,9 @@ button .icon {
 .weather-sun,
 .weather-cloud,
 .weather-rain,
-.weather-snow {
+.weather-snow,
+.weather-moon,
+.weather-stars {
   position: absolute;
   opacity: 0;
   transition: opacity 0.35s ease;
@@ -256,6 +258,8 @@ button .icon {
 .weather-widget.cloudy .weather-cloud,
 .weather-widget.rain .weather-rain,
 .weather-widget.snow .weather-snow,
+.weather-widget.night .weather-moon,
+.weather-widget.night .weather-stars,
 .weather-widget.storm .weather-cloud,
 .weather-widget.storm .weather-rain {
   opacity: 1;
@@ -296,6 +300,52 @@ button .icon {
     radial-gradient(circle at 85% 35%, rgba(255,255,255,0.9) 0 2px, transparent 2px);
   background-size: 110px 110px;
   animation: snowShift 2s linear infinite;
+}
+
+.weather-moon {
+  width: 66px;
+  height: 66px;
+  right: 14px;
+  top: 10px;
+  border-radius: 50%;
+  background: #fff7c2;
+  box-shadow: 0 0 22px rgba(255, 247, 194, 0.75);
+}
+
+.weather-moon::after {
+  content: "";
+  position: absolute;
+  width: 66px;
+  height: 66px;
+  left: -17px;
+  top: -8px;
+  border-radius: 50%;
+  background: #263453;
+}
+
+.weather-stars {
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 18% 28%, #fff 0 1px, transparent 2px),
+    radial-gradient(circle at 42% 18%, #fff 0 1px, transparent 2px),
+    radial-gradient(circle at 72% 34%, #fff 0 1px, transparent 2px),
+    radial-gradient(circle at 86% 16%, #fff 0 1px, transparent 2px),
+    radial-gradient(circle at 58% 58%, #fff 0 1px, transparent 2px);
+  animation: starsTwinkle 2.8s ease-in-out infinite alternate;
+}
+
+.weather-widget.night {
+  background: linear-gradient(180deg, #172342 0%, #263453 48%, #53627f 100%);
+  color: #f8fafc;
+}
+
+.weather-widget.night .weather-location {
+  color: rgba(248, 250, 252, 0.82);
+}
+
+@keyframes starsTwinkle {
+  from { opacity: 0.55; }
+  to { opacity: 1; }
 }
 
 @keyframes pulseSun {
@@ -693,6 +743,8 @@ button .icon {
             <div class="weather-cloud"></div>
             <div class="weather-rain"></div>
             <div class="weather-snow"></div>
+            <div class="weather-moon"></div>
+            <div class="weather-stars"></div>
           </div>
         </div>
       </div>
@@ -1251,6 +1303,8 @@ function toggleWeatherSection() {
               <div class="weather-cloud"></div>
               <div class="weather-rain"></div>
               <div class="weather-snow"></div>
+              <div class="weather-moon"></div>
+              <div class="weather-stars"></div>
             </div>
           </div>
         `;
@@ -1262,7 +1316,8 @@ function toggleWeatherSection() {
 
 function setWeather(
   weather,
-  button = null
+  button = null,
+  isNight = false
 ) {
 
   state.weather = weather;
@@ -1278,11 +1333,13 @@ function setWeather(
       "cloudy",
       "rain",
       "snow",
-      "storm"
+      "storm",
+      "night"
     );
     widget.classList.add(
       weather
     );
+    widget.classList.toggle("night", isNight);
   }
 
   if (button) {
@@ -1319,7 +1376,7 @@ async function fetchLiveWeather(
       encodeURIComponent(latitude) +
       "&longitude=" +
       encodeURIComponent(longitude) +
-      "&current=temperature_2m,apparent_temperature,weather_code,relative_humidity_2m,wind_speed_10m" +
+      "&current=temperature_2m,apparent_temperature,weather_code,is_day,relative_humidity_2m,wind_speed_10m" +
       "&timezone=auto" +
       "&forecast_days=1";
 
@@ -1340,6 +1397,8 @@ async function fetchLiveWeather(
 
     const code =
       Number(current.weather_code || 0);
+    const isNight =
+      Number(current.is_day) === 0;
     const temp =
       Math.round(
         Number(current.temperature_2m || 0)
@@ -1356,7 +1415,11 @@ async function fetchLiveWeather(
     const weatherState =
       getWeatherStateFromCode(code);
 
-    setWeather(weatherState);
+    setWeather(
+      weatherState,
+      null,
+      isNight
+    );
 
     widget.innerHTML = `
       <div class="weather-sky"></div>
@@ -1370,6 +1433,8 @@ async function fetchLiveWeather(
           <div class="weather-cloud"></div>
           <div class="weather-rain"></div>
           <div class="weather-snow"></div>
+          <div class="weather-moon"></div>
+          <div class="weather-stars"></div>
         </div>
       </div>
     `;
@@ -1397,6 +1462,8 @@ async function fetchLiveWeather(
           <div class="weather-cloud"></div>
           <div class="weather-rain"></div>
           <div class="weather-snow"></div>
+          <div class="weather-moon"></div>
+          <div class="weather-stars"></div>
         </div>
       </div>
     `;
@@ -1632,7 +1699,6 @@ function renderHome() {
       .map((person, index) => {
         const personId = getPersonId(person, index);
         const checked = (state.selectedPeople || []).includes(personId) ? "checked" : "";
-        const genderLabel = getGenderLabel(person.gender);
 
         return `
 
@@ -1652,7 +1718,7 @@ function renderHome() {
                 </strong>
 
                 <span class="person-age">
-                  ${person.age} Jahre · ${genderLabel}
+                  ${person.age} Jahre
                 </span>
               </div>
             </label>
@@ -1711,7 +1777,7 @@ function renderPeople() {
             </strong>
 
             <span>
-              ${person.age} Jahre · ${getGenderLabel(person.gender)}
+              ${person.age} Jahre
             </span>
 
           </div>
