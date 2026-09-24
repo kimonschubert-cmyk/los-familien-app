@@ -2502,27 +2502,66 @@ function isCurrentlyOpen(
 
 }
 
-function isAvailableForSearch(
+function hasEnoughOpeningTime(
   place
 ) {
-
-  if (
-    place.businessStatus ===
-      "CLOSED_PERMANENTLY" ||
-    place.businessStatus ===
-      "CLOSED_TEMPORARILY"
-  ) {
-
-    return false;
-
-  }
 
   const openingHours =
     getOpeningHours(
       place
     );
 
-  return openingHours?.openNow !== false;
+  const periods =
+    openingHours?.periods;
+
+  if (
+    !Array.isArray(periods) ||
+    !periods.length ||
+    typeof place.driveMinutes !== "number"
+  ) {
+    return true;
+  }
+
+  const now =
+    new Date();
+
+  const currentDay =
+    now.getDay();
+
+  const currentMinutes =
+    now.getHours() * 60 +
+    now.getMinutes();
+
+  const currentPeriod =
+    periods.find(
+      period =>
+        period.open?.day === currentDay &&
+        period.close
+    );
+
+  if (!currentPeriod) {
+    return true;
+  }
+
+  const closeDay =
+    typeof currentPeriod.close.day === "number"
+      ? currentPeriod.close.day
+      : currentDay;
+
+  let closeMinutes =
+    Number(currentPeriod.close.hour || 0) * 60 +
+    Number(currentPeriod.close.minute || 0);
+
+  if (closeDay !== currentDay) {
+    closeMinutes += 24 * 60;
+  }
+
+  const requiredMinutes =
+    currentMinutes +
+    place.driveMinutes +
+    60;
+
+  return closeMinutes >= requiredMinutes;
 
 }
 
@@ -2609,7 +2648,7 @@ async function processResults(
   results
 ) {
 
-  const candidates =
+  let candidates =
     results
       .filter(
         place =>
@@ -2619,7 +2658,7 @@ async function processResults(
       )
       .filter(
         place =>
-          isAvailableForSearch(
+          isCurrentlyOpen(
             place
           )
       )
@@ -2755,6 +2794,18 @@ async function processResults(
 
   }
 
+  candidates =
+    candidates.filter(
+      place =>
+        hasEnoughOpeningTime(
+          place
+        )
+    );
+
+  if (!candidates.length) {
+    return [];
+  }
+
   /*
   ================================================
   INTELLIGENTE BEWERTUNG
@@ -2832,9 +2883,7 @@ async function processResults(
     );
 
   const pool =
-    withinRange.length
-      ? withinRange
-      : scored;
+    withinRange;
 
   /*
   ================================================
@@ -2848,50 +2897,35 @@ async function processResults(
       a.totalScore
   );
 
-  const rotatingPool =
-    pool
-      .slice(
-        0,
-        Math.min(
-          5,
-          pool.length
-        )
-      )
-      .sort(
-        () =>
-          Math.random() - 0.5
-      );
-
-  const freshPool =
-    rotatingPool.filter(
+  let unusedPool =
+    pool.filter(
       place =>
         !lastActivityIds.includes(
           place.id
         )
     );
 
-  const candidatePool =
-    freshPool.length >= 3
-      ? freshPool
-      : pool
-          .filter(
-            place =>
-              !lastActivityIds.includes(
-                place.id
-              )
-          )
-          .slice(
-            0,
-            5
-          );
+  if (
+    unusedPool.length < 5 &&
+    pool.length >= 5
+  ) {
+    lastActivityIds = [];
+    unusedPool = [...pool];
+  }
+
+  const activityPool =
+    unusedPool
+      .slice(
+        0,
+        5
+      )
+      .sort(
+        () =>
+          Math.random() - 0.5
+      );
 
   const finalCandidates =
-    candidatePool.length >= 3
-      ? candidatePool
-      : pool.slice(
-          0,
-          5
-        );
+    activityPool;
 
   /*
   ================================================
@@ -2945,7 +2979,7 @@ async function processResults(
   lastActivityIds = [
     ...new Set([
       ...lastActivityIds,
-      ...enforcedSelection.map(
+      ...activityPool.map(
         place =>
           place.id
       )
