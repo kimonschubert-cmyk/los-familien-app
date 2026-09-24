@@ -161,6 +161,147 @@ button .icon {
   margin-right: 7px;
 }
 
+.weather-widget {
+  position: relative;
+  overflow: hidden;
+  min-height: 190px;
+  border-radius: 22px;
+  padding: 18px 16px 14px;
+  margin-bottom: 18px;
+  background: linear-gradient(180deg, #6ec6ff 0%, #a8d8ff 28%, #f5f7ff 100%);
+  color: #0f172a;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.28), 0 10px 25px rgba(59,130,246,0.18);
+}
+
+.weather-widget.rain {
+  background: linear-gradient(180deg, #5d7cbd 0%, #88a4d4 30%, #dfeaf9 100%);
+}
+
+.weather-widget.cloudy {
+  background: linear-gradient(180deg, #b8c6d8 0%, #dfe9f5 35%, #f4f7fb 100%);
+}
+
+.weather-widget.snow {
+  background: linear-gradient(180deg, #b6d6ff 0%, #dfeeff 30%, #eef7ff 100%);
+}
+
+.weather-widget.storm {
+  background: linear-gradient(180deg, #3d4d73 0%, #5a6888 30%, #dfe7f7 100%);
+}
+
+.weather-sky {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.weather-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  height: 100%;
+}
+
+.weather-temp {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.weather-temp strong {
+  font-size: 52px;
+  line-height: 1;
+  letter-spacing: -0.06em;
+  font-weight: 800;
+}
+
+.weather-location {
+  font-size: 13px;
+  font-weight: 700;
+  color: rgba(15, 23, 42, 0.8);
+}
+
+.weather-visual {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  flex-shrink: 0;
+}
+
+.weather-sun,
+.weather-cloud,
+.weather-rain,
+.weather-snow {
+  position: absolute;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.weather-widget.sunny .weather-sun,
+.weather-widget.cloudy .weather-cloud,
+.weather-widget.rain .weather-rain,
+.weather-widget.snow .weather-snow,
+.weather-widget.storm .weather-cloud,
+.weather-widget.storm .weather-rain {
+  opacity: 1;
+}
+
+.weather-sun {
+  width: 78px;
+  height: 78px;
+  right: 6px;
+  top: 6px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff9c7 0%, #ffe082 38%, #ffbf00 100%);
+  box-shadow: 0 0 25px rgba(255, 192, 0, 0.7);
+  animation: pulseSun 3s ease-in-out infinite;
+}
+
+.weather-cloud {
+  width: 82px;
+  height: 30px;
+  left: 4px;
+  top: 24px;
+  background: rgba(255,255,255,0.8);
+  border-radius: 999px;
+  box-shadow: 20px 0 0 rgba(255,255,255,0.7), 40px 8px 0 rgba(255,255,255,0.6);
+}
+
+.weather-rain {
+  inset: 0;
+  background-image: linear-gradient(to bottom, transparent 0 58%, rgba(96,165,250,0.8) 58% 64%, transparent 64% 100%);
+  background-size: 100% 26px;
+  animation: rainShift 1.2s linear infinite;
+}
+
+.weather-snow {
+  inset: 0;
+  background-image: radial-gradient(circle at 25% 30%, rgba(255,255,255,0.9) 0 2px, transparent 2px),
+    radial-gradient(circle at 55% 70%, rgba(255,255,255,0.7) 0 2px, transparent 2px),
+    radial-gradient(circle at 85% 35%, rgba(255,255,255,0.9) 0 2px, transparent 2px);
+  background-size: 110px 110px;
+  animation: snowShift 2s linear infinite;
+}
+
+@keyframes pulseSun {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+@keyframes rainShift {
+  0% { transform: translateY(-8px); }
+  100% { transform: translateY(10px); }
+}
+
+@keyframes snowShift {
+  0% { transform: translateY(-8px) translateX(0); }
+  100% { transform: translateY(10px) translateX(10px); }
+}
+
 .hidden {
   display: none !important;
 }
@@ -514,21 +655,17 @@ button .icon {
       </div>
 
       <div id="weatherWidget" class="weather-widget sunny" aria-live="polite">
-        <div class="weather-sky">
-          <div class="weather-sun"></div>
-          <div class="weather-cloud"></div>
-          <div class="weather-rain"></div>
-          <div class="weather-snow"></div>
-        </div>
+        <div class="weather-sky"></div>
         <div class="weather-content">
           <div class="weather-temp">
-            <div class="weather-meta">Live</div>
             <strong>--°</strong>
             <div class="weather-location">Standort wird geladen…</div>
           </div>
-          <div class="weather-small">
-            <div class="weather-pill">--</div>
-            <div>Wind -- km/h</div>
+          <div class="weather-visual">
+            <div class="weather-sun"></div>
+            <div class="weather-cloud"></div>
+            <div class="weather-rain"></div>
+            <div class="weather-snow"></div>
           </div>
         </div>
       </div>
@@ -967,16 +1104,17 @@ function toggleWeatherSection() {
   }
 
   widget.innerHTML = `
-    <div class="weather-sky">
-      <div class="weather-sun"></div>
-      <div class="weather-cloud"></div>
-      <div class="weather-rain"></div>
-      <div class="weather-snow"></div>
-    </div>
+    <div class="weather-sky"></div>
     <div class="weather-content">
       <div class="weather-temp">
         <strong>--°</strong>
         <div class="weather-location">${escapeHTML(trimmedLocation)}</div>
+      </div>
+      <div class="weather-visual">
+        <div class="weather-sun"></div>
+        <div class="weather-cloud"></div>
+        <div class="weather-rain"></div>
+        <div class="weather-snow"></div>
       </div>
     </div>
   `;
@@ -1019,16 +1157,17 @@ function toggleWeatherSection() {
 
       } catch (error) {
         widget.innerHTML = `
-          <div class="weather-sky">
-            <div class="weather-sun"></div>
-            <div class="weather-cloud"></div>
-            <div class="weather-rain"></div>
-            <div class="weather-snow"></div>
-          </div>
+          <div class="weather-sky"></div>
           <div class="weather-content">
             <div class="weather-temp">
               <strong>--°</strong>
               <div class="weather-location">${escapeHTML(trimmedLocation)}</div>
+            </div>
+            <div class="weather-visual">
+              <div class="weather-sun"></div>
+              <div class="weather-cloud"></div>
+              <div class="weather-rain"></div>
+              <div class="weather-snow"></div>
             </div>
           </div>
         `;
@@ -1137,16 +1276,17 @@ async function fetchLiveWeather(
     setWeather(weatherState);
 
     widget.innerHTML = `
-      <div class="weather-sky">
-        <div class="weather-sun"></div>
-        <div class="weather-cloud"></div>
-        <div class="weather-rain"></div>
-        <div class="weather-snow"></div>
-      </div>
+      <div class="weather-sky"></div>
       <div class="weather-content">
         <div class="weather-temp">
           <strong>${temp}°</strong>
           <div class="weather-location">${escapeHTML(locationLabel || "Standort")}</div>
+        </div>
+        <div class="weather-visual">
+          <div class="weather-sun"></div>
+          <div class="weather-cloud"></div>
+          <div class="weather-rain"></div>
+          <div class="weather-snow"></div>
         </div>
       </div>
     `;
@@ -1168,6 +1308,12 @@ async function fetchLiveWeather(
         <div class="weather-temp">
           <strong>--°</strong>
           <div class="weather-location">${escapeHTML(locationLabel || "Standort")}</div>
+        </div>
+        <div class="weather-visual">
+          <div class="weather-sun"></div>
+          <div class="weather-cloud"></div>
+          <div class="weather-rain"></div>
+          <div class="weather-snow"></div>
         </div>
       </div>
     `;
