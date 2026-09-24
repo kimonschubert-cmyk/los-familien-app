@@ -633,6 +633,19 @@ button .icon {
   line-height: 1.5;
 }
 
+.device-usage {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0 16px 24px;
+  color: #6b7280;
+  text-align: center;
+  font-size: 12px;
+}
+
+.device-usage strong {
+  color: #1f2937;
+}
+
 .discount-box {
   margin-top: 12px;
   padding: 12px;
@@ -1065,6 +1078,14 @@ button .icon {
 
 </main>
 
+<footer
+  id="deviceUsage"
+  class="device-usage"
+  aria-live="polite"
+>
+  Verschiedene Endgeräte: wird geladen ...
+</footer>
+
 <script>
 
 const GOOGLE_API_URL =
@@ -1072,6 +1093,9 @@ const GOOGLE_API_URL =
 
 const DISCOUNT_API_URL =
   "https://los-familien-app.vercel.app/api/discounts";
+
+const USAGE_API_URL =
+  "/api/usage";
 
 /*
 ==================================================
@@ -1162,6 +1186,78 @@ function refreshIcons() {
 
   if (window.lucide) {
     lucide.createIcons();
+  }
+
+}
+
+function getDeviceId() {
+
+  const storageKey =
+    "los_anonymous_device_id";
+
+  let deviceId =
+    localStorage.getItem(
+      storageKey
+    );
+
+  if (!deviceId) {
+    deviceId =
+      window.crypto?.randomUUID?.() ||
+      `device-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+
+    localStorage.setItem(
+      storageKey,
+      deviceId
+    );
+  }
+
+  return deviceId;
+
+}
+
+async function loadDeviceUsage() {
+
+  const display =
+    document.getElementById(
+      "deviceUsage"
+    );
+
+  if (!display) {
+    return;
+  }
+
+  try {
+    const response =
+      await fetch(
+        USAGE_API_URL,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            deviceId: getDeviceId()
+          })
+        }
+      );
+
+    const data =
+      await response.json();
+
+    if (
+      !response.ok ||
+      typeof data.count !== "number"
+    ) {
+      throw new Error(
+        "Gerätezahl nicht verfügbar"
+      );
+    }
+
+    display.innerHTML =
+      `Verschiedene Endgeräte: <strong>${data.count}</strong>`;
+  } catch (error) {
+    display.textContent =
+      "Verschiedene Endgeräte: derzeit nicht verfügbar";
   }
 
 }
@@ -4742,6 +4838,7 @@ document.addEventListener(
 
     renderHome();
     refreshIcons();
+    loadDeviceUsage();
 
   }
 );
