@@ -1247,24 +1247,43 @@ APP STATE
 ==================================================
 */
 
+function getStoredArray(
+  key
+) {
+
+  try {
+    const value =
+      JSON.parse(
+        localStorage.getItem(key) || "[]"
+      );
+
+    return Array.isArray(value)
+      ? value
+      : [];
+  } catch (error) {
+    return [];
+  }
+
+}
+
 let state = {
   weather: "sunny",
   driveTime: 30,
   maxBudget: 250,
 
-  people: JSON.parse(
-    localStorage.getItem("los_people") || "[]"
+  people: getStoredArray(
+    "los_people"
   ).map((person, index) => ({
     ...person,
     id: person.id || `person-${index}-${Date.now()}-${Math.random().toString(16).slice(2)}`
   })),
 
-  selectedPeople: JSON.parse(
-    localStorage.getItem("los_selected_people") || "[]"
+  selectedPeople: getStoredArray(
+    "los_selected_people"
   ),
 
-  lists: JSON.parse(
-    localStorage.getItem("los_lists") || "[]"
+  lists: getStoredArray(
+    "los_lists"
   ),
 
   checklist: [],
