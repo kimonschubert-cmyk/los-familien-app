@@ -569,6 +569,29 @@ button .icon {
   flex: 0 0 auto;
 }
 
+.activity-list-choice {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 10px;
+  color: #166534;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.activity-list-choice input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: #166534;
+}
+
+.generated-list-badge {
+  color: #166534;
+  font-size: 12px;
+  font-weight: 700;
+}
+
 .result-meta {
   display: flex;
   flex-wrap: wrap;
@@ -963,6 +986,8 @@ button .icon {
       <i data-lucide="list" class="icon"></i>
       <h2>Meine Listen</h2>
     </div>
+
+      <div id="homeListsContainer"></div>
 
     <p>
       Eigene Checklisten und Listen für die Familie.
@@ -4358,6 +4383,238 @@ ERGEBNISSE ANZEIGEN
 ==================================================
 */
 
+const ACTIVITY_LIST_LIFETIME_MS =
+  48 * 60 * 60 * 1000;
+
+function cleanupExpiredActivityLists() {
+
+  const now = Date.now();
+  const originalLength = state.lists.length;
+
+  state.lists = state.lists.filter(
+    list =>
+      !list.generated ||
+      !list.expiresAt ||
+      Number(list.expiresAt) > now
+  );
+
+  if (state.lists.length !== originalLength) {
+    saveState();
+  }
+
+}
+
+function isActivityListCreated(
+  activityId
+) {
+
+  cleanupExpiredActivityLists();
+
+  return state.lists.some(
+    list =>
+      list.generated &&
+      list.activityId === activityId
+  );
+
+}
+
+function getChecklistItemsForActivity(
+  activity
+) {
+
+  const category =
+    activity.category ||
+    "";
+
+  const commonItems = [
+    "Trinkflaschen",
+    "Handy und Geld/Karte"
+  ];
+
+  const categoryItems = {
+    "Schwimmbad": [
+      "Badesachen",
+      "Handtücher",
+      "Badeschuhe",
+      "Wechselkleidung",
+      "Schwimmwindel bei Bedarf"
+    ],
+    "Zoo": [
+      "Decke",
+      "Kinderwagen oder Trage",
+      "Snacks",
+      "Sonnen- oder Regenschutz"
+    ],
+    "Park": [
+      "Decke",
+      "Snacks",
+      "Sonnencreme",
+      "Ball oder Spielzeug",
+      "Sonnen- oder Regenschutz"
+    ],
+    "Spielplatz": [
+      "Snacks",
+      "Sonnencreme",
+      "Wechselkleidung",
+      "Ball oder Spielzeug"
+    ],
+    "Eisdiele": [
+      "Geld/Karte",
+      "Taschentücher",
+      "Sonnenbrillen"
+    ],
+    "Reiten": [
+      "Lange Hose",
+      "Feste Schuhe",
+      "Reithelm, falls nicht vor Ort vorhanden",
+      "Wetterfeste Kleidung"
+    ],
+    "Klettergarten": [
+      "Feste Schuhe",
+      "Bequeme Kleidung",
+      "Handschuhe, falls benötigt",
+      "Wetterfeste Kleidung"
+    ],
+    "Freizeit": [
+      "Tickets oder Reservierung",
+      "Bequeme Kleidung",
+      "Sonnen- oder Regenschutz"
+    ],
+    "Kino": [
+      "Tickets oder Reservierung",
+      "Taschentücher"
+    ],
+    "Schlittschuhbahn": [
+      "Warme Kleidung",
+      "Handschuhe",
+      "Schlittschuhe oder Ausleihe prüfen",
+      "Ersatzsocken"
+    ],
+    "Spa": [
+      "Badesachen",
+      "Handtücher",
+      "Badeschuhe",
+      "Wechselkleidung"
+    ]
+  };
+
+  return [
+    ...(categoryItems[category] || [
+      "Tickets oder Reservierung",
+      "Wettergerechte Kleidung",
+      "Snacks"
+    ]),
+    ...commonItems
+  ];
+
+}
+
+function selectActivityForChecklist(
+  activityId,
+  isChecked
+) {
+
+  if (!isChecked) {
+    return;
+  }
+
+  const activity =
+    (window.currentActivities || [])
+      .find(
+        item => item.id === activityId
+      );
+
+  if (!activity || isActivityListCreated(activityId)) {
+    return;
+  }
+
+  const createdAt = Date.now();
+
+  state.lists.unshift({
+    name: activity.name,
+    items: getChecklistItemsForActivity(activity)
+      .map(text => ({
+        text,
+        done: false
+      })),
+    generated: true,
+    activityId: activity.id,
+    createdAt,
+    expiresAt: createdAt + ACTIVITY_LIST_LIFETIME_MS
+  });
+
+  saveState();
+  renderHomeLists();
+  renderCustomLists();
+  renderRealActivities(
+    window.currentActivities || []
+  );
+
+}
+
+function getListMarkup(
+  list,
+  index
+) {
+
+  const generatedLabel =
+    list.generated
+      ? `<small class="generated-list-badge">Automatische Packliste</small>`
+      : "";
+
+  return `
+    <div class="list-item">
+      <span>
+        📌
+        ${escapeHTML(list.name)}
+        ${generatedLabel}
+      </span>
+      <div class="small-actions">
+        <button
+          class="secondary small-btn"
+          onclick="openList(${index})"
+        >
+          Öffnen
+        </button>
+        <button
+          class="danger small-btn"
+          onclick="deleteList(${index})"
+        >
+          🗑️
+        </button>
+      </div>
+    </div>
+  `;
+
+}
+
+function renderHomeLists() {
+
+  cleanupExpiredActivityLists();
+
+  const container =
+    document.getElementById(
+      "homeListsContainer"
+    );
+
+  if (!container) {
+    return;
+  }
+
+  container.innerHTML = state.lists.length
+    ? state.lists
+        .map(getListMarkup)
+        .join("")
+    : `
+        <div class="empty">
+          Noch keine Listen angelegt.
+        </div>
+      `;
+
+  refreshIcons();
+
+}
+
 function renderRealActivities(
   activities
 ) {
@@ -4480,6 +4737,23 @@ function renderRealActivities(
         return `
 
           <div class="result-card">
+
+            <label class="activity-list-choice">
+              <input
+                type="checkbox"
+                ${
+                  isActivityListCreated(
+                    activity.id
+                  )
+                    ? "checked disabled"
+                    : ""
+                }
+                onchange="selectActivityForChecklist('${escapeAttribute(
+                  activity.id
+                )}', this.checked)"
+              >
+              Für die Unternehmung eine Packliste erstellen
+            </label>
 
             <h3>
 
@@ -4729,6 +5003,8 @@ LISTEN
 
 function renderCustomLists() {
 
+  cleanupExpiredActivityLists();
+
   const container =
     document.getElementById(
       "customListsContainer"
@@ -4760,38 +5036,7 @@ function renderCustomLists() {
 
   container.innerHTML =
     state.lists.map(
-      (list, index) => `
-
-        <div class="list-item">
-
-          <span>
-            📌
-            ${escapeHTML(
-              list.name
-            )}
-          </span>
-
-          <div class="small-actions">
-
-            <button
-              class="secondary small-btn"
-              onclick="openList(${index})"
-            >
-              Öffnen
-            </button>
-
-            <button
-              class="danger small-btn"
-              onclick="deleteList(${index})"
-            >
-              🗑️
-            </button>
-
-          </div>
-
-        </div>
-
-      `
+      getListMarkup
     ).join("");
 
   refreshIcons();
@@ -5213,6 +5458,7 @@ document.addEventListener(
   function() {
 
     renderHome();
+    renderHomeLists();
     refreshIcons();
     loadDeviceUsage();
 
