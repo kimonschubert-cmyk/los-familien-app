@@ -1481,7 +1481,8 @@ function resumeOnboardingAfterLocation() {
     location &&
     modal.classList.contains("hidden")
   ) {
-    renderOnboarding();
+    onboardingStep = 3;
+    startOnboardingSettings();
   }
 
 }
