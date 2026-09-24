@@ -436,6 +436,14 @@ button .icon {
   text-align: center;
 }
 
+#onboardingFamilyNext {
+  margin-top: 16px;
+}
+
+#onboardingFamilyNext button {
+  width: 100%;
+}
+
 .weather-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -5467,6 +5475,10 @@ document.addEventListener(
         ONBOARDING_STORAGE_KEY
       )
     ) {
+      localStorage.setItem(
+        ONBOARDING_STORAGE_KEY,
+        "true"
+      );
       renderOnboarding();
     }
 
