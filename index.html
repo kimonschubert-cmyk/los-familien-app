@@ -864,6 +864,12 @@ button .icon {
       placeholder="Alter"
     >
 
+    <select id="personGender" aria-label="Geschlecht">
+      <option value="m">♂️ Junge</option>
+      <option value="w">♀️ Mädchen</option>
+      <option value="d">⚧️ Divers</option>
+    </select>
+
     <button
       class="success"
       onclick="addPerson()"
@@ -1614,6 +1620,7 @@ function renderHome() {
       .map((person, index) => {
         const personId = getPersonId(person, index);
         const checked = (state.selectedPeople || []).includes(personId) ? "checked" : "";
+        const genderLabel = getGenderLabel(person.gender);
 
         return `
 
@@ -1633,7 +1640,7 @@ function renderHome() {
                 </strong>
 
                 <span class="person-age">
-                  ${person.age} Jahre
+                  ${person.age} Jahre · ${genderLabel}
                 </span>
               </div>
             </label>
@@ -1692,7 +1699,7 @@ function renderPeople() {
             </strong>
 
             <span>
-              ${person.age} Jahre
+              ${person.age} Jahre · ${getGenderLabel(person.gender)}
             </span>
 
           </div>
@@ -1739,6 +1746,11 @@ function addPerson() {
         .value
     );
 
+  const gender =
+    document
+      .getElementById("personGender")
+      .value;
+
   if (!name) {
 
     alert(
@@ -1766,7 +1778,8 @@ function addPerson() {
   const person = {
     id: `person-${Date.now()}-${Math.random().toString(16).slice(2)}`,
     name: name,
-    age: age
+    age: age,
+    gender: gender || "d"
   };
 
   state.people.push(person);
@@ -1785,9 +1798,33 @@ function addPerson() {
     "personAge"
   ).value = "";
 
+  document.getElementById(
+    "personGender"
+  ).value = "m";
+
   renderPeople();
   renderHome();
 
+}
+
+function getGenderSymbol(gender) {
+  const map = {
+    m: "♂️",
+    w: "♀️",
+    d: "⚧️"
+  };
+
+  return map[gender] || "⚧️";
+}
+
+function getGenderLabel(gender) {
+  const map = {
+    m: "M",
+    w: "W",
+    d: "D"
+  };
+
+  return `${getGenderSymbol(gender)} ${map[gender] || "D"}`;
 }
 
 function deletePerson(index) {
@@ -2125,7 +2162,9 @@ async function searchActivities() {
 
     const query =
       "Schwimmbäder Thermen Freizeitparks Funparks " +
-      "Erlebnisparks Kletterparks Familienattraktionen in " +
+      "Erlebnisparks Kletterparks Spielplätze Parks " +
+      "Eisdielen Schlittschuhbahnen Kinos Reiterhöfe " +
+      "Familienattraktionen in " +
       location;
 
     const response =
@@ -2535,6 +2574,12 @@ async function processResults(
             place.driveMinutes
           );
 
+        const genderScore =
+          getGenderFitScore(
+            place.category,
+            getSelectedPeople()
+          );
+
         const relevanceScore =
           getRelevanceScore(
             place.name,
@@ -2555,6 +2600,7 @@ async function processResults(
           place.weatherScore * 3 +
           place.ageScore * 4 +
           distanceScore * 5 +
+          genderScore * 6 +
           relevanceScore * 3 +
           ratingScore * 2 +
           budgetScore * 2;
@@ -2690,18 +2736,49 @@ async function processResults(
   const finalSelection =
     selected.slice(0, 3);
 
+  const selectedPeople = getSelectedPeople();
+  const hasYoungChild = selectedPeople.some(person => Number(person.age) <= 12);
+
+  const enforcedSelection =
+    ensureKidFriendlySelection(
+      finalCandidates,
+      finalSelection,
+      hasYoungChild
+    );
+
   lastActivityIds = [
     ...new Set([
       ...lastActivityIds,
-      ...finalSelection.map(
+      ...enforcedSelection.map(
         place =>
           place.id
       )
     ])
   ];
 
-  return finalSelection;
+  return enforcedSelection;
 
+}
+
+function ensureKidFriendlySelection(finalCandidates, selected, hasYoungChild) {
+  if (!hasYoungChild || !Array.isArray(finalCandidates) || !finalCandidates.length) {
+    return selected;
+  }
+
+  const preferred = finalCandidates.find(place => isKidFriendlyCategory(place.category));
+
+  if (!preferred) {
+    return selected;
+  }
+
+  const hasPreferredAlready = selected.some(place => isKidFriendlyCategory(place.category));
+
+  if (hasPreferredAlready) {
+    return selected;
+  }
+
+  const nextSelection = [preferred, ...selected.filter(place => place.id !== preferred.id)];
+  return nextSelection.slice(0, 3);
 }
 
 /*
@@ -2901,6 +2978,53 @@ function guessCategory(
     name.toLowerCase();
 
   if (
+    n.includes("reiten") ||
+    n.includes("reit") ||
+    n.includes("pferd") ||
+    n.includes("reitstall")
+  ) {
+    return "Reiten";
+  }
+
+  if (
+    n.includes("klettergarten") ||
+    n.includes("kletterpark") ||
+    n.includes("kletter")
+  ) {
+    return "Klettergarten";
+  }
+
+  if (
+    n.includes("schlittschuh") ||
+    n.includes("eisbahn") ||
+    n.includes("eisstadion")
+  ) {
+    return "Schlittschuhbahn";
+  }
+
+  if (
+    n.includes("kino") ||
+    n.includes("filmtheater")
+  ) {
+    return "Kino";
+  }
+
+  if (
+    n.includes("eisdiele") ||
+    (
+      n.includes("eis") &&
+      (
+        n.includes("laden") ||
+        n.includes("cafe") ||
+        n.includes("haus") ||
+        n.includes("bar")
+      )
+    )
+  ) {
+    return "Eisdiele";
+  }
+
+  if (
     n.includes("spielplatz") ||
     n.includes("spiel")
   ) {
@@ -2950,6 +3074,82 @@ function guessCategory(
 
   return "Ausflugsziel";
 
+}
+
+function isKidFriendlyCategory(category) {
+  return [
+    "Spielplatz",
+    "Park",
+    "Eisdiele",
+    "Schlittschuhbahn",
+    "Kino",
+    "Reiten",
+    "Klettergarten"
+  ].includes(category);
+}
+
+function getGenderFitScore(category, selectedPeople) {
+  if (!Array.isArray(selectedPeople) || !selectedPeople.length) {
+    return 0;
+  }
+
+  const maleCount = selectedPeople.filter(person => (person.gender || "d") === "m").length;
+  const femaleCount = selectedPeople.filter(person => (person.gender || "d") === "w").length;
+  const diverseCount = selectedPeople.filter(person => (person.gender || "d") === "d").length;
+
+  let score = 0;
+  const normalized = String(category || "").toLowerCase();
+
+  if (
+    maleCount >= 2 &&
+    femaleCount === 0 &&
+    diverseCount === 0 &&
+    (
+      normalized.includes("reiten") ||
+      normalized.includes("pferd")
+    )
+  ) {
+    score -= 8;
+  }
+
+  if (
+    maleCount >= 2 &&
+    femaleCount === 0 &&
+    diverseCount === 0 &&
+    (
+      normalized.includes("kletter") ||
+      normalized.includes("spielplatz") ||
+      normalized.includes("park") ||
+      normalized.includes("schwimm") ||
+      normalized.includes("freizeit")
+    )
+  ) {
+    score += 4;
+  }
+
+  if (
+    femaleCount >= 2 &&
+    maleCount === 0 &&
+    diverseCount === 0 &&
+    (
+      normalized.includes("reiten") ||
+      normalized.includes("eis") ||
+      normalized.includes("kino")
+    )
+  ) {
+    score += 3;
+  }
+
+  if (
+    maleCount > 0 &&
+    femaleCount === 0 &&
+    diverseCount === 0 &&
+    normalized.includes("kletter")
+  ) {
+    score += 2;
+  }
+
+  return score;
 }
 
 /*
@@ -3075,7 +3275,10 @@ function getAgeScore(
     if (
       category === "Spielplatz" ||
       category === "Zoo" ||
-      category === "Schwimmbad"
+      category === "Schwimmbad" ||
+      category === "Eisdiele" ||
+      category === "Park" ||
+      category === "Klettergarten"
     ) {
 
       score += 2;
@@ -3092,7 +3295,14 @@ function getAgeScore(
     if (
       category === "Freizeit" ||
       category === "Zoo" ||
-      category === "Schwimmbad"
+      category === "Schwimmbad" ||
+      category === "Spielplatz" ||
+      category === "Park" ||
+      category === "Klettergarten" ||
+      category === "Schlittschuhbahn" ||
+      category === "Kino" ||
+      category === "Eisdiele" ||
+      category === "Reiten"
     ) {
 
       score += 2;
@@ -3728,6 +3938,21 @@ function getCategoryIcon(
 
     "Spielplatz":
       "trees",
+
+    "Klettergarten":
+      "mountain",
+
+    "Reiten":
+      "horse",
+
+    "Schlittschuhbahn":
+      "skateboard",
+
+    "Kino":
+      "film",
+
+    "Eisdiele":
+      "ice-cream",
 
     "Schwimmbad":
       "waves",
