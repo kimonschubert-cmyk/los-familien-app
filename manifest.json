@@ -11,8 +11,8 @@
   "lang": "de",
   "icons": [
     {
-      "src": "/0.jpg",
-      "sizes": "1200x630",
+      "src": "/app-icon.jpg",
+      "sizes": "1024x1024",
       "type": "image/jpeg",
       "purpose": "any"
     }
