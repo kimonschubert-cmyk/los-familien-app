@@ -79,6 +79,21 @@ module.exports = async (req, res) => {
       });
     }
 
+    if (hasRating) {
+      const existingRating = await redisCommand([
+        "HGET",
+        deviceRatingsKey,
+        deviceId
+      ]);
+
+      if (existingRating.result !== null) {
+        return res.status(409).json({
+          error: "Dieses Endgerät hat bereits bewertet",
+          rating: Number(existingRating.result)
+        });
+      }
+    }
+
     await redisCommand([
       "SADD",
       deviceSetKey,

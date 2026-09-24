@@ -773,12 +773,25 @@ button .icon {
   color: #d1d5db;
   font-size: 28px;
   line-height: 1;
+  background-image: linear-gradient(
+    90deg,
+    #f59e0b var(--rating-fill, 0%),
+    #d1d5db var(--rating-fill, 0%)
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
 }
 
 .rating-star.active,
 .rating-star:hover,
 .rating-star:focus-visible {
-  color: #f59e0b;
+  color: transparent;
+}
+
+.rating-star:disabled {
+  cursor: default;
+  opacity: 1;
 }
 
 .rating-average {
@@ -1298,6 +1311,7 @@ const USAGE_API_URL =
   "/api/usage";
 
 let currentDeviceRating = null;
+let currentAverageRating = null;
 
 /*
 ==================================================
@@ -1481,7 +1495,17 @@ async function loadDeviceUsage() {
         ? data.rating
         : null;
 
-    renderRatingStars();
+    currentAverageRating =
+      typeof data.average === "number"
+        ? data.average
+        : null;
+
+    renderRatingStars(
+      currentAverageRating
+    );
+    setRatingInteractionLocked(
+      currentDeviceRating !== null
+    );
     renderRatingAverage(data.average);
 
     display.innerHTML =
@@ -1493,19 +1517,46 @@ async function loadDeviceUsage() {
 
 }
 
-function renderRatingStars() {
+function renderRatingStars(
+  average = currentAverageRating
+) {
 
   document
     .querySelectorAll(".rating-star")
     .forEach(star => {
       const rating =
         Number(star.dataset.rating);
+      const fill =
+        average === null
+          ? 0
+          : Math.max(
+              0,
+              Math.min(
+                1,
+                average - rating + 1
+              )
+            );
 
       star.classList.toggle(
         "active",
-        currentDeviceRating !== null &&
-          rating <= currentDeviceRating
+        fill >= 1
       );
+      star.style.setProperty(
+        "--rating-fill",
+        `${Math.round(fill * 100)}%`
+      );
+    });
+
+}
+
+function setRatingInteractionLocked(
+  locked
+) {
+
+  document
+    .querySelectorAll(".rating-star")
+    .forEach(star => {
+      star.disabled = locked;
     });
 
 }
@@ -1542,8 +1593,9 @@ async function submitAppRating(
     return;
   }
 
-  currentDeviceRating = rating;
-  renderRatingStars();
+  if (currentDeviceRating !== null) {
+    return;
+  }
 
   try {
     const response =
@@ -1565,6 +1617,16 @@ async function submitAppRating(
       await response.json();
 
     if (
+      response.status === 409 &&
+      Number.isInteger(data.rating)
+    ) {
+      currentDeviceRating = data.rating;
+      setRatingInteractionLocked(true);
+      await loadDeviceUsage();
+      return;
+    }
+
+    if (
       !response.ok ||
       typeof data.average !== "number"
     ) {
@@ -1572,6 +1634,13 @@ async function submitAppRating(
         "Bewertung konnte nicht gespeichert werden"
       );
     }
+
+    currentDeviceRating = rating;
+    currentAverageRating = data.average;
+    renderRatingStars(
+      currentAverageRating
+    );
+    setRatingInteractionLocked(true);
 
     renderRatingAverage(
       data.average
