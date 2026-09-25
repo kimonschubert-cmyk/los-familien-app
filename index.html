@@ -3803,6 +3803,9 @@ async function processResults(
         ? 45
         : 75;
 
+  const relaxedMaximumDriveTime =
+    maximumDriveTime + 30;
+
   const withinRange =
     scored.filter(
       place =>
@@ -3811,10 +3814,20 @@ async function processResults(
         maximumDriveTime
     );
 
+  const withinRelaxedRange =
+    scored.filter(
+      place =>
+        place.driveMinutes !== null &&
+        place.driveMinutes <=
+        relaxedMaximumDriveTime
+    );
+
   const pool =
     withinRange.length
       ? withinRange
-      : scored;
+      : withinRelaxedRange.length
+        ? withinRelaxedRange
+        : scored.slice(0, 1);
 
   /*
   ================================================
@@ -3862,7 +3875,7 @@ async function processResults(
         : [...pool];
 
     if (!unusedPool.length) {
-      unusedPool = [...pool];
+      unusedPool = [];
     }
   } else if (
     unusedPool.length < 5 &&
@@ -3881,7 +3894,13 @@ async function processResults(
   }
 
   const activityPool =
-    unusedPool
+    (
+      unusedPool.length
+        ? unusedPool
+        : pool.length === 1
+          ? [pool[0]]
+          : []
+    )
       .slice(
         0,
         5
