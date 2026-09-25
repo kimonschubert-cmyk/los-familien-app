@@ -3943,24 +3943,26 @@ async function processResults(
       hasYoungChild
     );
 
-  lastActivityIds = [
-    ...new Set(
-      (
-        resetActivityHistory
-          ? activityPool.map(
-              place =>
-                place.id
-            )
-          : [
-              ...lastActivityIds,
-              ...activityPool.map(
-                place =>
-                  place.id
-              )
-            ]
-      ).slice(-12)
-    )
-  ];
+  const nextActivityHistory =
+    resetActivityHistory
+      ? activityPool.map(
+          place =>
+            place.id
+        )
+      : [
+          ...lastActivityIds,
+          ...activityPool.map(
+            place =>
+              place.id
+          )
+        ];
+
+  lastActivityIds =
+    [
+      ...new Set(
+        nextActivityHistory
+      )
+    ].slice(-12);
 
   return enforcedSelection;
 
