@@ -3053,11 +3053,13 @@ async function searchActivities() {
     */
 
     const query =
+      "Familienaktivitäten Ausflugsziele Freizeit " +
       "Schwimmbäder Thermen Freizeitparks Funparks " +
       "Erlebnisparks Kletterparks Spielplätze Parks " +
       "Eisdielen Schlittschuhbahnen Kinos Reiterhöfe " +
-      "Reithallen Reitvereine Spas Wellness " +
-      "Familienaktivitäten in " +
+      "Reithallen Reitvereine Tierparks Zoos Museen " +
+      "Trampolinhallen Minigolf Indoor-Spielplätze " +
+      "Spas Wellness in " +
       location;
 
     const response =
@@ -3304,7 +3306,7 @@ function isCurrentlyOpen(
       place
     );
 
-  return openingHours?.openNow === true;
+  return openingHours?.openNow !== false;
 
 }
 
@@ -3454,17 +3456,11 @@ async function processResults(
   results
 ) {
 
-  let candidates =
+  const normalizedCandidates =
     results
       .filter(
         place =>
           isAllowedActivityPlace(
-            place
-          )
-      )
-      .filter(
-        place =>
-          isCurrentlyOpen(
             place
           )
       )
@@ -3531,19 +3527,50 @@ async function processResults(
 
         };
 
-      })
-      .filter(
-        place =>
-          place.estimatedCost === null
-            || place.estimatedCost <=
-              state.maxBudget
-      )
+      });
 
-      .filter(
+  let candidates =
+    normalizedCandidates.filter(
+      place =>
+        isCurrentlyOpen(
+          place
+        )
+    );
+
+  const budgetMatches =
+    candidates.filter(
+      place =>
+        place.estimatedCost === null
+          || place.estimatedCost <=
+            state.maxBudget
+    );
+
+  if (budgetMatches.length) {
+    candidates = budgetMatches;
+  }
+
+  const nearbyCandidates =
+    candidates.filter(
+      place =>
+        place.distance <=
+        120
+    );
+
+  if (nearbyCandidates.length) {
+    candidates = nearbyCandidates;
+  } else {
+    const extendedNearbyCandidates =
+      candidates.filter(
         place =>
           place.distance <=
-          100
+          180
       );
+
+    if (extendedNearbyCandidates.length) {
+      candidates =
+        extendedNearbyCandidates;
+    }
+  }
 
   if (!candidates.length) {
     return [];
@@ -3600,7 +3627,7 @@ async function processResults(
 
   }
 
-  candidates =
+  const candidatesWithEnoughTime =
     candidates.filter(
       place =>
         hasEnoughOpeningTime(
@@ -3608,8 +3635,9 @@ async function processResults(
         )
     );
 
-  if (!candidates.length) {
-    return [];
+  if (candidatesWithEnoughTime.length) {
+    candidates =
+      candidatesWithEnoughTime;
   }
 
   /*
@@ -3689,7 +3717,9 @@ async function processResults(
     );
 
   const pool =
-    withinRange;
+    withinRange.length
+      ? withinRange
+      : scored;
 
   /*
   ================================================
@@ -3712,6 +3742,12 @@ async function processResults(
     );
 
   if (
+    !unusedPool.length &&
+    pool.length
+  ) {
+    lastActivityIds = [];
+    unusedPool = [...pool];
+  } else if (
     unusedPool.length < 5 &&
     pool.length >= 5
   ) {
