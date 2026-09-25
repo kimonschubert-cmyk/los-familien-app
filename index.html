@@ -3873,7 +3873,7 @@ async function processResults(
   ) {
     resetActivityHistory =
       true;
-    unusedPool =
+    const replenishedPool =
       mostRecentActivityId
         ? pool.filter(
             place =>
@@ -3881,19 +3881,29 @@ async function processResults(
               mostRecentActivityId
           )
         : [...pool];
+
+    unusedPool =
+      replenishedPool.length
+        ? replenishedPool
+        : [...pool];
   } else if (
     unusedPool.length < 5 &&
     pool.length >= 5
   ) {
     resetActivityHistory =
       true;
-    unusedPool =
+    const replenishedPool =
       mostRecentActivityId
         ? pool.filter(
             place =>
               place.id !==
               mostRecentActivityId
           )
+        : [...pool];
+
+    unusedPool =
+      replenishedPool.length
+        ? replenishedPool
         : [...pool];
   }
 
