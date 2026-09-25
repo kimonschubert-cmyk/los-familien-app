@@ -3834,7 +3834,7 @@ async function processResults(
       : withinRelaxedRange.length
         ? withinRelaxedRange
         : knownDriveTimeFallback.length
-          ? knownDriveTimeFallback.slice(0, 1)
+          ? knownDriveTimeFallback
           : scored.slice(0, 1);
 
   /*
@@ -3881,10 +3881,6 @@ async function processResults(
               mostRecentActivityId
           )
         : [...pool];
-
-    if (!unusedPool.length) {
-      unusedPool = [];
-    }
   } else if (
     unusedPool.length < 5 &&
     pool.length >= 5
