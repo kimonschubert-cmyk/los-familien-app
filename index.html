@@ -1318,6 +1318,12 @@ const DISCOUNT_API_URL =
 const USAGE_API_URL =
   "/api/usage";
 
+const PREFERRED_DISTANCE_LIMIT_KM =
+  120;
+
+const FALLBACK_DISTANCE_LIMIT_KM =
+  180;
+
 let currentDeviceRating = null;
 let currentAverageRating = null;
 
@@ -3316,12 +3322,19 @@ function isPotentiallyOpen(
 
   if (
     place.businessStatus ===
-      "CLOSED_PERMANENTLY" ||
+      "CLOSED_PERMANENTLY"
+  ) {
+
+    return false;
+
+  }
+
+  if (
     place.businessStatus ===
       "CLOSED_TEMPORARILY"
   ) {
 
-    return false;
+    return true;
 
   }
 
@@ -3331,6 +3344,44 @@ function isPotentiallyOpen(
     );
 
   return openingHours?.openNow !== false;
+
+}
+
+function getAvailabilityScore(
+  place
+) {
+
+  if (
+    place.businessStatus ===
+      "CLOSED_TEMPORARILY"
+  ) {
+
+    return 1;
+
+  }
+
+  const openingHours =
+    getOpeningHours(
+      place
+    );
+
+  if (
+    openingHours?.openNow === true
+  ) {
+
+    return 5;
+
+  }
+
+  if (
+    openingHours?.openNow === false
+  ) {
+
+    return 1;
+
+  }
+
+  return 3;
 
 }
 
@@ -3547,6 +3598,11 @@ async function processResults(
           ageScore:
             getAgeScore(
               category
+            ),
+
+          availabilityScore:
+            getAvailabilityScore(
+              place
             )
 
         };
@@ -3587,7 +3643,7 @@ async function processResults(
     candidates.filter(
       place =>
         place.distance <=
-        120
+        PREFERRED_DISTANCE_LIMIT_KM
     );
 
   if (nearbyCandidates.length) {
@@ -3597,7 +3653,7 @@ async function processResults(
       candidates.filter(
         place =>
           place.distance <=
-          180
+          FALLBACK_DISTANCE_LIMIT_KM
       );
 
     if (extendedNearbyCandidates.length) {
@@ -3714,6 +3770,7 @@ async function processResults(
         const totalScore =
           place.weatherScore * 3 +
           place.ageScore * 4 +
+          place.availabilityScore * 3 +
           distanceScore * 5 +
           genderScore * 6 +
           relevanceScore * 3 +
@@ -5185,7 +5242,15 @@ function renderRealActivities(
             : [];
 
         const openingHoursMarkup =
-          openingDescriptions.length
+          activity.businessStatus ===
+            "CLOSED_TEMPORARILY"
+            ? `
+                <div class="opening-hours">
+                  <strong>Vorübergehend geschlossen</strong>
+                </div>
+              `
+            : openingHours?.openNow === true &&
+              openingDescriptions.length
             ? `
                 <div class="opening-hours">
                   <strong>Jetzt geöffnet</strong>
@@ -5201,7 +5266,7 @@ function renderRealActivities(
               `
             : `
                 <div class="opening-hours">
-                  <strong>Jetzt geöffnet</strong>
+                  <strong>Öffnungszeiten prüfen</strong>
                 </div>
               `;
 
