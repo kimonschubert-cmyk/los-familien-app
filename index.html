@@ -1318,6 +1318,10 @@ const DISCOUNT_API_URL =
 const USAGE_API_URL =
   "/api/usage";
 
+/*
+  Lockerer Radius: bevorzugt noch gut erreichbare Treffer,
+  fällt bei dünnen Regionen aber auf einen größeren Umkreis zurück.
+*/
 const PREFERRED_DISTANCE_LIMIT_KM =
   120;
 
@@ -3843,7 +3847,6 @@ async function processResults(
     !unusedPool.length &&
     pool.length
   ) {
-    lastActivityIds = [];
     unusedPool =
       mostRecentActivityId
         ? pool.filter(
@@ -3860,7 +3863,6 @@ async function processResults(
     unusedPool.length < 5 &&
     pool.length >= 5
   ) {
-    lastActivityIds = [];
     unusedPool =
       mostRecentActivityId
         ? pool.filter(
@@ -3935,13 +3937,15 @@ async function processResults(
     );
 
   lastActivityIds = [
-    ...new Set([
-      ...lastActivityIds,
-      ...activityPool.map(
-        place =>
-          place.id
-      )
-    ])
+    ...new Set(
+      [
+        ...lastActivityIds,
+        ...activityPool.map(
+          place =>
+            place.id
+        )
+      ].slice(-12)
+    )
   ];
 
   return enforcedSelection;
