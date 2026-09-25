@@ -3832,18 +3832,43 @@ async function processResults(
         )
     );
 
+  const mostRecentActivityId =
+    lastActivityIds.length
+      ? lastActivityIds[
+          lastActivityIds.length - 1
+        ]
+      : null;
+
   if (
     !unusedPool.length &&
     pool.length
   ) {
     lastActivityIds = [];
-    unusedPool = [...pool];
+    unusedPool =
+      mostRecentActivityId
+        ? pool.filter(
+            place =>
+              place.id !==
+              mostRecentActivityId
+          )
+        : [...pool];
+
+    if (!unusedPool.length) {
+      unusedPool = [...pool];
+    }
   } else if (
     unusedPool.length < 5 &&
     pool.length >= 5
   ) {
     lastActivityIds = [];
-    unusedPool = [...pool];
+    unusedPool =
+      mostRecentActivityId
+        ? pool.filter(
+            place =>
+              place.id !==
+              mostRecentActivityId
+          )
+        : [...pool];
   }
 
   const activityPool =
