@@ -3306,6 +3306,30 @@ function isCurrentlyOpen(
       place
     );
 
+  return openingHours?.openNow === true;
+
+}
+
+function isPotentiallyOpen(
+  place
+) {
+
+  if (
+    place.businessStatus ===
+      "CLOSED_PERMANENTLY" ||
+    place.businessStatus ===
+      "CLOSED_TEMPORARILY"
+  ) {
+
+    return false;
+
+  }
+
+  const openingHours =
+    getOpeningHours(
+      place
+    );
+
   return openingHours?.openNow !== false;
 
 }
@@ -3536,6 +3560,16 @@ async function processResults(
           place
         )
     );
+
+  if (!candidates.length) {
+    candidates =
+      normalizedCandidates.filter(
+        place =>
+          isPotentiallyOpen(
+            place
+          )
+      );
+  }
 
   const budgetMatches =
     candidates.filter(
