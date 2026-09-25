@@ -3901,9 +3901,7 @@ async function processResults(
     (
       unusedPool.length
         ? unusedPool
-        : pool.length === 1
-          ? [pool[0]]
-          : []
+        : pool
     )
       .slice(
         0,

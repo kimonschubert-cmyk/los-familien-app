@@ -128,6 +128,8 @@ function createPlace(
     businessStatus:
       options.businessStatus,
     rating: options.rating ?? 4.5,
+    testDriveMinutes:
+      options.testDriveMinutes,
     priceLevel:
       options.priceLevel ??
       "PRICE_LEVEL_INEXPENSIVE"
@@ -156,7 +158,12 @@ async function run() {
       candidates.forEach(
         (place, index) => {
           place.driveMinutes =
-            15 + index;
+            Object.prototype.hasOwnProperty.call(
+              place,
+              "testDriveMinutes"
+            )
+              ? place.testDriveMinutes
+              : 15 + index;
           place.roadDistance =
             place.distance;
         }
@@ -254,6 +261,92 @@ async function run() {
   assert.strictEqual(
     temporaryFallbackResult[0].id,
     "temporary-closed"
+  );
+
+  app.setLastActivityIds([]);
+
+  const relaxedDrivePlace =
+    createPlace(
+      "relaxed-drive",
+      "Spielplatz Fernblick",
+      {
+        currentOpeningHours: {
+          openNow: true
+        },
+        testDriveMinutes: 70
+      }
+    );
+
+  const tooFarDrivePlace =
+    createPlace(
+      "too-far-drive",
+      "Spielplatz Weitweg",
+      {
+        currentOpeningHours: {
+          openNow: true
+        },
+        testDriveMinutes: 90
+      }
+    );
+
+  const relaxedDriveResult =
+    await app.processResults([
+      relaxedDrivePlace,
+      tooFarDrivePlace
+    ]);
+
+  assert.strictEqual(
+    relaxedDriveResult.length,
+    1,
+    "Wenn nichts im Standard-Fahrzeitlimit liegt, soll der gelockerte Fahrzeitbereich greifen."
+  );
+
+  assert.strictEqual(
+    relaxedDriveResult[0].id,
+    "relaxed-drive"
+  );
+
+  app.setLastActivityIds([]);
+
+  const knownDriveFallbackPlace =
+    createPlace(
+      "known-drive-fallback",
+      "Spielplatz Abendhügel",
+      {
+        currentOpeningHours: {
+          openNow: true
+        },
+        testDriveMinutes: 95
+      }
+    );
+
+  const unknownDriveFallbackPlace =
+    createPlace(
+      "unknown-drive-fallback",
+      "Spielplatz Nebelwald",
+      {
+        currentOpeningHours: {
+          openNow: true
+        },
+        testDriveMinutes: null
+      }
+    );
+
+  const knownDriveFallbackResult =
+    await app.processResults([
+      knownDriveFallbackPlace,
+      unknownDriveFallbackPlace
+    ]);
+
+  assert.strictEqual(
+    knownDriveFallbackResult.length,
+    1,
+    "Wenn weder Standard- noch gelockerte Fahrzeit greifen, sollen bekannte Fahrzeiten vor unbekannten bevorzugt werden."
+  );
+
+  assert.strictEqual(
+    knownDriveFallbackResult[0].id,
+    "known-drive-fallback"
   );
 
   console.log(
