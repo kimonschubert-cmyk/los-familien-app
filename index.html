@@ -1318,6 +1318,16 @@ const DISCOUNT_API_URL =
 const USAGE_API_URL =
   "/api/usage";
 
+/*
+  Lockerer Radius: bevorzugt noch gut erreichbare Treffer,
+  fällt bei dünnen Regionen aber auf einen größeren Umkreis zurück.
+*/
+const PREFERRED_DISTANCE_LIMIT_KM =
+  120;
+
+const FALLBACK_DISTANCE_LIMIT_KM =
+  180;
+
 let currentDeviceRating = null;
 let currentAverageRating = null;
 
@@ -3053,11 +3063,13 @@ async function searchActivities() {
     */
 
     const query =
+      "Familienaktivitäten Ausflugsziele Freizeit " +
       "Schwimmbäder Thermen Freizeitparks Funparks " +
       "Erlebnisparks Kletterparks Spielplätze Parks " +
       "Eisdielen Schlittschuhbahnen Kinos Reiterhöfe " +
-      "Reithallen Reitvereine Spas Wellness " +
-      "Familienaktivitäten in " +
+      "Reithallen Reitvereine Tierparks Zoos Museen " +
+      "Trampolinhallen Minigolf Indoor-Spielplätze " +
+      "Spas Wellness in " +
       location;
 
     const response =
@@ -3308,6 +3320,75 @@ function isCurrentlyOpen(
 
 }
 
+function isPotentiallyOpen(
+  place
+) {
+
+  if (
+    place.businessStatus ===
+      "CLOSED_PERMANENTLY"
+  ) {
+
+    return false;
+
+  }
+
+  if (
+    place.businessStatus ===
+      "CLOSED_TEMPORARILY"
+  ) {
+
+    return true;
+
+  }
+
+  const openingHours =
+    getOpeningHours(
+      place
+    );
+
+  return openingHours?.openNow !== false;
+
+}
+
+function getAvailabilityScore(
+  place
+) {
+
+  if (
+    place.businessStatus ===
+      "CLOSED_TEMPORARILY"
+  ) {
+
+    return 1;
+
+  }
+
+  const openingHours =
+    getOpeningHours(
+      place
+    );
+
+  if (
+    openingHours?.openNow === true
+  ) {
+
+    return 5;
+
+  }
+
+  if (
+    openingHours?.openNow === false
+  ) {
+
+    return 1;
+
+  }
+
+  return 3;
+
+}
+
 function hasEnoughOpeningTime(
   place
 ) {
@@ -3454,17 +3535,11 @@ async function processResults(
   results
 ) {
 
-  let candidates =
+  const normalizedCandidates =
     results
       .filter(
         place =>
           isAllowedActivityPlace(
-            place
-          )
-      )
-      .filter(
-        place =>
-          isCurrentlyOpen(
             place
           )
       )
@@ -3527,23 +3602,69 @@ async function processResults(
           ageScore:
             getAgeScore(
               category
+            ),
+
+          availabilityScore:
+            getAvailabilityScore(
+              place
             )
 
         };
 
-      })
-      .filter(
-        place =>
-          place.estimatedCost === null
-            || place.estimatedCost <=
-              state.maxBudget
-      )
+      });
 
-      .filter(
+  let candidates =
+    normalizedCandidates.filter(
+      place =>
+        isCurrentlyOpen(
+          place
+        )
+    );
+
+  if (!candidates.length) {
+    candidates =
+      normalizedCandidates.filter(
+        place =>
+          isPotentiallyOpen(
+            place
+          )
+      );
+  }
+
+  const budgetMatches =
+    candidates.filter(
+      place =>
+        place.estimatedCost === null
+          || place.estimatedCost <=
+            state.maxBudget
+    );
+
+  if (budgetMatches.length) {
+    candidates = budgetMatches;
+  }
+
+  const nearbyCandidates =
+    candidates.filter(
+      place =>
+        place.distance <=
+        PREFERRED_DISTANCE_LIMIT_KM
+    );
+
+  if (nearbyCandidates.length) {
+    candidates = nearbyCandidates;
+  } else {
+    const extendedNearbyCandidates =
+      candidates.filter(
         place =>
           place.distance <=
-          100
+          FALLBACK_DISTANCE_LIMIT_KM
       );
+
+    if (extendedNearbyCandidates.length) {
+      candidates =
+        extendedNearbyCandidates;
+    }
+  }
 
   if (!candidates.length) {
     return [];
@@ -3600,7 +3721,7 @@ async function processResults(
 
   }
 
-  candidates =
+  const candidatesWithEnoughTime =
     candidates.filter(
       place =>
         hasEnoughOpeningTime(
@@ -3608,8 +3729,9 @@ async function processResults(
         )
     );
 
-  if (!candidates.length) {
-    return [];
+  if (candidatesWithEnoughTime.length) {
+    candidates =
+      candidatesWithEnoughTime;
   }
 
   /*
@@ -3652,6 +3774,7 @@ async function processResults(
         const totalScore =
           place.weatherScore * 3 +
           place.ageScore * 4 +
+          place.availabilityScore * 3 +
           distanceScore * 5 +
           genderScore * 6 +
           relevanceScore * 3 +
@@ -3680,6 +3803,9 @@ async function processResults(
         ? 45
         : 75;
 
+  const relaxedMaximumDriveTime =
+    maximumDriveTime + 30;
+
   const withinRange =
     scored.filter(
       place =>
@@ -3688,8 +3814,28 @@ async function processResults(
         maximumDriveTime
     );
 
+  const withinRelaxedRange =
+    scored.filter(
+      place =>
+        place.driveMinutes !== null &&
+        place.driveMinutes <=
+        relaxedMaximumDriveTime
+    );
+
+  const knownDriveTimeFallback =
+    scored.filter(
+      place =>
+        place.driveMinutes !== null
+    );
+
   const pool =
-    withinRange;
+    withinRange.length
+      ? withinRange
+      : withinRelaxedRange.length
+        ? withinRelaxedRange
+        : knownDriveTimeFallback.length
+          ? knownDriveTimeFallback
+          : scored.slice(0, 1);
 
   /*
   ================================================
@@ -3711,16 +3857,62 @@ async function processResults(
         )
     );
 
+  const mostRecentActivityId =
+    lastActivityIds.length
+      ? lastActivityIds[
+          lastActivityIds.length - 1
+        ]
+      : null;
+
+  let resetActivityHistory =
+    false;
+
   if (
+    !unusedPool.length &&
+    pool.length
+  ) {
+    resetActivityHistory =
+      true;
+    const replenishedPool =
+      mostRecentActivityId
+        ? pool.filter(
+            place =>
+              place.id !==
+              mostRecentActivityId
+          )
+        : [...pool];
+
+    unusedPool =
+      replenishedPool.length
+        ? replenishedPool
+        : [...pool];
+  } else if (
     unusedPool.length < 5 &&
     pool.length >= 5
   ) {
-    lastActivityIds = [];
-    unusedPool = [...pool];
+    resetActivityHistory =
+      true;
+    const replenishedPool =
+      mostRecentActivityId
+        ? pool.filter(
+            place =>
+              place.id !==
+              mostRecentActivityId
+          )
+        : [...pool];
+
+    unusedPool =
+      replenishedPool.length
+        ? replenishedPool
+        : [...pool];
   }
 
   const activityPool =
-    unusedPool
+    (
+      unusedPool.length
+        ? unusedPool
+        : pool
+    )
       .slice(
         0,
         5
@@ -3782,15 +3974,26 @@ async function processResults(
       hasYoungChild
     );
 
-  lastActivityIds = [
-    ...new Set([
-      ...lastActivityIds,
-      ...activityPool.map(
-        place =>
-          place.id
+  const nextActivityHistory =
+    resetActivityHistory
+      ? activityPool.map(
+          place =>
+            place.id
+        )
+      : [
+          ...lastActivityIds,
+          ...activityPool.map(
+            place =>
+              place.id
+          )
+        ];
+
+  lastActivityIds =
+    [
+      ...new Set(
+        nextActivityHistory
       )
-    ])
-  ];
+    ].slice(-12);
 
   return enforcedSelection;
 
@@ -5115,7 +5318,15 @@ function renderRealActivities(
             : [];
 
         const openingHoursMarkup =
-          openingDescriptions.length
+          activity.businessStatus ===
+            "CLOSED_TEMPORARILY"
+            ? `
+                <div class="opening-hours">
+                  <strong>Vorübergehend geschlossen</strong>
+                </div>
+              `
+            : openingHours?.openNow === true &&
+              openingDescriptions.length
             ? `
                 <div class="opening-hours">
                   <strong>Jetzt geöffnet</strong>
@@ -5131,7 +5342,7 @@ function renderRealActivities(
               `
             : `
                 <div class="opening-hours">
-                  <strong>Jetzt geöffnet</strong>
+                  <strong>Öffnungszeiten prüfen</strong>
                 </div>
               `;
 
