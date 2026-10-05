@@ -3053,12 +3053,13 @@ async function searchActivities() {
     */
 
     const query =
-      "Schwimmbäder Thermen Freizeitparks Funparks " +
-      "Erlebnisparks Kletterparks Spielplätze Parks " +
-      "Eisdielen Schlittschuhbahnen Kinos Reiterhöfe " +
-      "Reithallen Reitvereine Spas Wellness " +
-      "Familienaktivitäten in " +
-      location;
+  "Familienaktivitäten Spielplätze Abenteuerspielplätze Parks Naturparks " +
+  "Freizeitparks Erlebnisparks Funparks Kletterparks Kletterhallen Hochseilgärten " +
+  "Schwimmbäder Thermen Tierparks Wildparks Zoos Museen Burgen Schlösser " +
+  "Minigolf Bowling Trampolin Indoor Badeseen Sommerrodelbahnen Bauernhöfe " +
+  "Eisdielen Schlittschuhbahnen Kinos Reiterhöfe Ponyhöfe Reithallen " +
+  "Freizeitangebote Ausflugsziele in " +
+  location;
 
     const response =
       await fetch(
@@ -3383,6 +3384,63 @@ function isAllowedActivityPlace(
     name.toLowerCase();
 
   const blockedTerms = [
+    "restaurant", "gaststätte", "gasthof", "hotel", "hostel",
+    "pension", "motel", "ferienwohnung", "ferienhaus",
+    "unterkunft", "imbiss", "bar", "nachtclub", "club",
+    "casino", "tankstelle", "supermarkt", "discounter"
+  ];
+
+  if (blockedTerms.some(term => normalizedName.includes(term))) {
+    return false;
+  }
+
+  const category = guessCategory(name);
+
+  const allowedCategories = [
+    "Eisdiele", "Schwimmbad", "Reiten", "Freizeit", "Park",
+    "Spielplatz", "Klettergarten", "Schlittschuhbahn", "Kino",
+    "Zoo", "Museum", "Spa", "Minigolf", "Bowling", "Tierpark",
+    "Natur", "Ausflugsziel", "Burg", "Badesee", "Bauernhof"
+  ];
+
+  const familyTerms = [
+    "familie", "familien", "kinder", "kind", "spielplatz",
+    "abenteuerspielplatz", "kletter", "hochseil", "freizeitpark",
+    "erlebnispark", "funpark", "trampolin", "minigolf", "bowling",
+    "tierpark", "wildpark", "zoo", "museum", "burg", "schloss",
+    "badesee", "sommerrodel", "bauernhof", "pony", "reit", "eislauf",
+    "schlittschuh", "kino", "freizeit", "erlebnis", "naturpark",
+    "ausflugsziel", "abenteuer"
+  ];
+
+  if (!allowedCategories.includes(category) &&
+      !familyTerms.some(term => normalizedName.includes(term))) {
+    return false;
+  }
+
+  if (category === "Reiten") {
+    const publicRidingTerms = [
+      "reithalle", "reitverein", "reithof", "reitzentrum",
+      "reitbetrieb", "reitunterricht", "reitangebot", "ponyhof",
+      "ponyreiten", "reitanlage"
+    ];
+
+    return publicRidingTerms.some(term =>
+      normalizedName.includes(term)
+    ) || normalizedName.includes("reit");
+  }
+
+  return true;
+}
+
+  const name =
+    place.displayName?.text ||
+    "";
+
+  const normalizedName =
+    name.toLowerCase();
+
+  const blockedTerms = [
     "restaurant",
     "gaststätte",
     "gasthof",
@@ -3649,14 +3707,13 @@ async function processResults(
             place.estimatedCost
           );
 
-        const totalScore =
-          place.weatherScore * 3 +
-          place.ageScore * 4 +
-          distanceScore * 5 +
-          genderScore * 6 +
-          relevanceScore * 3 +
-          ratingScore * 2 +
-          budgetScore * 2;
+      const totalScore =
+  place.weatherScore * 4 +
+  place.ageScore * 1 +
+  distanceScore * 5 +
+  relevanceScore * 5 +
+  ratingScore * 3 +
+  budgetScore * 2;
 
         return {
 
@@ -4147,9 +4204,9 @@ function isAgeIndependentCategory(category) {
 }
 
 function getGenderFitScore(category, selectedPeople) {
-  if (isAgeIndependentCategory(category)) {
-    return 0;
-  }
+  // Geschlecht beeinflusst die Aktivitätsauswahl nicht.
+  return 0;
+}
 
   if (!Array.isArray(selectedPeople) || !selectedPeople.length) {
     return 0;
@@ -4300,104 +4357,63 @@ function getWeatherScore(
 ALTER SCORE
 ==================================================
 */
-
 function getAgeScore(
   category
 ) {
 
-  if (isAgeIndependentCategory(category)) {
-    return 4;
-  }
+  const activePeople = getSelectedPeople();
 
-  const activePeople =
-    getSelectedPeople();
+  if (!activePeople.length) return 3;
 
-  if (
-    !activePeople.length
-  ) {
+  const ages = activePeople
+    .map(person => Number(person.age))
+    .filter(Number.isFinite);
 
-    return 3;
+  if (!ages.length) return 3;
 
-  }
+  const youngest = Math.min(...ages);
+  const oldest = Math.max(...ages);
 
-  const ages =
-    activePeople.map(
-      person =>
-        person.age
-    );
+  const broadlyFamilyFriendly = [
+    "Spielplatz", "Park", "Freizeit", "Zoo", "Schwimmbad", "Kino",
+    "Eisdiele", "Schlittschuhbahn", "Museum", "Klettergarten", "Reiten",
+    "Minigolf", "Bowling", "Tierpark", "Natur", "Ausflugsziel", "Burg",
+    "Badesee", "Bauernhof"
+  ];
 
-  const youngest =
-    Math.min(...ages);
-
-  const oldest =
-    Math.max(...ages);
-
-  let score = 3;
+  let score =
+    broadlyFamilyFriendly.includes(category) ? 4 : 3;
 
   if (
-    youngest <= 5
+    youngest <= 5 &&
+    [
+      "Spielplatz",
+      "Zoo",
+      "Schwimmbad",
+      "Park",
+      "Bauernhof",
+      "Tierpark"
+    ].includes(category)
   ) {
-
-    if (
-      category === "Spielplatz" ||
-      category === "Zoo" ||
-      category === "Schwimmbad" ||
-      category === "Eisdiele" ||
-      category === "Park" ||
-      category === "Klettergarten"
-    ) {
-
-      score += 2;
-
-    }
-
+    score += 1;
   }
 
   if (
-    youngest >= 6 &&
-    youngest <= 12
+    oldest >= 13 &&
+    [
+      "Museum",
+      "Burg",
+      "Schloss",
+      "Klettergarten",
+      "Minigolf",
+      "Bowling",
+      "Ausflugsziel"
+    ].includes(category)
   ) {
-
-    if (
-      category === "Freizeit" ||
-      category === "Zoo" ||
-      category === "Schwimmbad" ||
-      category === "Spielplatz" ||
-      category === "Park" ||
-      category === "Klettergarten" ||
-      category === "Schlittschuhbahn" ||
-      category === "Kino" ||
-      category === "Eisdiele" ||
-      category === "Reiten"
-    ) {
-
-      score += 2;
-
-    }
-
+    score += 1;
   }
 
-  if (
-    oldest >= 13
-  ) {
-
-    if (
-      category === "Freizeit" ||
-      category === "Museum" ||
-      category === "Ausflugsziel"
-    ) {
-
-      score += 1;
-
-    }
-
-  }
-
-  return Math.min(
-    5,
-    score
-  );
-
+  return Math.min(5, score);
 }
 
 /*
